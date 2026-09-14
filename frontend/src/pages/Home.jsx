@@ -6,7 +6,8 @@ import { ArrowUpRight, Check, ChevronDown } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Reveal, SectionHeading, Marquee, GoldButton, GhostButton, CTABand, Overline } from '@/components/common';
 import StructureDiagram from '@/components/StructureDiagram';
-import { SITE, IMAGES, STATS, MARQUEE_ITEMS, PILLARS, PROCESS_STEPS, SECTORS, HOME_FAQS, PARTNER_NOTE } from '@/data/site';
+import { IMAGES, MARQUEE_ITEMS, PILLARS, PROCESS_STEPS, SECTORS, HOME_FAQS, PARTNER_NOTE } from '@/data/site';
+import { useSite } from '@/lib/SiteContext';
 import { SERVICE_GROUPS, servicesByGroup } from '@/data/services';
 import { API } from '@/lib/api';
 
@@ -28,6 +29,7 @@ const MARKET_ENTRY_ITEMS = [
 ];
 
 function Hero() {
+  const { site: SITE } = useSite();
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 900], [0, 220]);
 
@@ -107,6 +109,7 @@ function Hero() {
 }
 
 function TrustSection() {
+  const { stats: STATS } = useSite();
   return (
     <section className="bg-cream py-20 lg:py-28" data-testid="trust-section">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

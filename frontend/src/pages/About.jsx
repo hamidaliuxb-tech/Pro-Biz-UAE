@@ -1,5 +1,6 @@
 import { PageHero, Reveal, SectionHeading, CTABand } from '@/components/common';
-import { IMAGES, STATS } from '@/data/site';
+import { IMAGES } from '@/data/site';
+import { useSite } from '@/lib/SiteContext';
 
 const VALUES = [
   { title: 'Regulatory Awareness', text: 'We operate with current knowledge of UAE corporate, tax and compliance frameworks — and clear honesty about what requires licensed professionals.' },
@@ -9,6 +10,7 @@ const VALUES = [
 ];
 
 export default function About() {
+  const { stats: STATS } = useSite();
   return (
     <main data-testid="about-page">
       <PageHero

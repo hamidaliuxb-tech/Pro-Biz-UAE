@@ -17,6 +17,7 @@ import Insights from "@/pages/Insights";
 import Article from "@/pages/Article";
 import Contact from "@/pages/Contact";
 import Admin from "@/pages/Admin";
+import { SiteProvider } from "@/lib/SiteContext";
 import Legal from "@/pages/Legal";
 
 let lenis = null;
@@ -58,6 +59,7 @@ function App() {
 
   return (
     <div className="App">
+      <SiteProvider>
       <BrowserRouter>
         <ScrollManager />
         <Navbar />
@@ -80,6 +82,7 @@ function App() {
         <Footer />
         <Toaster position="top-center" richColors />
       </BrowserRouter>
+      </SiteProvider>
     </div>
   );
 }

@@ -146,6 +146,100 @@ async def get_insight(slug: str):
     return Insight.from_mongo(doc)
 
 
+class InsightUpsert(BaseModel):
+    title: str
+    slug: str
+    category: str
+    excerpt: str = ""
+    author: str = "Meridian Advisory Desk"
+    author_role: str = ""
+    published_at: str = ""
+    reading_time: str = "5 min read"
+    image: str = ""
+    content: List[dict] = []
+    related: List[str] = []
+
+
+@api_router.post("/insights", response_model=Insight)
+async def create_insight(input: InsightUpsert, x_admin_key: Optional[str] = Header(None)):
+    require_admin(x_admin_key)
+    if await db.insights.find_one({"slug": input.slug}):
+        raise HTTPException(status_code=409, detail="An article with this slug already exists")
+    insight = Insight(**input.model_dump())
+    await db.insights.insert_one(insight.to_mongo())
+    return insight
+
+
+@api_router.put("/insights/{insight_id}", response_model=Insight)
+async def update_insight(insight_id: str, input: InsightUpsert, x_admin_key: Optional[str] = Header(None)):
+    require_admin(x_admin_key)
+    res = await db.insights.find_one_and_update(
+        {"_id": insight_id}, {"$set": input.model_dump()}, return_document=True
+    )
+    if not res:
+        raise HTTPException(status_code=404, detail="Article not found")
+    return Insight.from_mongo(res)
+
+
+@api_router.delete("/insights/{insight_id}")
+async def delete_insight(insight_id: str, x_admin_key: Optional[str] = Header(None)):
+    require_admin(x_admin_key)
+    res = await db.insights.delete_one({"_id": insight_id})
+    if res.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Article not found")
+    return {"deleted": True}
+
+
+DEFAULT_CONTENT = {
+    "site": {
+        "name": "Meridian Corporate Partners",
+        "shortName": "Meridian",
+        "tagline": "Strategic corporate solutions for entrepreneurs, investors and international businesses establishing, expanding and operating in the UAE.",
+        "phone": "+971 4 000 0000",
+        "whatsapp": "971400000000",
+        "email": "enquiries@meridiancorporate.ae",
+        "address": "Level 14, Emirates Towers, Sheikh Zayed Road, Dubai, United Arab Emirates",
+        "hours": "Monday – Friday · 9:00 – 18:00 GST",
+        "linkedin": "https://www.linkedin.com",
+        "instagram": "https://www.instagram.com",
+        "youtube": "https://www.youtube.com",
+    },
+    "stats": [
+        {"value": "15+", "label": "Businesses Supported"},
+        {"value": "40+", "label": "Years of Combined Experience"},
+        {"value": "21+", "label": "Markets Connected"},
+        {"value": "18+", "label": "Professional Partnerships"},
+    ],
+}
+
+
+@api_router.get("/content")
+async def get_content():
+    doc = await db.content.find_one({"_id": "site_content"})
+    if not doc:
+        return DEFAULT_CONTENT
+    return {
+        "site": {**DEFAULT_CONTENT["site"], **doc.get("site", {})},
+        "stats": doc.get("stats") or DEFAULT_CONTENT["stats"],
+    }
+
+
+class ContentUpdate(BaseModel):
+    site: dict
+    stats: List[dict]
+
+
+@api_router.put("/content")
+async def update_content(input: ContentUpdate, x_admin_key: Optional[str] = Header(None)):
+    require_admin(x_admin_key)
+    await db.content.update_one(
+        {"_id": "site_content"},
+        {"$set": {"site": input.site, "stats": input.stats}},
+        upsert=True,
+    )
+    return {"site": input.site, "stats": input.stats}
+
+
 app.include_router(api_router)
 
 app.add_middleware(

@@ -1,16 +1,16 @@
 import { MapPin, Phone, Mail, Clock, MessageCircle } from 'lucide-react';
 import { PageHero, Reveal, SectionHeading } from '@/components/common';
 import LeadForm from '@/components/LeadForm';
-import { SITE } from '@/data/site';
-
-const DETAILS = [
-  { icon: MapPin, label: 'Office', value: SITE.address },
-  { icon: Phone, label: 'Telephone', value: SITE.phone, href: `tel:${SITE.phone.replace(/\s/g, '')}` },
-  { icon: Mail, label: 'Email', value: SITE.email, href: `mailto:${SITE.email}` },
-  { icon: Clock, label: 'Business Hours', value: SITE.hours },
-];
+import { useSite } from '@/lib/SiteContext';
 
 export default function Contact() {
+  const { site: SITE } = useSite();
+  const DETAILS = [
+    { icon: MapPin, label: 'Office', value: SITE.address },
+    { icon: Phone, label: 'Telephone', value: SITE.phone, href: `tel:${SITE.phone.replace(/\s/g, '')}` },
+    { icon: Mail, label: 'Email', value: SITE.email, href: `mailto:${SITE.email}` },
+    { icon: Clock, label: 'Business Hours', value: SITE.hours },
+  ];
   return (
     <main data-testid="contact-page">
       <PageHero

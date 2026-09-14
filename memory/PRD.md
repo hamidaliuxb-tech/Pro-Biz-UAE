@@ -28,6 +28,8 @@ Premium, sophisticated, high-conversion corporate website for a UAE-based Corpor
 - Legal pages: Privacy, Terms, Disclaimer, Cookies
 - SEO: meta titles/descriptions/keywords, Organization JSON-LD schema
 - Compliance: banking "no guarantee" disclaimer, licensed-partner notes, full legal disclaimer in footer
+- CMS/Admin panel (14 Sep 2026): /admin now has 3 tabs — Enquiries, Insights manager (create/edit/delete articles with simple body markup: ## heading, > quote, - list), Site Content manager (company name, tagline, phone, WhatsApp, email, address, hours, social URLs, homepage stats — all live site-wide via /api/content + SiteContext)
+- Backend CMS endpoints: GET/PUT /api/content, POST/PUT/DELETE /api/insights (all writes admin-key protected)
 
 ## Verified
 - curl: enquiry create → admin list → status patch → 401 without key; insights list + detail
@@ -40,5 +42,5 @@ Premium, sophisticated, high-conversion corporate website for a UAE-based Corpor
 - P0: Replace placeholder brand/contact/stats/leadership with real business data
 - P1: Email notifications on enquiry (Resend), Calendly/appointment booking integration
 - P1: Per-page SEO meta (react-helmet), FAQ schema markup, sitemap.xml
-- P2: CMS-style admin editing of insights, analytics integration, multi-language (Arabic)
+- P2: CMS editing of service pages & page sections, analytics integration, multi-language (Arabic)
 - P2: Careers page, downloadable guides

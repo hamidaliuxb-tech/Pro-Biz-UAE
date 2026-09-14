@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Linkedin, Instagram, Youtube } from 'lucide-react';
-import { SITE, DISCLAIMER_TEXT } from '@/data/site';
+import { DISCLAIMER_TEXT } from '@/data/site';
+import { useSite } from '@/lib/SiteContext';
 
 const COLUMNS = [
   {
@@ -44,6 +45,7 @@ const COLUMNS = [
 ];
 
 export default function Footer() {
+  const { site: SITE } = useSite();
   return (
     <footer className="bg-navy text-cream/70" data-testid="site-footer">
       <div className="gold-hairline" />

@@ -3,6 +3,8 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { Download, Lock } from 'lucide-react';
 import { API } from '@/lib/api';
+import InsightsManager from '@/pages/admin/InsightsManager';
+import ContentManager from '@/pages/admin/ContentManager';
 
 const STATUSES = ['new', 'in_review', 'scheduled', 'concluded'];
 const STATUS_LABELS = { new: 'New', in_review: 'In Review', scheduled: 'Scheduled', concluded: 'Concluded' };
@@ -13,6 +15,7 @@ export default function Admin() {
   const [enquiries, setEnquiries] = useState([]);
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(false);
+  const [tab, setTab] = useState('enquiries');
 
   const load = useCallback(async (k) => {
     setLoading(true);
@@ -108,6 +111,23 @@ export default function Admin() {
           </div>
         </div>
 
+        <div className="flex gap-2 mb-8 border-b border-navy/10 pb-1">
+          {[['enquiries', 'Enquiries'], ['insights', 'Insights'], ['content', 'Site Content']].map(([id, label]) => (
+            <button
+              key={id}
+              data-testid={`admin-tab-${id}`}
+              onClick={() => setTab(id)}
+              className={`px-5 py-2.5 text-sm transition-colors ${tab === id ? 'bg-navy text-cream' : 'text-slate-500 hover:text-navy'}`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {tab === 'insights' && <InsightsManager adminKey={key} />}
+        {tab === 'content' && <ContentManager adminKey={key} />}
+
+        {tab === 'enquiries' && (<>
         <div className="flex flex-wrap gap-2 mb-6">
           {['all', ...STATUSES].map((s) => (
             <button
@@ -172,6 +192,7 @@ export default function Admin() {
             </tbody>
           </table>
         </div>
+        </>)}
       </div>
     </main>
   );
