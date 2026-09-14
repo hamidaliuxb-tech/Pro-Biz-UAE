@@ -1,0 +1,192 @@
+{
+  "project_name": "Meridian Corporate Partners",
+  "app_type": "marketing_site",
+  "positioning": "Strategic Corporate Solutions for Businesses, Investors & International Entrepreneurs in the UAE and Beyond",
+  "theme": {
+    "mode": "hybrid_luxury",
+    "primary_dark": "#0A1128",
+    "surface_dark": "#0F1A3A",
+    "surface_card_dark": "#16234D",
+    "primary_gold": "#C5A059",
+    "gold_bright": "#D4AF37",
+    "gold_soft": "#E6C687",
+    "gold_muted_border": "rgba(197, 160, 89, 0.25)",
+    "editorial_light_bg": "#F9F8F6",
+    "editorial_card_light": "#FFFFFF",
+    "charcoal_body_text": "#1A1A1A",
+    "muted_slate": "#64748B",
+    "navy_text": "#0A1128"
+  },
+  "typography": {
+    "heading": {
+      "family": "'Cormorant Garamond', 'Playfair Display', Georgia, serif",
+      "h1": "text-4xl sm:text-5xl lg:text-6xl font-serif tracking-tight leading-[1.1]",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl font-serif tracking-tight leading-tight",
+      "h3": "text-xl sm:text-2xl font-serif tracking-tight",
+      "h4": "text-lg sm:text-xl font-sans font-semibold tracking-normal"
+    },
+    "body": {
+      "family": "'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif",
+      "base": "text-base leading-relaxed text-slate-700 dark:text-slate-300",
+      "small": "text-sm leading-normal text-slate-500 dark:text-slate-400"
+    },
+    "mono": {
+      "family": "'IBM Plex Mono', 'JetBrains Mono', monospace",
+      "overline": "text-xs font-mono uppercase tracking-[0.25em] text-[#C5A059]"
+    }
+  },
+  "layout_and_spacing": {
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "section_padding": "py-20 lg:py-28",
+    "card_padding": "p-6 lg:p-8",
+    "grid_gap": "gap-8 lg:gap-12",
+    "bento_strategy": "Tetris Grid with explicit asymmetry, 1px champagne gold subtle borders, inner padding, and responsive single-column mobile fallback"
+  },
+  "motion_and_interactions": {
+    "smooth_scroll": "Lenis smooth momentum scrolling (mandatory)",
+    "hero_animation": "Masked line-by-line headline reveal with Framer Motion, subtle 3D glass tilt hero visual, ambient particle canvas background",
+    "scroll_reveals": "Staggered fade-up, viewport-based margin triggers, reduced motion support",
+    "marquee": "Slow editorial text drift marquee using react-fast-marquee with low contrast serif typography",
+    "hover_states": "Smooth scale/border color transitions, golden glow accents, interactive tab indicators"
+  },
+  "key_features_and_pages": [
+    {
+      "path": "/",
+      "name": "Homepage",
+      "components": [
+        "Kinetic Hero with line-by-line masked reveal and dual CTAs",
+        "Trust Bar & Strategic Metrics (AED 5B+ Transactions, 12+ Jurisdictions, 99.4% Compliance)",
+        "Numbered Manifesto Chapters (Built on Experience, Driven by Integrity)",
+        "Core Services Group (Corporate Services, Business Advisory, Financial & Compliance, Investor Services)",
+        "Interactive Jurisdiction Comparison Tool (Mainland vs Free Zone vs DIFC/ADGM vs International)",
+        "Holding Structure Diagram Visualizer (Interactive diagram with ownership layers)",
+        "Why Us - Six Pillars (Strategic, Connected, Experienced, Discreet, Practical, Relationship Driven)",
+        "Our 5-Step Advisory Process (Discover, Structure, Plan, Execute, Support)",
+        "Sector Expertise Carousel/Grid",
+        "Latest Executive Insights Preview",
+        "Multi-Step Consultation CTA Trigger",
+        "FAQ Accordion"
+      ]
+    },
+    {
+      "path": "/jurisdictions",
+      "name": "Jurisdiction Comparison",
+      "components": [
+        "Filterable Matrix: UAE Mainland vs Free Zones (DMCC, IFZA, DAFZA) vs Financial Free Zones (DIFC, ADGM) vs Offshore",
+        "Comparative Breakdown: Foreign Ownership, Corporate Tax, Office Requirements, Banking Ease, Regulatory Authority",
+        "Interactive Recommendation Wizard"
+      ]
+    },
+    {
+      "path": "/structuring",
+      "name": "Corporate Structuring & Holding Visualizer",
+      "components": [
+        "Interactive Holding Company & Operating Subsidiary Node Diagram",
+        "Tax Efficiency & Asset Protection Scenarios",
+        "Downloadable Structure Blueprint Request"
+      ]
+    },
+    {
+      "path": "/services",
+      "name": "Services Directory & Detail Pages",
+      "components": [
+        "Corporate Structuring & Company Formation",
+        "DIFC & ADGM Financial Centre Advisory",
+        "Corporate Tax & Regulatory Compliance (ESR, UBO, AML)",
+        "Family Office & Wealth Protection Structures",
+        "Banking & Treasury Setup Support",
+        "Golden Visa & Investor Residency Advisory"
+      ]
+    },
+    {
+      "path": "/consultation",
+      "name": "Smart Multi-Step Consultation Questionnaire",
+      "components": [
+        "Step 1: Entity Type / Intent (Establishment, Restructuring, Expansion, Wealth Protection)",
+        "Step 2: Capital & Ownership Preference",
+        "Step 3: Timeline & Banking Needs",
+        "Step 4: Executive Contact Details & Confidentiality NDA Toggle",
+        "Summary & Immediate Booking Slot Confirmation"
+      ]
+    },
+    {
+      "path": "/about",
+      "name": "About Meridian",
+      "components": [
+        "Executive Firm Story & UAE Heritage",
+        "Mission, Vision & Regulatory Standards",
+        "Global Partner Network Map"
+      ]
+    },
+    {
+      "path": "/leadership",
+      "name": "Leadership Team",
+      "components": [
+        "Executive Profiles with Bio Modals (Senior Partners, Advisory Board, Legal Counsel)"
+      ]
+    },
+    {
+      "path": "/insights",
+      "name": "Insights & Intelligence",
+      "components": [
+        "Filterable Regulatory Articles (UAE Corporate Tax, DIFC Foundations, UBO Compliance)",
+        "Article Detail Pages with Table of Contents & Author Cards"
+      ]
+    },
+    {
+      "path": "/contact",
+      "name": "Contact & Office Location",
+      "components": [
+        "Confidential Inquiry Form",
+        "Dubai DIFC Office Details & Interactive Location Map View",
+        "Direct Advisory Contacts & Secure Messaging Option"
+      ]
+    },
+    {
+      "path": "/admin/enquiries",
+      "name": "Admin Enquiries Portal",
+      "components": [
+        "High-density Table View of Lead Submissions",
+        "Filter by Status (New, In Review, Scheduled, Concluded)",
+        "Jurisdiction & Service Type Analytics Summary",
+        "Export CSV & Note Management"
+      ]
+    }
+  ],
+  "image_urls": {
+    "hero_dubai_architecture": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?crop=entropy&cs=srgb&fm=jpg&q=85",
+    "modern_corporate_tower": "https://images.unsplash.com/photo-1788129114459-1221a157ae98?crop=entropy&cs=srgb&fm=jpg&q=85",
+    "boardroom_advisory": "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=srgb&fm=jpg&q=85",
+    "executive_partner_male": "https://images.unsplash.com/photo-1718209881007-c0ecdfc00f9d?crop=entropy&cs=srgb&fm=jpg&q=85",
+    "executive_partner_female": "https://images.unsplash.com/photo-1614786269829-d24616faf56d?crop=entropy&cs=srgb&fm=jpg&q=85",
+    "senior_advisor": "https://images.unsplash.com/photo-1686434538659-bb72333a1054?crop=entropy&cs=srgb&fm=jpg&q=85",
+    "difc_skyline_sunset": "https://images.unsplash.com/flagged/photo-1559717865-a99cac1c95d8?crop=entropy&cs=srgb&fm=jpg&q=85",
+    "luxury_glass_facade": "https://images.unsplash.com/photo-1768463851972-c0a9fc7dc60c?crop=entropy&cs=srgb&fm=jpg&q=85"
+  },
+  "testing_and_testids": {
+    "rule": "ALL interactive components, navigation links, buttons, form inputs, tabs, dropdowns, and status indicators MUST include explicit kebab-case data-testid attributes.",
+    "examples": [
+      "data-testid=\"nav-logo-link\"",
+      "data-testid=\"nav-consultation-button\"",
+      "data-testid=\"hero-book-consultation-btn\"",
+      "data-testid=\"hero-explore-services-btn\"",
+      "data-testid=\"jurisdiction-tab-mainland\"",
+      "data-testid=\"jurisdiction-tab-freezone\"",
+      "data-testid=\"jurisdiction-tab-financial-freezone\"",
+      "data-testid=\"structuring-node-holding-co\"",
+      "data-testid=\"consultation-step-next-btn\"",
+      "data-testid=\"consultation-form-input-email\"",
+      "data-testid=\"admin-enquiries-table\"",
+      "data-testid=\"faq-accordion-item-1\""
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Strictly follow the deep navy (#0A1128) and champagne gold (#C5A059) aesthetic with light editorial content sections (#F9F8F6) for maximum McKinsey/BCG/Awwwards contrast.",
+    "Implement Lenis smooth scrolling or Framer Motion smooth scroll behavior for premium momentum.",
+    "Use Cormorant Garamond / Playfair Display Google Fonts for headlines and Outfit / Plus Jakarta Sans for body text.",
+    "Ensure all interactive flows (Jurisdiction Matrix, Holding Structure Visualizer, Smart Multi-Step Consultation Form, and Admin Enquiries View) are fully functional with state handling.",
+    "Ensure explicit data-testid attributes on every button, link, tab, input, and interactive element as per testing standards.",
+    "Use Sonner for polished notification toasts upon form submission or inquiry bookings.",
+    "Avoid generic centered layouts, low-contrast text, or plain Inter fonts for headings."
+  ]
+}
