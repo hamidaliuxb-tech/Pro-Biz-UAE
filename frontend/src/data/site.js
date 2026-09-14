@@ -28,10 +28,10 @@ export const IMAGES = {
 };
 
 export const STATS = [
-  { value: '[XX]+', label: 'Businesses Supported' },
+  { value: '15+', label: 'Businesses Supported' },
   { value: '40+', label: 'Years of Combined Experience' },
-  { value: '[XX]', label: 'Markets Connected' },
-  { value: '[XX]+', label: 'Professional Partnerships' },
+  { value: '21+', label: 'Markets Connected' },
+  { value: '18+', label: 'Professional Partnerships' },
 ];
 
 export const MARQUEE_ITEMS = [
