@@ -29,7 +29,7 @@ export const IMAGES = {
 
 export const STATS = [
   { value: '[XX]+', label: 'Businesses Supported' },
-  { value: '[XX]+', label: 'Years of Combined Experience' },
+  { value: '18', label: 'Years of Combined Experience' },
   { value: '[XX]', label: 'Markets Connected' },
   { value: '[XX]+', label: 'Professional Partnerships' },
 ];
