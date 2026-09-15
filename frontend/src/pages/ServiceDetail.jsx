@@ -38,7 +38,7 @@ export default function ServiceDetail() {
 
       <section className="bg-cream py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link to="/services" data-testid="service-back-link" className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-slate-500 hover:text-gold transition-colors mb-12">
+          <Link to="/services" data-testid="service-back-link" className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-slate-500 hover:text-uaegreen transition-colors mb-12">
             <ArrowLeft size={14} /> All Services
           </Link>
 
@@ -114,7 +114,7 @@ export default function ServiceDetail() {
             <Accordion type="single" collapsible>
               {service.faqs.map((f, i) => (
                 <AccordionItem key={i} value={`faq-${i}`} data-testid={`service-faq-item-${i + 1}`} className="border-navy/10">
-                  <AccordionTrigger className="text-left font-serif text-base text-navy hover:text-gold">{f.q}</AccordionTrigger>
+                  <AccordionTrigger className="text-left font-serif text-base text-navy hover:text-uaegreen">{f.q}</AccordionTrigger>
                   <AccordionContent className="text-sm text-slate-600 leading-relaxed">{f.a}</AccordionContent>
                 </AccordionItem>
               ))}

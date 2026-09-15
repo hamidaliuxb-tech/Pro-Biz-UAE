@@ -30,7 +30,7 @@ function ChipGroup({ options, value, onChange, testidPrefix }) {
           data-testid={`${testidPrefix}-${opt.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
           onClick={() => onChange(opt)}
           className={`border px-5 py-2.5 text-sm transition-colors duration-300 ${
-            value === opt ? 'border-gold bg-navy text-cream' : 'border-navy/15 bg-white text-navy/70 hover:border-gold'
+            value === opt ? 'border-gold bg-navy text-cream' : 'border-navy/15 bg-white text-navy/70 hover:border-uaegreen'
           }`}
         >
           {opt}
@@ -244,7 +244,7 @@ export default function Consultation() {
                 data-testid="consultation-step-next-btn"
                 onClick={() => setStep((s) => s + 1)}
                 disabled={!canNext}
-                className="inline-flex items-center gap-2 bg-navy text-cream text-sm font-medium px-7 py-3.5 hover:bg-navy-700 transition-colors disabled:opacity-40"
+                className="inline-flex items-center gap-2 bg-navy text-cream text-sm font-medium px-7 py-3.5 hover:bg-uaegreen transition-colors disabled:opacity-40"
               >
                 Continue <ArrowRight size={16} />
               </button>

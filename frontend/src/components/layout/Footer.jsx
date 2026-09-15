@@ -60,9 +60,9 @@ export default function Footer() {
               Strategic corporate solutions for businesses, investors and international entrepreneurs in the UAE and beyond.
             </p>
             <div className="flex gap-4">
-              <a href={SITE.linkedin} data-testid="footer-social-linkedin" target="_blank" rel="noopener noreferrer" className="text-cream/50 hover:text-gold transition-colors" aria-label="LinkedIn"><Linkedin size={18} /></a>
-              <a href={SITE.instagram} data-testid="footer-social-instagram" target="_blank" rel="noopener noreferrer" className="text-cream/50 hover:text-gold transition-colors" aria-label="Instagram"><Instagram size={18} /></a>
-              <a href={SITE.youtube} data-testid="footer-social-youtube" target="_blank" rel="noopener noreferrer" className="text-cream/50 hover:text-gold transition-colors" aria-label="YouTube"><Youtube size={18} /></a>
+              <a href={SITE.linkedin} data-testid="footer-social-linkedin" target="_blank" rel="noopener noreferrer" className="text-cream/50 hover:text-uaegreen transition-colors" aria-label="LinkedIn"><Linkedin size={18} /></a>
+              <a href={SITE.instagram} data-testid="footer-social-instagram" target="_blank" rel="noopener noreferrer" className="text-cream/50 hover:text-uaegreen transition-colors" aria-label="Instagram"><Instagram size={18} /></a>
+              <a href={SITE.youtube} data-testid="footer-social-youtube" target="_blank" rel="noopener noreferrer" className="text-cream/50 hover:text-uaegreen transition-colors" aria-label="YouTube"><Youtube size={18} /></a>
             </div>
           </div>
           {COLUMNS.map((col) => (
@@ -71,7 +71,7 @@ export default function Footer() {
               <ul className="space-y-2.5">
                 {col.links.map((l) => (
                   <li key={l.label}>
-                    <Link to={l.to} data-testid={`footer-link-${l.label.toLowerCase().replace(/[^a-z]+/g, '-')}`} className="text-sm hover:text-cream transition-colors duration-300">
+                    <Link to={l.to} data-testid={`footer-link-${l.label.toLowerCase().replace(/[^a-z]+/g, '-')}`} className="text-sm hover:text-uaegreen transition-colors duration-300">
                       {l.label}
                     </Link>
                   </li>

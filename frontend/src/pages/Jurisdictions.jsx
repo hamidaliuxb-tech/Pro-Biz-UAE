@@ -20,7 +20,7 @@ export default function Jurisdictions() {
           <Reveal>
             <div className="flex flex-wrap gap-3">
               {JURISDICTION_CHIPS.map((j) => (
-                <span key={j} data-testid={`jurisdiction-chip-${j.toLowerCase().replace(/[^a-z]+/g, '-')}`} className="border border-navy/15 bg-white px-5 py-2.5 text-sm text-navy/80 hover:border-gold hover:text-gold transition-colors duration-300">
+                <span key={j} data-testid={`jurisdiction-chip-${j.toLowerCase().replace(/[^a-z]+/g, '-')}`} className="border border-navy/15 bg-white px-5 py-2.5 text-sm text-navy/80 hover:border-uaegreen hover:text-uaegreen transition-colors duration-300">
                   {j}
                 </span>
               ))}

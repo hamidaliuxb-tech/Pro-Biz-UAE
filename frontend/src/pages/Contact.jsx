@@ -50,7 +50,7 @@ export default function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-testid="contact-whatsapp-btn"
-                  className="inline-flex items-center gap-3 border border-navy/20 px-6 py-3.5 text-sm text-navy hover:border-gold hover:text-gold transition-colors duration-300 mt-2"
+                  className="inline-flex items-center gap-3 border border-navy/20 px-6 py-3.5 text-sm text-navy hover:border-uaegreen hover:text-uaegreen transition-colors duration-300 mt-2"
                 >
                   <MessageCircle size={16} /> Message us on WhatsApp
                 </a>

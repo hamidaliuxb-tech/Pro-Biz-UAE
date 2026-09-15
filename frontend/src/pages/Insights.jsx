@@ -40,7 +40,7 @@ export default function Insights() {
                   data-testid={`insights-filter-${c.toLowerCase().replace(/[^a-z]+/g, '-')}`}
                   onClick={() => setCategory(c)}
                   className={`border px-5 py-2.5 text-sm transition-colors duration-300 ${
-                    category === c ? 'border-gold bg-navy text-cream' : 'border-navy/15 bg-white text-navy/70 hover:border-gold'
+                    category === c ? 'border-gold bg-navy text-cream' : 'border-navy/15 bg-white text-navy/70 hover:border-uaegreen'
                   }`}
                 >
                   {c}
@@ -55,7 +55,7 @@ export default function Insights() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filtered.map((a, i) => (
                 <Reveal key={a.slug} delay={(i % 3) * 0.08}>
-                  <Link to={`/insights/${a.slug}`} data-testid={`insight-card-${a.slug}`} className="group block bg-white border border-navy/10 hover:border-gold/50 transition-colors duration-500">
+                  <Link to={`/insights/${a.slug}`} data-testid={`insight-card-${a.slug}`} className="group block bg-white border border-navy/10 hover:border-uaegreen/50 transition-colors duration-500">
                     <div className="overflow-hidden">
                       <img src={a.image} alt={a.title} className="w-full aspect-[16/10] object-cover transition-transform duration-700 group-hover:scale-105" />
                     </div>

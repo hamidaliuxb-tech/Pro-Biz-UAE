@@ -32,7 +32,7 @@ export default function Navbar() {
                 to={l.to}
                 data-testid={`nav-link-${l.label.toLowerCase()}`}
                 className={({ isActive }) =>
-                  `text-[13px] tracking-wide transition-colors duration-300 ${isActive ? 'text-gold' : 'text-cream/70 hover:text-cream'}`
+                  `text-[13px] tracking-wide transition-colors duration-300 border-b-2 pb-1 ${isActive ? 'text-gold border-uaegreen' : 'text-cream/70 hover:text-cream border-transparent'}`
                 }
               >
                 {l.label}

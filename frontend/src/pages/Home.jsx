@@ -346,7 +346,7 @@ function SectorsSection() {
           {SECTORS.map((sector, i) => (
             <Reveal key={sector} delay={(i % 4) * 0.05} className="bg-cream">
               <div className="p-6 lg:p-8 h-full hover:bg-white transition-colors duration-300 group">
-                <p className="font-serif text-lg text-navy group-hover:text-gold transition-colors duration-300">{sector}</p>
+                <p className="font-serif text-lg text-navy group-hover:text-uaegreen transition-colors duration-300">{sector}</p>
               </div>
             </Reveal>
           ))}
@@ -429,7 +429,7 @@ function FAQSection() {
           <Accordion type="single" collapsible className="w-full">
             {HOME_FAQS.map((f, i) => (
               <AccordionItem key={i} value={`item-${i}`} data-testid={`faq-accordion-item-${i + 1}`} className="border-navy/10">
-                <AccordionTrigger className="text-left font-serif text-lg text-navy hover:text-gold py-6">{f.q}</AccordionTrigger>
+                <AccordionTrigger className="text-left font-serif text-lg text-navy hover:text-uaegreen py-6">{f.q}</AccordionTrigger>
                 <AccordionContent className="text-sm text-slate-600 leading-relaxed pb-6">{f.a}</AccordionContent>
               </AccordionItem>
             ))}

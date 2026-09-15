@@ -59,7 +59,7 @@ export default function Structuring() {
           <div className="grid sm:grid-cols-2 gap-px bg-navy/10 border border-navy/10">
             {TRACKS.map((t, i) => (
               <Reveal key={t.slug} delay={i * 0.06} className="bg-cream">
-                <Link to={`/services/${t.slug}`} data-testid={`structuring-track-${t.slug}`} className="group block p-8 lg:p-10 h-full hover:bg-navy transition-colors duration-500">
+                <Link to={`/services/${t.slug}`} data-testid={`structuring-track-${t.slug}`} className="group block p-8 lg:p-10 h-full hover:bg-navy hover:shadow-[inset_0_3px_0_#00732F] transition-all duration-500">
                   <div className="flex items-start justify-between gap-4">
                     <h3 className="font-serif text-xl sm:text-2xl text-navy group-hover:text-cream transition-colors duration-500">{t.title}</h3>
                     <ArrowUpRight size={20} className="text-gold shrink-0 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1" />

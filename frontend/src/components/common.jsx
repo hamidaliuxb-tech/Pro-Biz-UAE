@@ -15,7 +15,10 @@ export const Reveal = ({ children, delay = 0, className = '' }) => (
 );
 
 export const Overline = ({ children, dark = false }) => (
-  <p className={`text-xs font-mono uppercase tracking-[0.25em] mb-4 ${dark ? 'text-gold' : 'text-gold'}`}>{children}</p>
+  <p className={`flex items-center gap-3 text-xs font-mono uppercase tracking-[0.25em] mb-4 ${dark ? 'text-gold' : 'text-gold'}`}>
+    <span className="inline-block w-7 h-[2px] bg-uaegreen" />
+    {children}
+  </p>
 );
 
 export const SectionHeading = ({ overline, title, dark = false, className = '' }) => (
@@ -24,6 +27,7 @@ export const SectionHeading = ({ overline, title, dark = false, className = '' }
     <h2 className={`font-serif text-2xl sm:text-3xl lg:text-4xl tracking-tight leading-tight text-balance ${dark ? 'text-cream' : 'text-navy'}`}>
       {title}
     </h2>
+    <span className="block w-14 h-[3px] bg-uaegreen mt-6" />
   </Reveal>
 );
 

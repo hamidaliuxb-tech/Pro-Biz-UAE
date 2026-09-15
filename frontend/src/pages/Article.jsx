@@ -97,7 +97,7 @@ export default function Article() {
             <Overline>Related Reading</Overline>
             <div className="grid md:grid-cols-2 gap-8 mt-8">
               {related.map((a) => (
-                <Link key={a.slug} to={`/insights/${a.slug}`} data-testid={`related-article-${a.slug}`} className="group flex gap-6 border border-navy/10 p-5 hover:border-gold/50 transition-colors duration-300">
+                <Link key={a.slug} to={`/insights/${a.slug}`} data-testid={`related-article-${a.slug}`} className="group flex gap-6 border border-navy/10 p-5 hover:border-uaegreen/50 transition-colors duration-300">
                   <img src={a.image} alt="" className="w-28 h-28 object-cover shrink-0 hidden sm:block" />
                   <div>
                     <p className="text-xs font-mono uppercase tracking-[0.2em] text-gold mb-2">{a.category}</p>

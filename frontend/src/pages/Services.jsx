@@ -24,7 +24,7 @@ export default function Services() {
                   <Link
                     to={`/services/${s.slug}`}
                     data-testid={`service-card-${s.slug}`}
-                    className="group block p-8 lg:p-10 h-full hover:bg-navy transition-colors duration-500"
+                    className="group block p-8 lg:p-10 h-full hover:bg-navy hover:shadow-[inset_0_3px_0_#00732F] transition-all duration-500"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <h3 className="font-serif text-xl sm:text-2xl text-navy group-hover:text-cream transition-colors duration-500">{s.title}</h3>

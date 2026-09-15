@@ -104,7 +104,7 @@ export default function LeadForm({ source = 'contact', prefillService = '', test
           type="submit"
           disabled={submitting}
           data-testid={`${testidPrefix}-submit-button`}
-          className="bg-navy text-cream text-sm font-medium tracking-wide px-8 py-4 hover:bg-navy-700 transition-colors duration-300 disabled:opacity-50"
+          className="bg-navy text-cream text-sm font-medium tracking-wide px-8 py-4 hover:bg-uaegreen transition-colors duration-300 disabled:opacity-50"
         >
           {submitting ? 'Submitting…' : 'Submit Enquiry'}
         </button>
