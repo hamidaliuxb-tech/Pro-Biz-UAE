@@ -1,10 +1,10 @@
 export const SITE = {
-  name: 'Meridian Corporate Partners',
-  shortName: 'Meridian',
+  name: 'Pro Biz UAE',
+  shortName: 'Pro Biz UAE',
   tagline: 'Strategic corporate solutions for entrepreneurs, investors and international businesses establishing, expanding and operating in the UAE.',
   phone: '+971 4 000 0000',
   whatsapp: '971400000000',
-  email: 'enquiries@meridiancorporate.ae',
+  email: 'enquiries@probizuae.ae',
   address: 'Level 14, Emirates Towers, Sheikh Zayed Road, Dubai, United Arab Emirates',
   hours: 'Monday – Friday · 9:00 – 18:00 GST',
   linkedin: 'https://www.linkedin.com',

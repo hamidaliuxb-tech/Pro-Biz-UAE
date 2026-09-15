@@ -55,7 +55,7 @@ export default function StructureDiagram() {
               >
                 <Icon size={22} className={isActive ? 'text-gold' : 'text-cream/50'} />
                 <div>
-                  <p className={`font-serif text-lg leading-tight ${isActive ? 'text-gold-soft' : 'text-cream'}`}>{node.title}</p>
+                  <p className={`font-serif text-lg leading-tight ${isActive ? 'text-gold-bright' : 'text-cream'}`}>{node.title}</p>
                   <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-cream/40 mt-1">{node.tag}</p>
                 </div>
               </motion.button>

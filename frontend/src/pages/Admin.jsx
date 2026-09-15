@@ -61,7 +61,7 @@ export default function Admin() {
     const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'meridian-enquiries.csv';
+    a.download = 'probizuae-enquiries.csv';
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -85,7 +85,7 @@ export default function Admin() {
             placeholder="Admin key"
             className="w-full bg-navy border border-cream/15 px-4 py-3 text-sm text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold mb-4"
           />
-          <button type="submit" data-testid="admin-login-btn" className="w-full bg-gold text-navy text-sm font-medium py-3 hover:bg-gold-soft transition-colors">
+          <button type="submit" data-testid="admin-login-btn" className="w-full bg-gold text-white text-sm font-medium py-3 hover:bg-gold-soft transition-colors">
             Access Portal
           </button>
         </form>

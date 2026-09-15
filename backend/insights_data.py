@@ -7,7 +7,7 @@ INSIGHTS = [
         "slug": "uae-corporate-tax-what-businesses-need-to-know",
         "category": "Tax & Compliance",
         "excerpt": "The UAE corporate tax regime is now a permanent feature of the business landscape. We outline the structural considerations every board should understand.",
-        "author": "Meridian Advisory Desk",
+        "author": "Pro Biz UAE Advisory Desk",
         "author_role": "Tax Coordination Team",
         "published_at": "2026-06-18",
         "reading_time": "7 min read",
@@ -26,7 +26,7 @@ INSIGHTS = [
             {"t": "p", "x": "Tax compliance is a board-level responsibility. Director oversight, documented decision-making and reliable management information are now essential components of a well-governed UAE business."},
             {"t": "quote", "x": "The businesses that navigate the new regime most confidently are those that treated structure, accounting and governance as one conversation from the outset."},
             {"t": "h2", "x": "Our role"},
-            {"t": "p", "x": "Meridian coordinates corporate tax registration, filings and advisory through qualified, licensed tax professionals within our partner network. We ensure the structural and administrative groundwork — records, resolutions, timelines — is in place so your tax advisers can work from a solid foundation. Tax advice is delivered by appropriately licensed professional partners where required."}
+            {"t": "p", "x": "Pro Biz UAE coordinates corporate tax registration, filings and advisory through qualified, licensed tax professionals within our partner network. We ensure the structural and administrative groundwork — records, resolutions, timelines — is in place so your tax advisers can work from a solid foundation. Tax advice is delivered by appropriately licensed professional partners where required."}
         ],
         "related": ["mainland-vs-free-zone-choosing-the-right-jurisdiction", "corporate-governance-competitive-advantage"]
     },
@@ -36,7 +36,7 @@ INSIGHTS = [
         "slug": "mainland-vs-free-zone-choosing-the-right-jurisdiction",
         "category": "UAE Business",
         "excerpt": "The right jurisdiction is a strategic decision, not an administrative one. A structured comparison of ownership, activity scope, banking and tax considerations.",
-        "author": "Meridian Advisory Desk",
+        "author": "Pro Biz UAE Advisory Desk",
         "author_role": "Corporate Structuring Team",
         "published_at": "2026-05-27",
         "reading_time": "8 min read",
@@ -61,7 +61,7 @@ INSIGHTS = [
         "slug": "holding-company-structures-uae-strategic-guide",
         "category": "Corporate",
         "excerpt": "Why sophisticated investors and family businesses place a holding company at the centre of their structure — and what to consider before you do.",
-        "author": "Meridian Advisory Desk",
+        "author": "Pro Biz UAE Advisory Desk",
         "author_role": "Investor Services Team",
         "published_at": "2026-04-30",
         "reading_time": "6 min read",
@@ -81,7 +81,7 @@ INSIGHTS = [
             {"t": "h2", "x": "Governance and documentation"},
             {"t": "p", "x": "The value of a holding structure depends on the quality of its documentation: shareholder agreements, reserved matters, board composition, dividend policy and succession provisions. These are not boilerplate; they encode how the family or investor group intends to make decisions across generations and scenarios."},
             {"t": "quote", "x": "Structure first, entities second. The holding company should be designed around where you intend to be in ten years — not merely where you are today."},
-            {"t": "p", "x": "Meridian designs and coordinates holding structures in collaboration with licensed legal and tax professionals where required, and provides the ongoing corporate administration that keeps the structure clean, compliant and decision-ready."}
+            {"t": "p", "x": "Pro Biz UAE designs and coordinates holding structures in collaboration with licensed legal and tax professionals where required, and provides the ongoing corporate administration that keeps the structure clean, compliant and decision-ready."}
         ],
         "related": ["spv-real-estate-investment-structures", "corporate-governance-competitive-advantage"]
     },
@@ -91,7 +91,7 @@ INSIGHTS = [
         "slug": "corporate-bank-account-uae-preparation-matters",
         "category": "Finance",
         "excerpt": "Banking outcomes in the UAE are largely determined before the application is submitted. What banks look for, and how to prepare a credible corporate profile.",
-        "author": "Meridian Advisory Desk",
+        "author": "Pro Biz UAE Advisory Desk",
         "author_role": "Banking Coordination Team",
         "published_at": "2026-03-19",
         "reading_time": "6 min read",
@@ -120,7 +120,7 @@ INSIGHTS = [
         "slug": "spv-real-estate-investment-structures",
         "category": "Investment",
         "excerpt": "Special purpose vehicles sit at the heart of disciplined real estate and asset investment. How SPV structures isolate risk and simplify ownership.",
-        "author": "Meridian Advisory Desk",
+        "author": "Pro Biz UAE Advisory Desk",
         "author_role": "Investor Services Team",
         "published_at": "2026-02-24",
         "reading_time": "5 min read",
@@ -139,7 +139,7 @@ INSIGHTS = [
             {"t": "p", "x": "ADGM and DIFC SPV regimes are widely used for regional and international investment holding, offering common-law frameworks and efficient registration. Free zone and mainland vehicles may also be appropriate depending on the asset location and activity. Real estate ownership rules vary by emirate and by area, and certain structures require specific approvals."},
             {"t": "h2", "x": "Governance still matters"},
             {"t": "p", "x": "An SPV with multiple investors needs the same rigour as any company: shareholder agreements, reserved matters, director duties and clear exit mechanics. The simplest structures are often the most contested when documentation is thin."},
-            {"t": "p", "x": "Meridian structures and administers SPVs as part of wider investment and holding architectures, coordinating licensed legal, tax and real estate professionals where required."}
+            {"t": "p", "x": "Pro Biz UAE structures and administers SPVs as part of wider investment and holding architectures, coordinating licensed legal, tax and real estate professionals where required."}
         ],
         "related": ["holding-company-structures-uae-strategic-guide", "corporate-governance-competitive-advantage"]
     },
@@ -149,7 +149,7 @@ INSIGHTS = [
         "slug": "corporate-governance-competitive-advantage",
         "category": "Corporate",
         "excerpt": "Governance is not paperwork. It is the operating system of a serious business — and increasingly a condition of banking, investment and partnership.",
-        "author": "Meridian Advisory Desk",
+        "author": "Pro Biz UAE Advisory Desk",
         "author_role": "Governance Advisory Team",
         "published_at": "2026-01-28",
         "reading_time": "7 min read",
@@ -170,7 +170,7 @@ INSIGHTS = [
             {"t": "p", "x": "Well-governed companies open bank accounts faster, close investment rounds more smoothly and resolve shareholder differences without paralysis. Governance converts informal understandings into enforceable, transferable structure."},
             {"t": "quote", "x": "Strong businesses need strong structures. Governance is how a business proves — to banks, investors and itself — that it is built to last."},
             {"t": "h2", "x": "Where to begin"},
-            {"t": "p", "x": "Start with an audit of what exists: constitutional documents, shareholder arrangements, records and filing obligations. Meridian conducts structured governance reviews and implements the documentation, cadence and administration that keep a company decision-ready — coordinating licensed legal professionals where drafting or advice is required."}
+            {"t": "p", "x": "Start with an audit of what exists: constitutional documents, shareholder arrangements, records and filing obligations. Pro Biz UAE conducts structured governance reviews and implements the documentation, cadence and administration that keep a company decision-ready — coordinating licensed legal professionals where drafting or advice is required."}
         ],
         "related": ["holding-company-structures-uae-strategic-guide", "uae-corporate-tax-what-businesses-need-to-know"]
     }

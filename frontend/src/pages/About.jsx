@@ -14,9 +14,9 @@ export default function About() {
   return (
     <main data-testid="about-page">
       <PageHero
-        overline="About Meridian"
+        overline="About Pro Biz UAE"
         title="Built on Experience. Driven by Integrity."
-        text="Meridian Corporate Partners was founded on a simple observation: businesses entering and operating in the UAE deserve the same standard of corporate counsel they would expect in London, Singapore or Zurich."
+        text="Pro Biz UAE was founded on a simple observation: businesses entering and operating in the UAE deserve the same standard of corporate counsel they would expect in London, Singapore or Zurich."
         image={IMAGES.boardroom}
       />
 
@@ -28,7 +28,7 @@ export default function About() {
               <p>
                 Our team brings together experience across the UAE business environment, financial services,
                 corporate management and business strategy. We have sat on both sides of the table — as
-                advisers and as operators — and we built Meridian around what serious businesses actually need.
+                advisers and as operators — and we built Pro Biz UAE around what serious businesses actually need.
               </p>
               <p>
                 We are deliberately not a volume formation agency. We take on a considered number of

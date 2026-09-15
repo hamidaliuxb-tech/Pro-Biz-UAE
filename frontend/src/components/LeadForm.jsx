@@ -96,7 +96,7 @@ export default function LeadForm({ source = 'contact', prefillService = '', test
         <textarea rows={4} data-testid={`${testidPrefix}-input-message`} className={inputCls} value={form.message} onChange={set('message')} placeholder="Briefly describe your objectives…" />
       </div>
       <label className="sm:col-span-2 flex items-start gap-3 cursor-pointer">
-        <input type="checkbox" data-testid={`${testidPrefix}-checkbox-consent`} checked={form.consent} onChange={set('consent')} className="mt-1 accent-[#C5A059]" />
+        <input type="checkbox" data-testid={`${testidPrefix}-checkbox-consent`} checked={form.consent} onChange={set('consent')} className="mt-1 accent-[#00732F]" />
         <span className="text-xs text-slate-500 leading-relaxed">I agree to the Privacy Policy and consent to being contacted regarding my enquiry.</span>
       </label>
       <div className="sm:col-span-2">

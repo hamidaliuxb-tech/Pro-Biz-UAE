@@ -36,7 +36,7 @@ function bodyToText(blocks = []) {
 
 const EMPTY = {
   title: '', slug: '', category: 'UAE Business', excerpt: '',
-  author: 'Meridian Advisory Desk', author_role: '',
+  author: 'Pro Biz UAE Advisory Desk', author_role: '',
   published_at: new Date().toISOString().slice(0, 10), reading_time: '5 min read',
   image: '', related: '', body: '',
 };
@@ -150,7 +150,7 @@ export default function InsightsManager({ adminKey }) {
           </div>
         </div>
         <div className="mt-8 flex gap-3">
-          <button onClick={save} disabled={saving} data-testid="insight-save-btn" className="bg-gold text-navy text-sm font-medium px-8 py-3.5 hover:bg-gold-soft transition-colors disabled:opacity-50">
+          <button onClick={save} disabled={saving} data-testid="insight-save-btn" className="bg-gold text-white text-sm font-medium px-8 py-3.5 hover:bg-gold-soft transition-colors disabled:opacity-50">
             {saving ? 'Saving…' : 'Save Article'}
           </button>
           <button onClick={() => setForm(null)} data-testid="insight-cancel-btn" className="border border-navy/20 text-navy text-sm px-8 py-3.5 hover:border-gold transition-colors">

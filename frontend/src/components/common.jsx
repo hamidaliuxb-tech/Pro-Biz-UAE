@@ -31,7 +31,7 @@ export const GoldButton = ({ to, children, testid, className = '' }) => (
   <Link
     to={to}
     data-testid={testid}
-    className={`group inline-flex items-center gap-2 bg-gold text-navy text-sm font-medium tracking-wide px-7 py-3.5 hover:bg-gold-soft transition-colors duration-300 ${className}`}
+    className={`group inline-flex items-center gap-2 bg-gold text-white text-sm font-medium tracking-wide px-7 py-3.5 hover:bg-gold-soft transition-colors duration-300 ${className}`}
   >
     {children}
     <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
@@ -59,7 +59,7 @@ export const Marquee = ({ items }) => (
           {items.map((item, i) => (
             <span key={i} className="flex items-center">
               <span className="font-serif italic text-xl md:text-2xl text-gold/70 px-10 whitespace-nowrap">{item}</span>
-              <span className="text-gold/40 text-[10px]">◆</span>
+              <span className="text-uaegreen/60 text-[10px]">◆</span>
             </span>
           ))}
         </div>

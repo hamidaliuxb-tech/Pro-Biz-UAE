@@ -6,25 +6,25 @@
 
 @layer base {
     :root {
-        --background: 40 20% 97%;
-        --foreground: 0 0% 10%;
+        --background: 0 0% 97%;
+        --foreground: 0 0% 7%;
         --card: 0 0% 100%;
-        --card-foreground: 0 0% 10%;
+        --card-foreground: 0 0% 7%;
         --popover: 0 0% 100%;
-        --popover-foreground: 0 0% 10%;
-        --primary: 224 61% 10%;
-        --primary-foreground: 40 30% 96%;
-        --secondary: 40 14% 94%;
-        --secondary-foreground: 224 61% 10%;
-        --muted: 40 10% 93%;
-        --muted-foreground: 215 16% 47%;
-        --accent: 39 47% 56%;
-        --accent-foreground: 224 61% 10%;
+        --popover-foreground: 0 0% 7%;
+        --primary: 0 0% 7%;
+        --primary-foreground: 0 0% 98%;
+        --secondary: 210 10% 95%;
+        --secondary-foreground: 0 0% 7%;
+        --muted: 210 10% 94%;
+        --muted-foreground: 213 17% 35%;
+        --accent: 355 85% 44%;
+        --accent-foreground: 0 0% 100%;
         --destructive: 0 72% 51%;
         --destructive-foreground: 0 0% 98%;
-        --border: 40 10% 88%;
-        --input: 40 10% 85%;
-        --ring: 39 47% 56%;
+        --border: 210 10% 89%;
+        --input: 210 10% 85%;
+        --ring: 355 85% 44%;
         --radius: 0.25rem;
     }
 }
@@ -52,22 +52,22 @@ html.lenis, html.lenis body {
 }
 
 ::selection {
-    background: #C5A059;
-    color: #0A1128;
+    background: #CE1126;
+    color: #FFFFFF;
 }
 
 ::-webkit-scrollbar {
     width: 10px;
 }
 ::-webkit-scrollbar-track {
-    background: #0A1128;
+    background: #111111;
 }
 ::-webkit-scrollbar-thumb {
-    background: #2a3a63;
+    background: #333333;
     border-radius: 8px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #C5A059;
+    background: #CE1126;
 }
 
 .grain-overlay {
@@ -83,7 +83,7 @@ html.lenis, html.lenis body {
 }
 
 .gold-hairline {
-    background: linear-gradient(90deg, transparent, rgba(197, 160, 89, 0.6), transparent);
+    background: linear-gradient(90deg, transparent, rgba(206, 17, 38, 0.55) 35%, rgba(0, 115, 47, 0.55) 65%, transparent);
     height: 1px;
 }
 

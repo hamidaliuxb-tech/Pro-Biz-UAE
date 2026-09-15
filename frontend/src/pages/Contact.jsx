@@ -60,7 +60,7 @@ export default function Contact() {
             <Reveal className="mt-10">
               <div className="border border-navy/10 overflow-hidden" data-testid="contact-map">
                 <iframe
-                  title="Meridian Corporate Partners — Dubai Office"
+                  title="Pro Biz UAE — Dubai Office"
                   src="https://www.google.com/maps?q=Emirates+Towers,+Sheikh+Zayed+Road,+Dubai&output=embed"
                   className="w-full h-64 grayscale contrast-125"
                   loading="lazy"

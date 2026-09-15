@@ -48,18 +48,19 @@ module.exports = {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         navy: {
-          DEFAULT: '#0A1128',
-          800: '#0F1A3A',
-          700: '#16234D',
-          600: '#1E2F63'
+          DEFAULT: '#111111',
+          800: '#1A1A1A',
+          700: '#242424',
+          600: '#2E2E2E'
         },
         gold: {
-          DEFAULT: '#C5A059',
-          bright: '#D4AF37',
-          soft: '#E6C687',
-          muted: 'rgba(197, 160, 89, 0.25)'
+          DEFAULT: '#CE1126',
+          bright: '#E8384F',
+          soft: '#A50D1F',
+          muted: 'rgba(206, 17, 38, 0.25)'
         },
-        cream: '#F9F8F6'
+        uaegreen: '#00732F',
+        cream: '#F4F6F8'
       },
       fontFamily: {
         serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],

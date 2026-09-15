@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Linkedin, Instagram, Youtube } from 'lucide-react';
 import { DISCLAIMER_TEXT } from '@/data/site';
 import { useSite } from '@/lib/SiteContext';
+import Logo from '@/components/Logo';
 
 const COLUMNS = [
   {
@@ -52,9 +53,8 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10">
           <div className="col-span-2">
-            <div className="flex flex-col leading-none mb-5">
-              <span className="font-serif text-2xl text-cream tracking-tight">Meridian</span>
-              <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-gold">Corporate Partners</span>
+            <div className="mb-6">
+              <Logo />
             </div>
             <p className="text-sm leading-relaxed mb-6 max-w-xs">
               Strategic corporate solutions for businesses, investors and international entrepreneurs in the UAE and beyond.

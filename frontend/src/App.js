@@ -36,7 +36,7 @@ const NotFound = () => (
     <div>
       <p className="text-xs font-mono uppercase tracking-[0.25em] text-gold mb-4">404</p>
       <h1 className="font-serif text-4xl sm:text-5xl text-cream mb-6">This page has not been structured yet.</h1>
-      <a href="/" data-testid="notfound-home-link" className="inline-block border border-gold text-gold px-8 py-3 text-sm tracking-wide hover:bg-gold hover:text-navy transition-colors duration-300">Return to Homepage</a>
+      <a href="/" data-testid="notfound-home-link" className="inline-block border border-gold text-gold px-8 py-3 text-sm tracking-wide hover:bg-gold hover:text-white transition-colors duration-300">Return to Homepage</a>
     </div>
   </main>
 );

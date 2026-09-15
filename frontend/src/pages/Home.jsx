@@ -117,7 +117,7 @@ function TrustSection() {
           <SectionHeading overline="Chapter 01 — Trust" title="Built Around Your Business. Designed for the Long Term." />
           <Reveal delay={0.15}>
             <p className="text-base text-slate-600 leading-relaxed lg:pt-10">
-              Meridian combines deep UAE market knowledge with corporate services, business advisory,
+              Pro Biz UAE combines deep UAE market knowledge with corporate services, business advisory,
               compliance coordination and financial ecosystem expertise — connected through strategic
               partnerships with licensed professionals. We do not simply register companies. We build
               the corporate foundation for your next stage of growth.
@@ -186,7 +186,7 @@ function WhyUsSection() {
   return (
     <section className="bg-navy py-20 lg:py-28 grain-overlay" data-testid="why-us-section">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeading dark overline="Chapter 03 — Why Meridian" title="More Than Setup. A Long-Term Corporate Partner." className="mb-14 max-w-2xl" />
+        <SectionHeading dark overline="Chapter 03 — Why Pro Biz UAE" title="More Than Setup. A Long-Term Corporate Partner." className="mb-14 max-w-2xl" />
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-cream/10 border border-cream/10">
           {PILLARS.map((p, i) => (
             <Reveal key={p.title} delay={i * 0.06} className="bg-navy">

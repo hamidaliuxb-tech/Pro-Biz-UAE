@@ -1,4 +1,7 @@
-# PRD — Meridian Corporate Partners
+# PRD — Pro Biz UAE
+
+## Rebrand (15 Sep 2026)
+Business renamed from "Meridian Corporate Partners" to **Pro Biz UAE**. New palette applied site-wide: #111111 black (headers/nav/dark sections), #CE1126 red (accents, CTAs, links, "UAE" highlight), #00732F green (secondary accents, marquee separators, consent checkboxes, hairline gradient), #FFFFFF/#F4F6F8 light sections, slate body text. New CSS-built logo lockup (bar-chart icon with red/white/green bars + "Pro Biz UAE" wordmark + "Professional Business Services" tagline) in navbar and footer (src/components/Logo.jsx). Internal Tailwind tokens kept (`navy`=black, `gold`=red) — only values changed. Database articles re-authored to "Pro Biz UAE Advisory Desk".
 
 ## Original Problem Statement
 Premium, sophisticated, high-conversion corporate website for a UAE-based Corporate Services Provider (CSP), Business Advisory, Corporate Structuring and Investment Support firm. Positioning: "Strategic Corporate Solutions for Businesses, Investors & International Entrepreneurs in the UAE and Beyond." Must feel like a top-tier international advisory firm (McKinsey/BCG-calibre), NOT a low-cost company-formation agency. Deep navy + champagne gold + light editorial sections. Awwwards-level craft: kinetic hero with masked line-by-line reveal, numbered manifesto chapters, slow editorial marquee, framer-motion reveals, lenis smooth scroll, parallax hero.

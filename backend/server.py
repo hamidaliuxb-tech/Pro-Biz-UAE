@@ -95,7 +95,7 @@ class Insight(BaseDocument):
 
 @api_router.get("/")
 async def root():
-    return {"message": "Meridian Corporate Partners API"}
+    return {"message": "Pro Biz UAE API"}
 
 
 @api_router.post("/enquiries", response_model=Enquiry)
@@ -151,7 +151,7 @@ class InsightUpsert(BaseModel):
     slug: str
     category: str
     excerpt: str = ""
-    author: str = "Meridian Advisory Desk"
+    author: str = "Pro Biz UAE Advisory Desk"
     author_role: str = ""
     published_at: str = ""
     reading_time: str = "5 min read"
@@ -192,12 +192,12 @@ async def delete_insight(insight_id: str, x_admin_key: Optional[str] = Header(No
 
 DEFAULT_CONTENT = {
     "site": {
-        "name": "Meridian Corporate Partners",
-        "shortName": "Meridian",
+        "name": "Pro Biz UAE",
+        "shortName": "Pro Biz UAE",
         "tagline": "Strategic corporate solutions for entrepreneurs, investors and international businesses establishing, expanding and operating in the UAE.",
         "phone": "+971 4 000 0000",
         "whatsapp": "971400000000",
-        "email": "enquiries@meridiancorporate.ae",
+        "email": "enquiries@probizuae.ae",
         "address": "Level 14, Emirates Towers, Sheikh Zayed Road, Dubai, United Arab Emirates",
         "hours": "Monday – Friday · 9:00 – 18:00 GST",
         "linkedin": "https://www.linkedin.com",

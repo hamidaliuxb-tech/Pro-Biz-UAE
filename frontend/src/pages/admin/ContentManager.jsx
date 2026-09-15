@@ -90,7 +90,7 @@ export default function ContentManager({ adminKey }) {
         ))}
       </div>
 
-      <button onClick={save} disabled={saving} data-testid="content-save-btn" className="bg-gold text-navy text-sm font-medium px-8 py-3.5 hover:bg-gold-soft transition-colors disabled:opacity-50">
+      <button onClick={save} disabled={saving} data-testid="content-save-btn" className="bg-gold text-white text-sm font-medium px-8 py-3.5 hover:bg-gold-soft transition-colors disabled:opacity-50">
         {saving ? 'Saving…' : 'Save Site Content'}
       </button>
     </div>

@@ -32,7 +32,7 @@ export default function Leadership() {
       <PageHero
         overline="Leadership"
         title="Executive-Level Counsel, Personally Delivered."
-        text="Every Meridian engagement is led by a senior adviser. Profiles below are representative placeholders pending final team publication."
+        text="Every Pro Biz UAE engagement is led by a senior adviser. Profiles below are representative placeholders pending final team publication."
         image={IMAGES.meeting}
       />
 
@@ -76,7 +76,7 @@ export default function Leadership() {
 
       <section className="bg-navy py-16 lg:py-24 grain-overlay">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
-          <SectionHeading dark overline="Join the Firm" title="Careers at Meridian" />
+          <SectionHeading dark overline="Join the Firm" title="Careers at Pro Biz UAE" />
           <Reveal delay={0.1}>
             <p className="text-cream/70 leading-relaxed text-base">
               We selectively welcome advisers with corporate services, banking, legal or governance backgrounds

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Logo from '@/components/Logo';
 
 const LINKS = [
   { to: '/services', label: 'Services' },
@@ -20,9 +21,8 @@ export default function Navbar() {
     <header className="fixed top-0 inset-x-0 z-50 bg-navy/90 backdrop-blur-md border-b border-gold/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          <Link to="/" data-testid="nav-logo-link" className="flex flex-col leading-none" onClick={() => setOpen(false)}>
-            <span className="font-serif text-2xl text-cream tracking-tight">Meridian</span>
-            <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-gold">Corporate Partners</span>
+          <Link to="/" data-testid="nav-logo-link" onClick={() => setOpen(false)}>
+            <Logo />
           </Link>
 
           <nav className="hidden lg:flex items-center gap-7">
@@ -41,7 +41,7 @@ export default function Navbar() {
             <Link
               to="/consultation"
               data-testid="nav-consultation-button"
-              className="ml-2 bg-gold text-navy text-[13px] font-medium tracking-wide px-5 py-2.5 hover:bg-gold-soft transition-colors duration-300"
+              className="ml-2 bg-gold text-white text-[13px] font-medium tracking-wide px-5 py-2.5 hover:bg-gold-soft transition-colors duration-300"
             >
               Book a Consultation
             </Link>
@@ -83,7 +83,7 @@ export default function Navbar() {
                 to="/consultation"
                 data-testid="nav-mobile-consultation-button"
                 onClick={() => setOpen(false)}
-                className="mt-3 bg-gold text-navy text-center text-sm font-medium px-5 py-3"
+                className="mt-3 bg-gold text-white text-center text-sm font-medium px-5 py-3"
               >
                 Book a Confidential Consultation
               </Link>

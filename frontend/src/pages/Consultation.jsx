@@ -220,7 +220,7 @@ export default function Consultation() {
                     ))}
                   </div>
                   <label className="flex items-start gap-3 cursor-pointer mb-8">
-                    <input type="checkbox" data-testid="consultation-form-checkbox-consent" checked={data.consent} onChange={(e) => set('consent', e.target.checked)} className="mt-1 accent-[#C5A059]" />
+                    <input type="checkbox" data-testid="consultation-form-checkbox-consent" checked={data.consent} onChange={(e) => set('consent', e.target.checked)} className="mt-1 accent-[#00732F]" />
                     <span className="text-xs text-slate-500 leading-relaxed">I agree to the Privacy Policy and consent to being contacted regarding my enquiry.</span>
                   </label>
                 </div>
@@ -254,7 +254,7 @@ export default function Consultation() {
                 data-testid="consultation-submit-btn"
                 onClick={submit}
                 disabled={submitting}
-                className="inline-flex items-center gap-2 bg-gold text-navy text-sm font-medium px-7 py-3.5 hover:bg-gold-soft transition-colors disabled:opacity-50"
+                className="inline-flex items-center gap-2 bg-gold text-white text-sm font-medium px-7 py-3.5 hover:bg-gold-soft transition-colors disabled:opacity-50"
               >
                 {submitting ? 'Submitting…' : 'Request a Confidential Consultation'} <ArrowRight size={16} />
               </button>
