@@ -205,7 +205,7 @@ DEFAULT_CONTENT = {
         "youtube": "https://www.youtube.com",
     },
     "stats": [
-        {"value": "15+", "label": "Businesses Supported"},
+        {"value": "150+", "label": "Businesses Supported"},
         {"value": "40+", "label": "Years of Combined Experience"},
         {"value": "21+", "label": "Markets Connected"},
         {"value": "18+", "label": "Professional Partnerships"},

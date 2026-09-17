@@ -6,12 +6,16 @@ import { toast } from 'sonner';
 import { ArrowRight, ArrowLeft, Check } from 'lucide-react';
 import { PageHero } from '@/components/common';
 import { API } from '@/lib/api';
-import { SERVICES, getService } from '@/data/services';
+import { getService } from '@/data/services';
+import { useServices } from '@/lib/useServices';
+
+const OTHER_SERVICE = 'Other / Not sure yet';
 
 const OBJECTIVES = [
   'Start a UAE business', 'Expand an existing company', 'Establish a holding company',
   'Open a corporate bank account', 'Investment structure', 'Corporate restructuring',
-  'Accounting / tax support', 'Compliance support', 'Other',
+  'Accounting / tax support', 'Compliance support', 'Website design & development',
+  'Digital marketing & social media', 'Other',
 ];
 const TIMELINES = ['Immediately', 'Within 1 – 3 months', '3 – 6 months', 'Exploring options'];
 const LOCATIONS = ['Based in the UAE', 'Outside the UAE', 'Planning to relocate'];
@@ -42,6 +46,7 @@ function ChipGroup({ options, value, onChange, testidPrefix }) {
 
 export default function Consultation() {
   const [params] = useSearchParams();
+  const services = useServices();
   const prefill = params.get('service');
   const prefillService = prefill ? getService(prefill) : null;
 
@@ -74,7 +79,7 @@ export default function Consultation() {
       await axios.post(`${API}/enquiries`, {
         name: data.name, company: data.company, email: data.email, phone: data.phone,
         country: data.country, business_activity: data.business_activity,
-        current_location: data.current_location, service_required: data.service_required || data.objective,
+        current_location: data.current_location, service_required: data.service_required === OTHER_SERVICE && data.service_other ? `Other: ${data.service_other}` : (data.service_required || data.objective),
         investment_size: data.investment_size, message: data.message, consent: data.consent,
         source: 'consultation',
         questionnaire: { objective: data.objective, timeline: data.timeline },
@@ -193,10 +198,16 @@ export default function Consultation() {
                     <label className={labelCls}>Service Required</label>
                     <select data-testid="consultation-form-select-service" className={inputCls} value={data.service_required} onChange={(e) => set('service_required', e.target.value)}>
                       <option value="">Select…</option>
-                      {SERVICES.map((s) => <option key={s.slug} value={s.title}>{s.title}</option>)}
-                      <option>Other / Not sure yet</option>
+                      {services.map((s) => <option key={s.slug} value={s.title}>{s.title}</option>)}
+                      <option>{OTHER_SERVICE}</option>
                     </select>
                   </div>
+                  {data.service_required === OTHER_SERVICE && (
+                    <div className="sm:col-span-2">
+                      <label className={labelCls}>Please Specify the Service</label>
+                      <input data-testid="consultation-input-other-service" className={inputCls} value={data.service_other || ''} onChange={(e) => set('service_other', e.target.value)} placeholder="Type the service you are looking for…" />
+                    </div>
+                  )}
                   <div className="sm:col-span-2">
                     <label className={labelCls}>Message</label>
                     <textarea rows={4} data-testid="consultation-form-input-message" className={inputCls} value={data.message} onChange={(e) => set('message', e.target.value)} placeholder="Briefly describe your objectives…" />

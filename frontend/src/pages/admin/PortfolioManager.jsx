@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { Plus, Pencil, Trash2, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import { API } from '@/lib/api';
 
-const CATEGORIES = ['Corporate Websites', 'Business Websites', 'E-Commerce', 'Professional Services', 'Real Estate', 'Consultancy', 'Healthcare', 'Other'];
+const CATEGORIES = ['Corporate Websites', 'Business Websites', 'E-Commerce', 'Digital Marketing', 'Professional Services', 'Real Estate', 'Consultancy', 'Healthcare', 'Other'];
 
 const inputCls = 'w-full bg-white border border-navy/15 px-4 py-3 text-sm text-navy placeholder:text-slate-400 focus:outline-none focus:border-gold transition-colors duration-300';
 const labelCls = 'block text-xs font-mono uppercase tracking-[0.15em] text-slate-500 mb-2';

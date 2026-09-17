@@ -5,7 +5,7 @@ import { ExternalLink, ArrowRight } from 'lucide-react';
 import { PageHero, Reveal } from '@/components/common';
 import { API } from '@/lib/api';
 
-const CATEGORIES = ['All', 'Corporate Websites', 'Business Websites', 'E-Commerce', 'Professional Services', 'Real Estate', 'Consultancy', 'Healthcare', 'Other'];
+const CATEGORIES = ['All', 'Corporate Websites', 'Business Websites', 'E-Commerce', 'Digital Marketing', 'Professional Services', 'Real Estate', 'Consultancy', 'Healthcare', 'Other'];
 
 export default function Portfolio() {
   const [projects, setProjects] = useState([]);

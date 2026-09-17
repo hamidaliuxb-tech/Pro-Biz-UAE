@@ -9,7 +9,8 @@ import StructureDiagram from '@/components/StructureDiagram';
 import PortfolioTeaser from '@/components/PortfolioTeaser';
 import { IMAGES, MARQUEE_ITEMS, PILLARS, PROCESS_STEPS, SECTORS, HOME_FAQS, PARTNER_NOTE } from '@/data/site';
 import { useSite } from '@/lib/SiteContext';
-import { SERVICE_GROUPS, servicesByGroup } from '@/data/services';
+import { SERVICE_GROUPS } from '@/data/services';
+import { useServices } from '@/lib/useServices';
 import { API } from '@/lib/api';
 
 const HERO_LINES = ['Build.', 'Structure.', 'Grow.', 'Protect.'];
@@ -141,6 +142,7 @@ function TrustSection() {
 }
 
 function ServicesSection() {
+  const services = useServices();
   return (
     <section className="bg-white py-20 lg:py-28" data-testid="services-section">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -158,7 +160,7 @@ function ServicesSection() {
                 <h3 className="font-serif text-xl sm:text-2xl text-navy mb-3">{group.title}</h3>
                 <p className="text-sm text-slate-500 leading-relaxed mb-6">{group.tagline}</p>
                 <ul className="space-y-2.5">
-                  {servicesByGroup(group.id).map((s) => (
+                  {services.filter((s) => s.group === group.id).map((s) => (
                     <li key={s.slug}>
                       <Link
                         to={`/services/${s.slug}`}

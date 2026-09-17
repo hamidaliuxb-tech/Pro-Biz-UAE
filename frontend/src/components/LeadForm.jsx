@@ -2,10 +2,11 @@ import { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { API } from '@/lib/api';
-import { SERVICES } from '@/data/services';
+import { useServices } from '@/lib/useServices';
 
 const inputCls = 'w-full bg-white border border-navy/15 px-4 py-3 text-sm text-navy placeholder:text-slate-400 focus:outline-none focus:border-gold transition-colors duration-300';
 const labelCls = 'block text-xs font-mono uppercase tracking-[0.15em] text-slate-500 mb-2';
+const OTHER_SERVICE = 'Other / Not sure yet';
 
 const INITIAL = {
   name: '', company: '', email: '', phone: '', country: '',
@@ -14,6 +15,7 @@ const INITIAL = {
 };
 
 export default function LeadForm({ source = 'contact', prefillService = '', testidPrefix = 'lead-form' }) {
+  const services = useServices();
   const [form, setForm] = useState({ ...INITIAL, service_required: prefillService });
   const [submitting, setSubmitting] = useState(false);
 
@@ -27,7 +29,11 @@ export default function LeadForm({ source = 'contact', prefillService = '', test
     }
     setSubmitting(true);
     try {
-      await axios.post(`${API}/enquiries`, { ...form, source });
+      const payload = { ...form, source };
+      if (form.service_required === OTHER_SERVICE && form.service_other) {
+        payload.service_required = `Other: ${form.service_other}`;
+      }
+      await axios.post(`${API}/enquiries`, payload);
       toast.success('Thank you. Your enquiry has been received — our team will respond within one business day.');
       setForm({ ...INITIAL, service_required: prefillService });
     } catch (err) {
@@ -76,10 +82,16 @@ export default function LeadForm({ source = 'contact', prefillService = '', test
         <label className={labelCls}>Service Required</label>
         <select data-testid={`${testidPrefix}-select-service`} className={inputCls} value={form.service_required} onChange={set('service_required')}>
           <option value="">Select…</option>
-          {SERVICES.map((s) => <option key={s.slug} value={s.title}>{s.title}</option>)}
-          <option>Other / Not sure yet</option>
+          {services.map((s) => <option key={s.slug} value={s.title}>{s.title}</option>)}
+          <option>{OTHER_SERVICE}</option>
         </select>
       </div>
+      {form.service_required === OTHER_SERVICE && (
+        <div className="sm:col-span-2">
+          <label className={labelCls}>Please Specify the Service</label>
+          <input data-testid={`${testidPrefix}-input-other-service`} className={inputCls} value={form.service_other || ''} onChange={set('service_other')} placeholder="Type the service you are looking for…" />
+        </div>
+      )}
       <div className="sm:col-span-2">
         <label className={labelCls}>Estimated Investment / Business Size</label>
         <select data-testid={`${testidPrefix}-select-investment`} className={inputCls} value={form.investment_size} onChange={set('investment_size')}>
