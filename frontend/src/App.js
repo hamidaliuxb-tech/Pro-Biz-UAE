@@ -17,6 +17,8 @@ import Insights from "@/pages/Insights";
 import Article from "@/pages/Article";
 import Contact from "@/pages/Contact";
 import Admin from "@/pages/Admin";
+import Portfolio from "@/pages/Portfolio";
+import PortfolioDetail from "@/pages/PortfolioDetail";
 import { SiteProvider } from "@/lib/SiteContext";
 import Legal from "@/pages/Legal";
 
@@ -76,6 +78,8 @@ function App() {
           <Route path="/insights/:slug" element={<Article />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/portfolio/:id" element={<PortfolioDetail />} />
           <Route path="/legal/:page" element={<Legal />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

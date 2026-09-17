@@ -262,6 +262,7 @@ export default function Consultation() {
           </div>
         </div>
       </section>
+      <div className="flag-ribbon" />
     </main>
   );
 }

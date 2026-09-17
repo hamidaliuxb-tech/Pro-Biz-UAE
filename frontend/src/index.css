@@ -87,6 +87,11 @@ html.lenis, html.lenis body {
     height: 1px;
 }
 
+.flag-ribbon {
+    height: 4px;
+    background: linear-gradient(90deg, #CE1126 0%, #CE1126 28%, #00732F 28%, #00732F 52%, #FFFFFF 52%, #FFFFFF 76%, #111111 76%, #111111 100%);
+}
+
 .text-balance {
     text-wrap: balance;
 }

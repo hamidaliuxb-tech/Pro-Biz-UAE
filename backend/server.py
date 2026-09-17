@@ -195,10 +195,10 @@ DEFAULT_CONTENT = {
         "name": "Pro Biz UAE",
         "shortName": "Pro Biz UAE",
         "tagline": "Strategic corporate solutions for entrepreneurs, investors and international businesses establishing, expanding and operating in the UAE.",
-        "phone": "+971 4 000 0000",
-        "whatsapp": "971400000000",
-        "email": "enquiries@probizuae.ae",
-        "address": "Level 14, Emirates Towers, Sheikh Zayed Road, Dubai, United Arab Emirates",
+        "phone": "+971 50 118 4777",
+        "whatsapp": "971501184777",
+        "email": "enquires@probizuae.com",
+        "address": "M11, Ibn Battuta Gate, Jebel Ali, Dubai, United Arab Emirates",
         "hours": "Monday – Friday · 9:00 – 18:00 GST",
         "linkedin": "https://www.linkedin.com",
         "instagram": "https://www.instagram.com",
@@ -240,6 +240,163 @@ async def update_content(input: ContentUpdate, x_admin_key: Optional[str] = Head
     return {"site": input.site, "stats": input.stats}
 
 
+class ProjectUpsert(BaseModel):
+    title: str = ""
+    client_name: str = ""
+    industry: str = ""
+    location: str = ""
+    project_type: str = ""
+    category: str = "Corporate Websites"
+    requirement: str = ""
+    solution: str = ""
+    images: List[str] = []
+    logo: str = ""
+    features: List[str] = []
+    tech: List[str] = []
+    outcome: str = ""
+    url: str = ""
+    testimonial: str = ""
+    testimonial_author: str = ""
+    published: bool = False
+    confidential: bool = False
+    sample: bool = False
+    order: int = 0
+
+
+class Project(BaseDocument):
+    title: str = ""
+    client_name: str = ""
+    industry: str = ""
+    location: str = ""
+    project_type: str = ""
+    category: str = "Corporate Websites"
+    requirement: str = ""
+    solution: str = ""
+    images: List[str] = []
+    logo: str = ""
+    features: List[str] = []
+    tech: List[str] = []
+    outcome: str = ""
+    url: str = ""
+    testimonial: str = ""
+    testimonial_author: str = ""
+    published: bool = False
+    confidential: bool = False
+    sample: bool = False
+    order: int = 0
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+def public_project(p: Project) -> Project:
+    if p.confidential:
+        p.client_name = "Confidential Client"
+        p.url = ""
+        p.logo = ""
+        p.testimonial = ""
+        p.testimonial_author = ""
+    return p
+
+
+@api_router.get("/projects", response_model=List[Project])
+async def list_projects():
+    docs = await db.projects.find({"published": True}).sort("order", 1).to_list(200)
+    return [public_project(Project.from_mongo(d)) for d in docs]
+
+
+@api_router.get("/projects/{project_id}", response_model=Project)
+async def get_project(project_id: str):
+    doc = await db.projects.find_one({"_id": project_id, "published": True})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Project not found")
+    return public_project(Project.from_mongo(doc))
+
+
+@api_router.get("/admin/projects", response_model=List[Project])
+async def admin_list_projects(x_admin_key: Optional[str] = Header(None)):
+    require_admin(x_admin_key)
+    docs = await db.projects.find().sort("order", 1).to_list(500)
+    return [Project.from_mongo(d) for d in docs]
+
+
+@api_router.post("/projects", response_model=Project)
+async def create_project(input: ProjectUpsert, x_admin_key: Optional[str] = Header(None)):
+    require_admin(x_admin_key)
+    project = Project(**input.model_dump())
+    await db.projects.insert_one(project.to_mongo())
+    return project
+
+
+@api_router.put("/projects/{project_id}", response_model=Project)
+async def update_project(project_id: str, input: ProjectUpsert, x_admin_key: Optional[str] = Header(None)):
+    require_admin(x_admin_key)
+    res = await db.projects.find_one_and_update(
+        {"_id": project_id}, {"$set": input.model_dump()}, return_document=True
+    )
+    if not res:
+        raise HTTPException(status_code=404, detail="Project not found")
+    return Project.from_mongo(res)
+
+
+@api_router.delete("/projects/{project_id}")
+async def delete_project(project_id: str, x_admin_key: Optional[str] = Header(None)):
+    require_admin(x_admin_key)
+    res = await db.projects.delete_one({"_id": project_id})
+    if res.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Project not found")
+    return {"deleted": True}
+
+
+SAMPLE_PROJECTS = [
+    {
+        "_id": str(ObjectId()),
+        "title": "Sample Project — Corporate Advisory Website",
+        "client_name": "Sample Client (Placeholder)",
+        "industry": "Professional Services",
+        "location": "Dubai, UAE",
+        "project_type": "Corporate Website",
+        "category": "Corporate Websites",
+        "requirement": "SAMPLE PLACEHOLDER — A professional services firm required a credible, content-managed corporate website with confidential enquiry capture and a premium brand presence. This sample entry demonstrates the case-study format until real client projects are published.",
+        "solution": "SAMPLE PLACEHOLDER — Design and development of a bespoke corporate website with CMS-managed content, consultation enquiry forms, WhatsApp integration and SEO-ready architecture.",
+        "images": [
+            "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?crop=entropy&cs=srgb&fm=jpg&q=85",
+            "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?crop=entropy&cs=srgb&fm=jpg&q=85",
+        ],
+        "features": ["Corporate website design", "CMS-managed content", "Enquiry & consultation forms", "WhatsApp integration", "SEO-ready development"],
+        "tech": ["React", "Tailwind CSS", "FastAPI", "MongoDB"],
+        "outcome": "SAMPLE PLACEHOLDER — Outcome details will be published together with real client projects.",
+        "url": "",
+        "testimonial": "",
+        "published": True,
+        "confidential": False,
+        "sample": True,
+        "order": 1,
+    },
+    {
+        "_id": str(ObjectId()),
+        "title": "Sample Project — E-Commerce Storefront",
+        "client_name": "Sample Client (Placeholder)",
+        "industry": "Retail",
+        "location": "Dubai, UAE",
+        "project_type": "E-Commerce Website",
+        "category": "E-Commerce",
+        "requirement": "SAMPLE PLACEHOLDER — A retail business required a mobile-first online store with payment gateway integration and order management. This sample entry demonstrates the case-study format until real client projects are published.",
+        "solution": "SAMPLE PLACEHOLDER — Development of a responsive e-commerce storefront with secure payment gateway integration, product management and customer enquiry flows.",
+        "images": [
+            "https://images.unsplash.com/photo-1547658719-da2b51169166?crop=entropy&cs=srgb&fm=jpg&q=85",
+        ],
+        "features": ["E-commerce website", "Payment gateway integration", "Mobile-first design", "Product management", "Maintenance & support"],
+        "tech": ["React", "Tailwind CSS", "Payment Gateway API"],
+        "outcome": "SAMPLE PLACEHOLDER — Outcome details will be published together with real client projects.",
+        "url": "",
+        "testimonial": "",
+        "published": True,
+        "confidential": False,
+        "sample": True,
+        "order": 2,
+    },
+]
+
+
 app.include_router(api_router)
 
 app.add_middleware(
@@ -259,6 +416,9 @@ async def seed_insights():
     if await db.insights.count_documents({}) == 0:
         await db.insights.insert_many(INSIGHTS)
         logger.info("Seeded %s insight articles", len(INSIGHTS))
+    if await db.projects.count_documents({}) == 0:
+        await db.projects.insert_many(SAMPLE_PROJECTS)
+        logger.info("Seeded %s sample projects", len(SAMPLE_PROJECTS))
 
 
 @app.on_event("shutdown")

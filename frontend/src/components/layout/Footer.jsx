@@ -29,6 +29,7 @@ const COLUMNS = [
     title: 'Resources',
     links: [
       { to: '/insights', label: 'Insights' },
+      { to: '/portfolio', label: 'Our Work' },
       { to: '/jurisdictions', label: 'Jurisdiction Guide' },
       { to: '/structuring', label: 'Structuring' },
       { to: '/consultation', label: 'Consultation' },
@@ -49,7 +50,7 @@ export default function Footer() {
   const { site: SITE } = useSite();
   return (
     <footer className="bg-navy text-cream/70" data-testid="site-footer">
-      <div className="gold-hairline" />
+      <div className="flag-ribbon" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10">
           <div className="col-span-2">

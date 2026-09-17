@@ -8,8 +8,8 @@ export const LEGAL_PAGES = {
       { h: '3. How We Use Information', p: 'We use personal information to respond to enquiries, provide and improve our services, meet legal and regulatory obligations, and — with your consent — communicate relevant insights. We do not sell personal information.' },
       { h: '4. Confidentiality', p: 'Client and enquiry information is handled under strict confidentiality protocols. Access is limited to personnel and professional partners who require it to respond to or service your engagement.' },
       { h: '5. Data Retention & Security', p: 'Information is retained only as long as necessary for the purposes described or as required by applicable law. We apply appropriate technical and organisational measures to protect personal data.' },
-      { h: '6. Your Rights', p: 'You may request access to, correction of, or deletion of your personal information by contacting us at enquiries@probizuae.ae. Requests are handled in accordance with applicable UAE data protection law.' },
-      { h: '7. Contact', p: 'For any privacy-related questions, contact: Pro Biz UAE, Level 14, Emirates Towers, Sheikh Zayed Road, Dubai, UAE · enquiries@probizuae.ae.' },
+      { h: '6. Your Rights', p: 'You may request access to, correction of, or deletion of your personal information by contacting us at enquires@probizuae.com. Requests are handled in accordance with applicable UAE data protection law.' },
+      { h: '7. Contact', p: 'For any privacy-related questions, contact: Pro Biz UAE, Level 14, Emirates Towers, Sheikh Zayed Road, Dubai, UAE · enquires@probizuae.com.' },
     ],
   },
   terms: {

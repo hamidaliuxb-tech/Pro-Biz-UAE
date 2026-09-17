@@ -6,6 +6,7 @@ import Logo from '@/components/Logo';
 
 const LINKS = [
   { to: '/services', label: 'Services' },
+  { to: '/portfolio', label: 'Our Work' },
   { to: '/jurisdictions', label: 'Jurisdictions' },
   { to: '/structuring', label: 'Structuring' },
   { to: '/about', label: 'About' },
@@ -25,7 +26,7 @@ export default function Navbar() {
             <Logo />
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-7">
+          <nav className="hidden lg:flex items-center gap-5">
             {LINKS.map((l) => (
               <NavLink
                 key={l.to}

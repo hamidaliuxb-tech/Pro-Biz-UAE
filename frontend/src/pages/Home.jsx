@@ -6,6 +6,7 @@ import { ArrowUpRight, Check, ChevronDown } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Reveal, SectionHeading, Marquee, GoldButton, GhostButton, CTABand, Overline } from '@/components/common';
 import StructureDiagram from '@/components/StructureDiagram';
+import PortfolioTeaser from '@/components/PortfolioTeaser';
 import { IMAGES, MARQUEE_ITEMS, PILLARS, PROCESS_STEPS, SECTORS, HOME_FAQS, PARTNER_NOTE } from '@/data/site';
 import { useSite } from '@/lib/SiteContext';
 import { SERVICE_GROUPS, servicesByGroup } from '@/data/services';
@@ -44,8 +45,8 @@ function Hero() {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 2.4, ease: [0.22, 1, 0.36, 1] }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-navy/40" />
-        <div className="absolute inset-0 bg-gradient-to-r from-navy/80 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/55 to-navy/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy/85 via-navy/25 to-transparent" />
       </motion.div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 pt-44 w-full">
@@ -453,6 +454,7 @@ export default function Home() {
       <BankingSection />
       <InvestorSection />
       <SectorsSection />
+      <PortfolioTeaser />
       <ProcessSection />
       <InsightsPreview />
       <FAQSection />

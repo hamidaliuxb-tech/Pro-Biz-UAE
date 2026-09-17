@@ -2,10 +2,10 @@ export const SITE = {
   name: 'Pro Biz UAE',
   shortName: 'Pro Biz UAE',
   tagline: 'Strategic corporate solutions for entrepreneurs, investors and international businesses establishing, expanding and operating in the UAE.',
-  phone: '+971 4 000 0000',
-  whatsapp: '971400000000',
-  email: 'enquiries@probizuae.ae',
-  address: 'Level 14, Emirates Towers, Sheikh Zayed Road, Dubai, United Arab Emirates',
+  phone: '+971 50 118 4777',
+  whatsapp: '971501184777',
+  email: 'enquires@probizuae.com',
+  address: 'M11, Ibn Battuta Gate, Jebel Ali, Dubai, United Arab Emirates',
   hours: 'Monday – Friday · 9:00 – 18:00 GST',
   linkedin: 'https://www.linkedin.com',
   instagram: 'https://www.instagram.com',
@@ -13,7 +13,7 @@ export const SITE = {
 };
 
 export const IMAGES = {
-  hero: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?crop=entropy&cs=srgb&fm=jpg&q=85',
+  hero: '/hero-dubai.webp',
   tower: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?crop=entropy&cs=srgb&fm=jpg&q=85',
   boardroom: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=srgb&fm=jpg&q=85',
   skyline: 'https://images.unsplash.com/photo-1518684079-3c830dcef090?crop=entropy&cs=srgb&fm=jpg&q=85',

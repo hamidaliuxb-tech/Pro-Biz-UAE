@@ -5,6 +5,7 @@ import { Download, Lock } from 'lucide-react';
 import { API } from '@/lib/api';
 import InsightsManager from '@/pages/admin/InsightsManager';
 import ContentManager from '@/pages/admin/ContentManager';
+import PortfolioManager from '@/pages/admin/PortfolioManager';
 
 const STATUSES = ['new', 'in_review', 'scheduled', 'concluded'];
 const STATUS_LABELS = { new: 'New', in_review: 'In Review', scheduled: 'Scheduled', concluded: 'Concluded' };
@@ -112,7 +113,7 @@ export default function Admin() {
         </div>
 
         <div className="flex gap-2 mb-8 border-b border-navy/10 pb-1">
-          {[['enquiries', 'Enquiries'], ['insights', 'Insights'], ['content', 'Site Content']].map(([id, label]) => (
+          {[['enquiries', 'Enquiries'], ['insights', 'Insights'], ['portfolio', 'Portfolio'], ['content', 'Site Content']].map(([id, label]) => (
             <button
               key={id}
               data-testid={`admin-tab-${id}`}
@@ -125,6 +126,7 @@ export default function Admin() {
         </div>
 
         {tab === 'insights' && <InsightsManager adminKey={key} />}
+        {tab === 'portfolio' && <PortfolioManager adminKey={key} />}
         {tab === 'content' && <ContentManager adminKey={key} />}
 
         {tab === 'enquiries' && (<>

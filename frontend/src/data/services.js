@@ -19,6 +19,11 @@ export const SERVICE_GROUPS = [
     title: 'Investor & International Services',
     tagline: 'Holding companies, SPVs, family business structures and international expansion.',
   },
+  {
+    id: 'digital-services',
+    title: 'Digital Services',
+    tagline: 'Premium websites and digital platforms — designed, built and supported to the same standard as our corporate work.',
+  },
 ];
 
 export const SERVICES = [
@@ -453,6 +458,36 @@ export const SERVICES = [
     faqs: [
       { q: 'Which international jurisdictions do you cover?', a: 'Through our partner network we coordinate major holding, trading and financial centres. Recommendations follow your objectives, not a preferred-jurisdiction list.' },
       { q: 'Can you administer multiple entities?', a: 'Yes — multi-entity administration with a single reporting line is a core part of the service.' },
+    ],
+  },
+  {
+    slug: 'website-design-development',
+    group: 'digital-services',
+    title: 'Website Design & Development',
+    summary: 'Premium corporate websites, e-commerce platforms and landing pages — designed, built, integrated and supported end to end.',
+    what: 'Our digital practice designs and builds business websites to the same standard as our corporate work: corporate website design, business website development, responsive mobile-first builds, UI/UX design, e-commerce websites, landing pages, CMS/admin-enabled websites, enquiry and contact forms, WhatsApp integration, payment gateway integration, CRM and API integrations, website redesign and migration, ongoing maintenance and support, and SEO-ready development.',
+    who: ['Established businesses whose website no longer reflects their standing', 'New companies launching with a credible digital presence', 'Retail and trading businesses moving into e-commerce', 'Firms needing their website connected to CRM, payments and operations'],
+    why: 'For most clients, your website is the first meeting. A considered, fast, well-structured website builds trust before a word is spoken — and converts visitors into enquiries through clear journeys, forms and integrations.',
+    process: [
+      { title: 'Discover', text: 'Business objectives, audience, content and functional requirements.' },
+      { title: 'Design', text: 'UI/UX design aligned to your brand and conversion goals.' },
+      { title: 'Build & Integrate', text: 'Development with forms, WhatsApp, payments, CRM and API integrations.' },
+      { title: 'Launch & Support', text: 'SEO-ready launch, maintenance, support and continuous improvement.' },
+    ],
+    considerations: ['Content readiness and brand assets', 'CMS and admin-editing requirements', 'Integration needs — payments, CRM, WhatsApp, analytics', 'SEO foundations and page performance', 'Ongoing maintenance and support arrangements'],
+    role: 'We design, build, integrate and support your website end to end — and because every site includes a CMS/admin panel, your team can edit content, articles and portfolio projects without touching code.',
+    partners: 'Payment gateways and third-party platforms are integrated through their respective licensed providers; accounts and approvals remain subject to those providers.',
+    timeline: [
+      { phase: 'Discovery & design', duration: '1 – 2 weeks' },
+      { phase: 'Development & integrations', duration: '2 – 5 weeks' },
+      { phase: 'Review, launch & handover', duration: '1 week' },
+    ],
+    documents: ['Brand assets (logo, colours, imagery)', 'Content outline or existing website copy', 'List of required integrations', 'Domain and hosting access where applicable'],
+    faqs: [
+      { q: 'Can I edit the website myself after launch?', a: 'Yes. Websites we build include a CMS/admin panel so non-technical team members can update content, publish articles and manage portfolio projects.' },
+      { q: 'Can you redesign or migrate our existing website?', a: 'Yes — we handle redesigns and migrations, preserving your content, SEO equity and integrations throughout the move.' },
+      { q: 'Do you integrate payments and CRM systems?', a: 'Yes — payment gateways, CRM platforms and custom APIs are integrated as part of the build, subject to the providers’ own approval processes.' },
+      { q: 'Can we see examples of your work?', a: 'Yes — visit the Our Work section to browse case studies of completed website projects by industry and type.' },
     ],
   },
 ];

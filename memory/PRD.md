@@ -1,7 +1,17 @@
 # PRD — Pro Biz UAE
 
 ## Rebrand (15 Sep 2026)
-Business renamed from "Meridian Corporate Partners" to **Pro Biz UAE**. New palette applied site-wide: #111111 black (headers/nav/dark sections), #CE1126 red (accents, CTAs, links, "UAE" highlight), #00732F green (secondary accents, marquee separators, consent checkboxes, hairline gradient), #FFFFFF/#F4F6F8 light sections, slate body text. New CSS-built logo lockup (bar-chart icon with red/white/green bars + "Pro Biz UAE" wordmark + "Professional Business Services" tagline) in navbar and footer (src/components/Logo.jsx). Internal Tailwind tokens kept (`navy`=black, `gold`=red) — only values changed. Database articles re-authored to "Pro Biz UAE Advisory Desk".
+Business renamed from "Meridian Corporate Partners" to **Pro Biz UAE**. Palette: #111111 black, #CE1126 red, #00732F green, white/#F4F6F8, slate. CSS-built logo lockup in navbar/footer (src/components/Logo.jsx). Internal tokens kept (`navy`=black, `gold`=red).
+
+## Update (17 Sep 2026) — Digital Services & Portfolio
+- New hero banner: bright golden-hour Dubai skyline (client-provided) at /app/frontend/public/hero-dubai.webp with strengthened text overlay
+- New service: "Website Design & Development" under new "Digital Services" practice group (auto-appears in services grid, service detail page, lead form select, consultation prefill)
+- Portfolio ("Our Work", /portfolio + /portfolio/:id): project cards, 8 category filters, case study pages (client/industry/location/type/requirement/solution/screenshots/features/tech/outcome/URL/testimonial), "Looking for a Website Like This? / Discuss Your Project" CTA, home teaser section
+- Admin panel: new "Portfolio" tab — full CRUD, publish/unpublish, confidential masking (hides client/URL/testimonial publicly), display order, sample flag
+- 2 SAMPLE projects seeded (clearly marked; no fake clients/testimonials)
+- Real contact details live site-wide: +971 50 118 4777, enquires@probizuae.com, M11 Ibn Battuta Gate Dubai, WhatsApp 971501184777, map updated
+- UAE flag ribbon (red/green/white/black) added to footer top, consultation page and portfolio CTA
+- Green accents woven into overlines, section heading underlines, nav active states and hover states site-wide
 
 ## Original Problem Statement
 Premium, sophisticated, high-conversion corporate website for a UAE-based Corporate Services Provider (CSP), Business Advisory, Corporate Structuring and Investment Support firm. Positioning: "Strategic Corporate Solutions for Businesses, Investors & International Entrepreneurs in the UAE and Beyond." Must feel like a top-tier international advisory firm (McKinsey/BCG-calibre), NOT a low-cost company-formation agency. Deep navy + champagne gold + light editorial sections. Awwwards-level craft: kinetic hero with masked line-by-line reveal, numbered manifesto chapters, slow editorial marquee, framer-motion reveals, lenis smooth scroll, parallax hero.
