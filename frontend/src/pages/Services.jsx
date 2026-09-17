@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { PageHero, Reveal, SectionHeading, CTABand } from '@/components/common';
-import { SERVICE_GROUPS, servicesByGroup } from '@/data/services';
+import { SERVICE_GROUPS } from '@/data/services';
+import { useServices } from '@/lib/useServices';
 import { IMAGES, PARTNER_NOTE } from '@/data/site';
 
 export default function Services() {
+  const services = useServices();
   return (
     <main data-testid="services-page">
       <PageHero
@@ -19,7 +21,7 @@ export default function Services() {
             <SectionHeading overline={`Practice 0${gi + 1}`} title={group.title} className="mb-4" />
             <Reveal><p className="text-base text-slate-600 max-w-2xl mb-12">{group.tagline}</p></Reveal>
             <div className="grid sm:grid-cols-2 gap-px bg-navy/10 border border-navy/10">
-              {servicesByGroup(group.id).map((s, i) => (
+              {services.filter((s) => s.group === group.id).map((s, i) => (
                 <Reveal key={s.slug} delay={i * 0.06} className={gi % 2 === 0 ? 'bg-cream' : 'bg-white'}>
                   <Link
                     to={`/services/${s.slug}`}

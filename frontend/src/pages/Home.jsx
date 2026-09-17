@@ -54,7 +54,7 @@ function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.8 }}
-          className="text-xs font-mono uppercase tracking-[0.3em] text-gold mb-8"
+          className="text-xs font-mono uppercase tracking-[0.3em] text-gold mb-8 [text-shadow:0_1px_14px_rgba(0,0,0,0.75)]"
         >
           Corporate Services · Advisory · Structuring — UAE
         </motion.p>
@@ -78,7 +78,7 @@ function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.15, duration: 0.8 }}
-          className="text-base sm:text-lg text-cream/75 max-w-xl leading-relaxed mb-10"
+          className="text-base sm:text-lg text-cream/85 max-w-xl leading-relaxed mb-10 [text-shadow:0_1px_16px_rgba(0,0,0,0.6)]"
         >
           {SITE.tagline}
         </motion.p>

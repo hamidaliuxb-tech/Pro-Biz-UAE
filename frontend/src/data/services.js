@@ -22,7 +22,7 @@ export const SERVICE_GROUPS = [
   {
     id: 'digital-services',
     title: 'Digital Services',
-    tagline: 'Premium websites and digital platforms — designed, built and supported to the same standard as our corporate work.',
+    tagline: 'Premium websites, digital platforms and growth marketing — designed, built and delivered to the same standard as our corporate work.',
   },
 ];
 
@@ -488,6 +488,35 @@ export const SERVICES = [
       { q: 'Can you redesign or migrate our existing website?', a: 'Yes — we handle redesigns and migrations, preserving your content, SEO equity and integrations throughout the move.' },
       { q: 'Do you integrate payments and CRM systems?', a: 'Yes — payment gateways, CRM platforms and custom APIs are integrated as part of the build, subject to the providers’ own approval processes.' },
       { q: 'Can we see examples of your work?', a: 'Yes — visit the Our Work section to browse case studies of completed website projects by industry and type.' },
+    ],
+  },
+  {
+    slug: 'digital-marketing-growth',
+    group: 'digital-services',
+    title: 'Digital Marketing & Growth',
+    summary: 'Strategy-led digital marketing — social, search, content, advertising and analytics, managed as one growth programme.',
+    what: 'Digital Marketing & Growth covers the full engine of online growth: social media strategy and account management, content planning and creation, corporate profile development, digital advertising, search engine optimisation (SEO), search engine marketing, Google Business Profile support, email marketing, lead-generation and landing-page campaigns, digital brand strategy, online reputation support, marketing analytics, conversion optimisation, campaign reporting, competitor analysis and digital growth strategy.',
+    who: ['Businesses launching or rebuilding their digital presence', 'Companies relying on referrals seeking structured lead generation', 'Brands needing consistent, professional social media management', 'Firms wanting measurable reporting rather than marketing guesswork'],
+    why: 'Visibility without strategy is noise. A structured growth programme — clear positioning, consistent content, disciplined advertising and honest reporting — compounds month after month and turns digital channels into a dependable source of enquiries.',
+    process: [
+      { title: 'Audit & Strategy', text: 'Digital presence, competitors and opportunities assessed; growth strategy defined.' },
+      { title: 'Foundations', text: 'Profiles, tracking, content pillars and campaign structure established.' },
+      { title: 'Execution', text: 'Content, campaigns and optimisation delivered on a managed calendar.' },
+      { title: 'Report & Refine', text: 'Transparent reporting; budget and effort shift toward what performs.' },
+    ],
+    considerations: ['Which channels actually reach your buyers', 'Content capacity and approval workflows', 'Advertising budgets and realistic timelines', 'Analytics and conversion tracking from day one', 'Reputation and review management'],
+    role: 'We plan, execute and report on your digital growth programme end to end — strategy, content, campaigns and analytics — with clear monthly reporting and direct access to the people doing the work. Supported platforms include LinkedIn, Instagram, Facebook, YouTube, TikTok, Google and other relevant digital platforms, selected according to where your audience actually is.',
+    partners: 'Advertising accounts remain in your name on each platform; spend is paid directly to the platforms with full transparency.',
+    timeline: [
+      { phase: 'Audit & strategy', duration: '1 – 2 weeks' },
+      { phase: 'Foundations & setup', duration: '1 – 2 weeks' },
+      { phase: 'Ongoing programme', duration: 'Monthly cycle' },
+    ],
+    documents: ['Brand assets and existing account access', 'Website and analytics access where available', 'Current marketing materials and customer profiles', 'Advertising account access where applicable'],
+    faqs: [
+      { q: 'Which platforms should our business be on?', a: 'Only the ones your buyers use. We recommend a focused channel mix — typically LinkedIn and Google for B2B, Instagram and TikTok for consumer brands — rather than being everywhere weakly.' },
+      { q: 'How soon will we see results?', a: 'Paid campaigns can generate enquiries within weeks; SEO and organic growth compound over months. We set honest expectations and report progress transparently every month.' },
+      { q: 'Do you guarantee rankings or lead volumes?', a: 'No — search rankings and advertising outcomes depend on platform algorithms and market competition. We guarantee disciplined strategy, professional execution and honest reporting.' },
     ],
   },
 ];

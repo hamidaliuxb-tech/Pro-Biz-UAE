@@ -11,6 +11,13 @@ Business renamed from "Meridian Corporate Partners" to **Pro Biz UAE**. Palette:
 - 2 SAMPLE projects seeded (clearly marked; no fake clients/testimonials)
 - Real contact details live site-wide: +971 50 118 4777, enquires@probizuae.com, M11 Ibn Battuta Gate Dubai, WhatsApp 971501184777, map updated
 - UAE flag ribbon (red/green/white/black) added to footer top, consultation page and portfolio CTA
+
+## Update (17 Sep 2026, later) — Marketing service + Services CMS
+- Hero banner replaced again with client-provided HD golden skyline (public/hero-dubai.png); text-shadow added to hero overline/subtext for readability on bright sky
+- New service "Digital Marketing & Growth" (social strategy/management, content, SEO/SEM, Google Business Profile, email, lead-gen, landing pages, brand strategy, reputation, analytics, CRO, reporting, competitor analysis; platforms incl. LinkedIn/Instagram/Facebook/YouTube/TikTok/Google)
+- Services migrated to MongoDB: GET /api/services(+slug), admin POST/PUT/DELETE; seeded from backend/services_seed.json (18 services); frontend Services page + ServiceDetail read from API via useServices hook (static fallback)
+- Admin panel: new "Services" tab with full editor (title/slug/group/summary/what/why/role/partners + line-based editors for who/considerations/documents/process/timeline/FAQs)
+- Note: homepage services grid and lead-form dropdowns still read static data/services.js — admin edits reflect on Services page + detail pages; sync dropdowns later if needed
 - Green accents woven into overlines, section heading underlines, nav active states and hover states site-wide
 
 ## Original Problem Statement

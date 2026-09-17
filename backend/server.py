@@ -397,6 +397,86 @@ SAMPLE_PROJECTS = [
 ]
 
 
+class ServiceUpsert(BaseModel):
+    slug: str
+    group: str
+    title: str
+    summary: str = ""
+    what: str = ""
+    who: List[str] = []
+    why: str = ""
+    process: List[dict] = []
+    considerations: List[str] = []
+    role: str = ""
+    partners: str = ""
+    timeline: List[dict] = []
+    documents: List[str] = []
+    faqs: List[dict] = []
+    order: int = 0
+
+
+class ServiceDoc(BaseDocument):
+    slug: str
+    group: str
+    title: str
+    summary: str = ""
+    what: str = ""
+    who: List[str] = []
+    why: str = ""
+    process: List[dict] = []
+    considerations: List[str] = []
+    role: str = ""
+    partners: str = ""
+    timeline: List[dict] = []
+    documents: List[str] = []
+    faqs: List[dict] = []
+    order: int = 0
+
+
+@api_router.get("/services", response_model=List[ServiceDoc])
+async def list_services():
+    docs = await db.services.find().sort("order", 1).to_list(100)
+    return [ServiceDoc.from_mongo(d) for d in docs]
+
+
+@api_router.get("/services/{slug}", response_model=ServiceDoc)
+async def get_service(slug: str):
+    doc = await db.services.find_one({"slug": slug})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Service not found")
+    return ServiceDoc.from_mongo(doc)
+
+
+@api_router.post("/services", response_model=ServiceDoc)
+async def create_service(input: ServiceUpsert, x_admin_key: Optional[str] = Header(None)):
+    require_admin(x_admin_key)
+    if await db.services.find_one({"slug": input.slug}):
+        raise HTTPException(status_code=409, detail="A service with this slug already exists")
+    service = ServiceDoc(**input.model_dump())
+    await db.services.insert_one(service.to_mongo())
+    return service
+
+
+@api_router.put("/services/{service_id}", response_model=ServiceDoc)
+async def update_service(service_id: str, input: ServiceUpsert, x_admin_key: Optional[str] = Header(None)):
+    require_admin(x_admin_key)
+    res = await db.services.find_one_and_update(
+        {"_id": service_id}, {"$set": input.model_dump()}, return_document=True
+    )
+    if not res:
+        raise HTTPException(status_code=404, detail="Service not found")
+    return ServiceDoc.from_mongo(res)
+
+
+@api_router.delete("/services/{service_id}")
+async def delete_service(service_id: str, x_admin_key: Optional[str] = Header(None)):
+    require_admin(x_admin_key)
+    res = await db.services.delete_one({"_id": service_id})
+    if res.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Service not found")
+    return {"deleted": True}
+
+
 app.include_router(api_router)
 
 app.add_middleware(
@@ -419,6 +499,11 @@ async def seed_insights():
     if await db.projects.count_documents({}) == 0:
         await db.projects.insert_many(SAMPLE_PROJECTS)
         logger.info("Seeded %s sample projects", len(SAMPLE_PROJECTS))
+    if await db.services.count_documents({}) == 0:
+        import json
+        seed = json.loads((ROOT_DIR / 'services_seed.json').read_text())
+        await db.services.insert_many([{"_id": str(ObjectId()), "order": i, **s} for i, s in enumerate(seed)])
+        logger.info("Seeded %s services", len(seed))
 
 
 @app.on_event("shutdown")

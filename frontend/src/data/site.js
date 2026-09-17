@@ -13,7 +13,7 @@ export const SITE = {
 };
 
 export const IMAGES = {
-  hero: '/hero-dubai.webp',
+  hero: '/hero-dubai.png',
   tower: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?crop=entropy&cs=srgb&fm=jpg&q=85',
   boardroom: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=srgb&fm=jpg&q=85',
   skyline: 'https://images.unsplash.com/photo-1518684079-3c830dcef090?crop=entropy&cs=srgb&fm=jpg&q=85',

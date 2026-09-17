@@ -2,7 +2,8 @@ import { useParams, Link } from 'react-router-dom';
 import { Check, ArrowLeft } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { PageHero, Reveal, SectionHeading, GoldButton, CTABand, Overline } from '@/components/common';
-import { getService, getGroup } from '@/data/services';
+import { getGroup } from '@/data/services';
+import { useServices } from '@/lib/useServices';
 import { IMAGES } from '@/data/site';
 
 const List = ({ items, dark = false }) => (
@@ -17,7 +18,8 @@ const List = ({ items, dark = false }) => (
 
 export default function ServiceDetail() {
   const { slug } = useParams();
-  const service = getService(slug);
+  const services = useServices();
+  const service = services.find((s) => s.slug === slug);
 
   if (!service) {
     return (
