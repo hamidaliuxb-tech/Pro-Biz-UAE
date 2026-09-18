@@ -106,7 +106,7 @@ SMTP_PORT = int(os.environ.get('SMTP_PORT', 587))
 SMTP_USER = os.environ.get('SMTP_USER')
 SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD')
 SMTP_FROM_EMAIL = os.environ.get('SMTP_FROM_EMAIL') or SMTP_USER
-NOTIFICATION_EMAIL = os.environ.get('NOTIFICATION_EMAIL', 'enquires@probizuae.com')
+NOTIFICATION_EMAIL = os.environ.get('NOTIFICATION_EMAIL', 'enquiries@probizuae.com')
 SUPABASE_URL = os.environ.get('SUPABASE_URL')
 SUPABASE_SERVICE_ROLE_KEY = os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
 
@@ -250,10 +250,15 @@ def send_enquiry_notification(data: dict):
         """
         msg.attach(MIMEText(html, "html"))
 
-        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=10) as s:
-            s.starttls()
-            s.login(SMTP_USER, SMTP_PASSWORD)
-            s.sendmail(SMTP_FROM_EMAIL, [NOTIFICATION_EMAIL], msg.as_string())
+        if SMTP_PORT == 465:
+            with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, timeout=10) as s:
+                s.login(SMTP_USER, SMTP_PASSWORD)
+                s.sendmail(SMTP_FROM_EMAIL, [NOTIFICATION_EMAIL], msg.as_string())
+        else:
+            with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=10) as s:
+                s.starttls()
+                s.login(SMTP_USER, SMTP_PASSWORD)
+                s.sendmail(SMTP_FROM_EMAIL, [NOTIFICATION_EMAIL], msg.as_string())
         logging.getLogger(__name__).info("Notification email sent to %s", NOTIFICATION_EMAIL)
     except Exception as exc:
         logging.getLogger(__name__).error("Failed to send notification email: %s", exc)
@@ -389,7 +394,7 @@ DEFAULT_CONTENT = {
         "tagline": "Strategic corporate solutions for entrepreneurs, investors and international businesses establishing, expanding and operating in the UAE.",
         "phone": "+971 50 118 4777",
         "whatsapp": "971501184777",
-        "email": "enquires@probizuae.com",
+        "email": "enquiries@probizuae.com",
         "address": "M11, Ibn Battuta Gate, Jebel Ali, Dubai, United Arab Emirates",
         "hours": "Monday – Friday · 9:00 – 18:00 GST",
         "linkedin": "https://www.linkedin.com",

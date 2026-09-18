@@ -4,7 +4,7 @@ export const SITE = {
   tagline: 'Strategic corporate solutions for entrepreneurs, investors and international businesses establishing, expanding and operating in the UAE.',
   phone: '+971 50 118 4777',
   whatsapp: '971501184777',
-  email: 'enquires@probizuae.com',
+  email: 'enquiries@probizuae.com',
   address: 'M11, Ibn Battuta Gate, Jebel Ali, Dubai, United Arab Emirates',
   hours: 'Monday – Friday · 9:00 – 18:00 GST',
   linkedin: 'https://www.linkedin.com',
