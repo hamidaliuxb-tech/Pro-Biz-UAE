@@ -3,6 +3,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { Plus, Pencil, Trash2, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import { API } from '@/lib/api';
+import { uploadImage } from '@/lib/upload';
 
 const CATEGORIES = ['Corporate Websites', 'Business Websites', 'E-Commerce', 'Digital Marketing', 'Professional Services', 'Real Estate', 'Consultancy', 'Healthcare', 'Other'];
 
@@ -23,12 +24,48 @@ export default function PortfolioManager({ adminKey }) {
   const [projects, setProjects] = useState([]);
   const [form, setForm] = useState(null);
   const [saving, setSaving] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadingLogo, setUploadingLogo] = useState(false);
   const headers = { 'X-Admin-Key': adminKey };
+
+  const handleScreenshotUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingImage(true);
+    try {
+      const publicUrl = await uploadImage(file, adminKey);
+      setForm((f) => ({
+        ...f,
+        images: f.images ? `${f.images}\n${publicUrl}` : publicUrl,
+      }));
+      toast.success('Screenshot uploaded successfully.');
+    } catch (err) {
+      toast.error('Failed to upload image.');
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const handleLogoUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingLogo(true);
+    try {
+      const publicUrl = await uploadImage(file, adminKey);
+      setForm((f) => ({ ...f, logo: publicUrl }));
+      toast.success('Logo uploaded successfully.');
+    } catch (err) {
+      toast.error('Failed to upload logo.');
+    } finally {
+      setUploadingLogo(false);
+    }
+  };
 
   const load = () => axios.get(`${API}/admin/projects`, { headers })
     .then((r) => setProjects(r.data))
     .catch(() => toast.error('Failed to load projects'));
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, []);
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.type === 'checkbox' ? e.target.checked : e.target.value }));
@@ -134,12 +171,24 @@ export default function PortfolioManager({ adminKey }) {
             <textarea rows={2} data-testid="project-input-outcome" className={inputCls} value={form.outcome} onChange={set('outcome')} />
           </div>
           <div className="sm:col-span-2">
-            <label className={labelCls}>Screenshots / Images (one URL per line)</label>
-            <textarea rows={3} data-testid="project-input-images" className={`${inputCls} font-mono text-xs`} value={form.images} onChange={set('images')} placeholder="https://…" />
+            <div className="flex justify-between items-center mb-2">
+              <label className={labelCls + ' mb-0'}>Screenshots / Images (one URL per line)</label>
+              <label className="bg-navy hover:bg-gold text-cream hover:text-white px-3 py-1.5 text-xs font-mono uppercase tracking-wider cursor-pointer transition-colors duration-300">
+                {uploadingImage ? 'Uploading…' : '+ Upload Screenshot'}
+                <input type="file" accept="image/*" className="hidden" onChange={handleScreenshotUpload} />
+              </label>
+            </div>
+            <textarea rows={3} data-testid="project-input-images" className={`${inputCls} font-mono text-xs`} value={form.images} onChange={set('images')} placeholder="https://… or click upload screenshot above" />
           </div>
           <div>
             <label className={labelCls}>Customer Logo URL</label>
-            <input data-testid="project-input-logo" className={inputCls} value={form.logo} onChange={set('logo')} placeholder="https://…" />
+            <div className="flex gap-2">
+              <input data-testid="project-input-logo" className={inputCls} value={form.logo} onChange={set('logo')} placeholder="https://… or upload" />
+              <label className="shrink-0 bg-navy hover:bg-gold text-cream hover:text-white px-3 py-3 text-xs font-mono uppercase tracking-wider cursor-pointer transition-colors duration-300 flex items-center justify-center">
+                {uploadingLogo ? '…' : 'Upload'}
+                <input type="file" accept="image/*" className="hidden" onChange={handleLogoUpload} />
+              </label>
+            </div>
           </div>
           <div>
             <label className={labelCls}>Live Website URL</label>

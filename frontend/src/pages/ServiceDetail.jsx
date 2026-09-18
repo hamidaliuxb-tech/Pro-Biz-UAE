@@ -6,9 +6,9 @@ import { getGroup } from '@/data/services';
 import { useServices } from '@/lib/useServices';
 import { IMAGES } from '@/data/site';
 
-const List = ({ items, dark = false }) => (
+const List = ({ items = [], dark = false }) => (
   <ul className="space-y-3">
-    {items.map((item) => (
+    {(items || []).map((item) => (
       <li key={item} className={`flex items-start gap-3 text-sm leading-relaxed ${dark ? 'text-cream/75' : 'text-slate-600'}`}>
         <Check size={14} className="text-gold shrink-0 mt-0.5" /> {item}
       </li>
@@ -72,7 +72,7 @@ export default function ServiceDetail() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading dark overline="Process" title="A Typical Engagement" className="mb-12" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-cream/10 border border-cream/10 mb-16">
-            {service.process.map((step, i) => (
+            {(service.process || []).map((step, i) => (
               <Reveal key={step.title} delay={i * 0.07} className="bg-navy">
                 <div className="p-7 h-full">
                   <p className="font-mono text-xl text-gold mb-3">0{i + 1}</p>
@@ -87,7 +87,7 @@ export default function ServiceDetail() {
             <Reveal>
               <Overline dark>Expected Timeline</Overline>
               <div className="border border-cream/10">
-                {service.timeline.map((t) => (
+                {(service.timeline || []).map((t) => (
                   <div key={t.phase} className="flex justify-between gap-4 px-6 py-4 border-b border-cream/10 last:border-0">
                     <span className="text-sm text-cream/75">{t.phase}</span>
                     <span className="text-sm font-mono text-gold text-right shrink-0">{t.duration}</span>
@@ -114,7 +114,7 @@ export default function ServiceDetail() {
           <Reveal delay={0.1}>
             <Overline>FAQs</Overline>
             <Accordion type="single" collapsible>
-              {service.faqs.map((f, i) => (
+              {(service.faqs || []).map((f, i) => (
                 <AccordionItem key={i} value={`faq-${i}`} data-testid={`service-faq-item-${i + 1}`} className="border-navy/10">
                   <AccordionTrigger className="text-left font-serif text-base text-navy hover:text-uaegreen">{f.q}</AccordionTrigger>
                   <AccordionContent className="text-sm text-slate-600 leading-relaxed">{f.a}</AccordionContent>

@@ -35,8 +35,13 @@ export default function Article() {
     axios.get(`${API}/insights/${slug}`)
       .then(async (res) => {
         setArticle(res.data);
-        const all = await axios.get(`${API}/insights`);
-        setRelated(all.data.filter((a) => res.data.related.includes(a.slug)));
+        try {
+          const all = await axios.get(`${API}/insights`);
+          const relatedSlugs = Array.isArray(res.data.related) ? res.data.related : [];
+          setRelated(Array.isArray(all.data) ? all.data.filter((a) => relatedSlugs.includes(a.slug)) : []);
+        } catch {
+          setRelated([]);
+        }
       })
       .catch(() => setArticle(null))
       .finally(() => setLoading(false));

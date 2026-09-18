@@ -14,7 +14,7 @@ export default function Insights() {
 
   useEffect(() => {
     axios.get(`${API}/insights`)
-      .then((res) => setArticles(res.data.sort((a, b) => b.published_at.localeCompare(a.published_at))))
+      .then((res) => setArticles(Array.isArray(res.data) ? res.data.sort((a, b) => (b.published_at || '').localeCompare(a.published_at || '')) : []))
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);

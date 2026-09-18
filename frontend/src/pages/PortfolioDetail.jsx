@@ -60,7 +60,7 @@ export default function PortfolioDetail() {
       <section className="bg-cream py-14 lg:py-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
-            {project.images[0] && (
+            {project.images?.[0] && (
               <img src={project.images[0]} alt={project.title} className="w-full aspect-[16/8] object-cover mb-10" data-testid="project-hero-image" />
             )}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-navy/10 border border-navy/10 mb-14">
@@ -84,7 +84,7 @@ export default function PortfolioDetail() {
             </div>
 
             <div className="grid lg:grid-cols-2 gap-12 mb-14">
-              {project.features.length > 0 && (
+              {(project.features?.length || 0) > 0 && (
                 <div>
                   <Overline>Key Features Developed</Overline>
                   <ul className="space-y-3">
@@ -96,7 +96,7 @@ export default function PortfolioDetail() {
                   </ul>
                 </div>
               )}
-              {project.tech.length > 0 && (
+              {(project.tech?.length || 0) > 0 && (
                 <div>
                   <Overline>Technology & Platform</Overline>
                   <div className="flex flex-wrap gap-2">
@@ -122,7 +122,7 @@ export default function PortfolioDetail() {
               </blockquote>
             )}
 
-            {project.images.length > 1 && (
+            {(project.images?.length || 0) > 1 && (
               <div className="grid sm:grid-cols-2 gap-6 mb-14">
                 {project.images.slice(1).map((img, i) => (
                   <img key={i} src={img} alt={`${project.title} screenshot ${i + 2}`} className="w-full aspect-[16/10] object-cover" />

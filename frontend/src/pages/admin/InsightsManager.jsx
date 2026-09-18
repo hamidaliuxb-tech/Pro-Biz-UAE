@@ -3,6 +3,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { Plus, Pencil, Trash2, ArrowLeft } from 'lucide-react';
 import { API } from '@/lib/api';
+import { uploadImage } from '@/lib/upload';
 
 const CATEGORIES = ['UAE Business', 'Corporate', 'Finance', 'Tax & Compliance', 'Investment'];
 
@@ -47,7 +48,23 @@ export default function InsightsManager({ adminKey }) {
   const [articles, setArticles] = useState([]);
   const [form, setForm] = useState(null);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const headers = { 'X-Admin-Key': adminKey };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const publicUrl = await uploadImage(file, adminKey);
+      setForm((f) => ({ ...f, image: publicUrl }));
+      toast.success('Image uploaded successfully.');
+    } catch (err) {
+      toast.error('Failed to upload image.');
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const load = () => axios.get(`${API}/insights`)
     .then((r) => setArticles(r.data.sort((a, b) => (b.published_at || '').localeCompare(a.published_at || ''))))
@@ -114,8 +131,19 @@ export default function InsightsManager({ adminKey }) {
             </select>
           </div>
           <div>
-            <label className={labelCls}>Image URL</label>
-            <input data-testid="insight-input-image" className={inputCls} value={form.image} onChange={set('image')} placeholder="https://…" />
+            <label className={labelCls}>Featured Image</label>
+            <div className="flex gap-2">
+              <input data-testid="insight-input-image" className={inputCls} value={form.image} onChange={set('image')} placeholder="https://… or upload file" />
+              <label className="shrink-0 bg-navy hover:bg-gold text-cream hover:text-white px-4 py-3 text-xs font-mono uppercase tracking-wider cursor-pointer transition-colors duration-300 flex items-center justify-center">
+                {uploading ? 'Uploading…' : 'Upload'}
+                <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
+              </label>
+            </div>
+            {form.image && (
+              <div className="mt-2 relative w-28 h-16 border border-navy/10 overflow-hidden bg-slate-100">
+                <img src={form.image} alt="Preview" className="w-full h-full object-cover" />
+              </div>
+            )}
           </div>
           <div>
             <label className={labelCls}>Author</label>

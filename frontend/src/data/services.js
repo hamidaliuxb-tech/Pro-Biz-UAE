@@ -522,5 +522,5 @@ export const SERVICES = [
 ];
 
 export const getService = (slug) => SERVICES.find((s) => s.slug === slug);
-export const getGroup = (id) => SERVICE_GROUPS.find((g) => g.id === id);
+export const getGroup = (id) => SERVICE_GROUPS.find((g) => g.id === id) || SERVICE_GROUPS[0];
 export const servicesByGroup = (groupId) => SERVICES.filter((s) => s.group === groupId);

@@ -1,9 +1,16 @@
-from fastapi import FastAPI, APIRouter, HTTPException, Header
+from fastapi import FastAPI, APIRouter, HTTPException, Header, BackgroundTasks, UploadFile, File
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
+import smtplib
+import json
+import urllib.request
+import cloudinary
+import cloudinary.uploader
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict, EmailStr, BeforeValidator
 from typing import List, Optional, Annotated
@@ -11,16 +18,122 @@ from datetime import datetime, timezone
 from bson import ObjectId
 from insights_data import INSIGHTS
 
+from local_store import LocalDB
+
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
-ADMIN_KEY = os.environ.get('ADMIN_KEY')
+mongo_url = os.environ.get('MONGO_URL', 'mongodb://127.0.0.1:27017')
+DB_NAME = os.environ.get('DB_NAME', 'probizuae')
+ADMIN_KEY = os.environ.get('ADMIN_KEY', 'probizadminsecret123')
+
+client = AsyncIOMotorClient(mongo_url, serverSelectionTimeoutMS=1500)
+mongo_db = client[DB_NAME]
+local_db = LocalDB()
+
+class DBProxy:
+    def __init__(self, m_db, l_db):
+        self.m_db = m_db
+        self.l_db = l_db
+        self.is_mongo_active = None
+
+    async def check_mongo(self):
+        if self.is_mongo_active is not None:
+            return self.is_mongo_active
+        try:
+            await self.m_db.command("ping")
+            self.is_mongo_active = True
+            logging.getLogger(__name__).info("Connected to MongoDB successfully.")
+        except Exception:
+            self.is_mongo_active = False
+            logging.getLogger(__name__).info("MongoDB not connected; using local file store.")
+        return self.is_mongo_active
+
+    def __getitem__(self, name):
+        return CollectionProxy(name, self)
+
+    def __getattr__(self, name):
+        return self[name]
+
+class CollectionProxy:
+    def __init__(self, name, db_proxy):
+        self.name = name
+        self.db_proxy = db_proxy
+
+    async def _target(self):
+        use_mongo = await self.db_proxy.check_mongo()
+        if use_mongo:
+            return self.db_proxy.m_db[self.name]
+        return self.db_proxy.l_db[self.name]
+
+    async def count_documents(self, *args, **kwargs):
+        t = await self._target()
+        return await t.count_documents(*args, **kwargs)
+
+    async def find_one(self, *args, **kwargs):
+        t = await self._target()
+        return await t.find_one(*args, **kwargs)
+
+    def find(self, *args, **kwargs):
+        if self.db_proxy.is_mongo_active:
+            return self.db_proxy.m_db[self.name].find(*args, **kwargs)
+        return self.db_proxy.l_db[self.name].find(*args, **kwargs)
+
+    async def insert_one(self, *args, **kwargs):
+        t = await self._target()
+        return await t.insert_one(*args, **kwargs)
+
+    async def insert_many(self, *args, **kwargs):
+        t = await self._target()
+        return await t.insert_many(*args, **kwargs)
+
+    async def find_one_and_update(self, *args, **kwargs):
+        t = await self._target()
+        return await t.find_one_and_update(*args, **kwargs)
+
+    async def update_one(self, *args, **kwargs):
+        t = await self._target()
+        return await t.update_one(*args, **kwargs)
+
+    async def delete_one(self, *args, **kwargs):
+        t = await self._target()
+        return await t.delete_one(*args, **kwargs)
+
+db = DBProxy(mongo_db, local_db)
+
+SMTP_HOST = os.environ.get('SMTP_HOST')
+SMTP_PORT = int(os.environ.get('SMTP_PORT', 587))
+SMTP_USER = os.environ.get('SMTP_USER')
+SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD')
+SMTP_FROM_EMAIL = os.environ.get('SMTP_FROM_EMAIL') or SMTP_USER
+NOTIFICATION_EMAIL = os.environ.get('NOTIFICATION_EMAIL', 'enquires@probizuae.com')
+SUPABASE_URL = os.environ.get('SUPABASE_URL')
+SUPABASE_SERVICE_ROLE_KEY = os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
+
+cloudinary.config(
+    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.environ.get('CLOUDINARY_API_KEY'),
+    api_secret=os.environ.get('CLOUDINARY_API_SECRET'),
+    secure=True
+)
 
 app = FastAPI()
 api_router = APIRouter(prefix="/api")
+
+@api_router.post("/upload")
+async def upload_image(file: UploadFile = File(...), x_admin_key: Optional[str] = Header(None)):
+    require_admin(x_admin_key)
+    try:
+        contents = await file.read()
+        res = cloudinary.uploader.upload(
+            contents,
+            folder="probiz-uae/uploads",
+            resource_type="auto"
+        )
+        return {"url": res.get("secure_url"), "public_id": res.get("public_id")}
+    except Exception as e:
+        logging.getLogger(__name__).error("Cloudinary upload error: %s", e)
+        raise HTTPException(status_code=500, detail=f"Image upload failed: {str(e)}")
 
 PyObjectId = Annotated[str, BeforeValidator(str)]
 
@@ -42,6 +155,7 @@ class BaseDocument(BaseModel):
 
 
 class EnquiryCreate(BaseModel):
+    model_config = ConfigDict(extra="ignore")
     name: str
     company: Optional[str] = None
     email: EmailStr
@@ -98,12 +212,90 @@ async def root():
     return {"message": "Pro Biz UAE API"}
 
 
+def send_enquiry_notification(data: dict):
+    if not SMTP_HOST or not SMTP_USER or not SMTP_PASSWORD:
+        logging.getLogger(__name__).info("SMTP not fully configured; skipping email dispatch.")
+        return
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = f"New Enquiry from {data.get('name', 'Client')} - Pro Biz UAE"
+        msg["From"] = SMTP_FROM_EMAIL
+        msg["To"] = NOTIFICATION_EMAIL
+
+        q_html = ""
+        if data.get('questionnaire'):
+            q_rows = "".join([f"<tr><td style='padding: 4px 0; font-weight: bold;'>{k.replace('_', ' ').capitalize()}:</td><td>{v}</td></tr>" for k, v in data['questionnaire'].items() if v])
+            if q_rows:
+                q_html = f"<h3 style='color: #333; margin-top: 20px;'>Questionnaire Responses:</h3><table style='width: 100%; border-collapse: collapse;'>{q_rows}</table>"
+
+        html = f"""
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; background: #fafafa;">
+            <h2 style="color: #CE1126; margin-top: 0;">New Client Enquiry - Pro Biz UAE</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr><td style="padding: 8px 0; font-weight: bold;">Name:</td><td>{data.get('name')}</td></tr>
+                <tr><td style="padding: 8px 0; font-weight: bold;">Company:</td><td>{data.get('company') or 'N/A'}</td></tr>
+                <tr><td style="padding: 8px 0; font-weight: bold;">Email:</td><td><a href="mailto:{data.get('email')}">{data.get('email')}</a></td></tr>
+                <tr><td style="padding: 8px 0; font-weight: bold;">Phone:</td><td>{data.get('phone') or 'N/A'}</td></tr>
+                <tr><td style="padding: 8px 0; font-weight: bold;">Country:</td><td>{data.get('country') or 'N/A'}</td></tr>
+                <tr><td style="padding: 8px 0; font-weight: bold;">Service:</td><td>{data.get('service_required') or 'N/A'}</td></tr>
+                <tr><td style="padding: 8px 0; font-weight: bold;">Investment:</td><td>{data.get('investment_size') or 'N/A'}</td></tr>
+                <tr><td style="padding: 8px 0; font-weight: bold;">Source:</td><td>{data.get('source') or 'N/A'}</td></tr>
+            </table>
+            {q_html}
+            <h3 style="color: #333; margin-top: 20px;">Message:</h3>
+            <p style="background: #fff; padding: 12px; border-left: 3px solid #CE1126; border-radius: 4px;">
+                {data.get('message') or 'No message provided.'}
+            </p>
+        </div>
+        """
+        msg.attach(MIMEText(html, "html"))
+
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=10) as s:
+            s.starttls()
+            s.login(SMTP_USER, SMTP_PASSWORD)
+            s.sendmail(SMTP_FROM_EMAIL, [NOTIFICATION_EMAIL], msg.as_string())
+        logging.getLogger(__name__).info("Notification email sent to %s", NOTIFICATION_EMAIL)
+    except Exception as exc:
+        logging.getLogger(__name__).error("Failed to send notification email: %s", exc)
+
+
+def sync_enquiry_to_supabase(data: dict):
+    if not SUPABASE_URL or not SUPABASE_SERVICE_ROLE_KEY:
+        return
+    try:
+        url = f"{SUPABASE_URL}/rest/v1/enquiries"
+        payload = {
+            "name": data.get("name"),
+            "email": data.get("email"),
+            "company": data.get("company"),
+            "phone": data.get("phone"),
+            "country": data.get("country"),
+            "service_required": data.get("service_required"),
+            "investment_size": data.get("investment_size"),
+            "message": data.get("message"),
+            "source": data.get("source", "contact"),
+            "status": "new"
+        }
+        body = json.dumps(payload).encode("utf-8")
+        req = urllib.request.Request(url, data=body, method="POST")
+        req.add_header("apikey", SUPABASE_SERVICE_ROLE_KEY)
+        req.add_header("Authorization", f"Bearer {SUPABASE_SERVICE_ROLE_KEY}")
+        req.add_header("Content-Type", "application/json")
+        req.add_header("Prefer", "return=minimal")
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            logging.getLogger(__name__).info("Synced enquiry to Supabase: status %s", resp.status)
+    except Exception as e:
+        logging.getLogger(__name__).warning("Failed to sync enquiry to Supabase: %s", e)
+
+
 @api_router.post("/enquiries", response_model=Enquiry)
-async def create_enquiry(input: EnquiryCreate):
+async def create_enquiry(input: EnquiryCreate, background_tasks: BackgroundTasks):
     if not input.consent:
         raise HTTPException(status_code=422, detail="Consent is required")
     enquiry = Enquiry(**input.model_dump())
     await db.enquiries.insert_one(enquiry.to_mongo())
+    background_tasks.add_task(send_enquiry_notification, input.model_dump())
+    background_tasks.add_task(sync_enquiry_to_supabase, input.model_dump())
     return enquiry
 
 

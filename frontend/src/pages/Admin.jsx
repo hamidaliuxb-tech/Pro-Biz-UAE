@@ -1,8 +1,9 @@
 import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Download, Lock } from 'lucide-react';
+import { Download, Lock, User, KeyRound } from 'lucide-react';
 import { API } from '@/lib/api';
+import { supabase } from '@/lib/supabase';
 import InsightsManager from '@/pages/admin/InsightsManager';
 import ContentManager from '@/pages/admin/ContentManager';
 import PortfolioManager from '@/pages/admin/PortfolioManager';
@@ -14,6 +15,11 @@ const STATUS_LABELS = { new: 'New', in_review: 'In Review', scheduled: 'Schedule
 export default function Admin() {
   const [key, setKey] = useState(sessionStorage.getItem('mcp_admin_key') || '');
   const [input, setInput] = useState('');
+  const [authMethod, setAuthMethod] = useState('supabase');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [authLoading, setAuthLoading] = useState(false);
+  const [userEmail, setUserEmail] = useState(sessionStorage.getItem('supabase_admin_user') || '');
   const [enquiries, setEnquiries] = useState([]);
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(false);
@@ -26,6 +32,7 @@ export default function Admin() {
       setEnquiries(res.data);
     } catch (e) {
       sessionStorage.removeItem('mcp_admin_key');
+      sessionStorage.removeItem('supabase_admin_user');
       setKey('');
       toast.error('Invalid admin key.');
     } finally {
@@ -37,10 +44,79 @@ export default function Admin() {
     if (key) load(key);
   }, [key, load]);
 
-  const login = (e) => {
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        sessionStorage.setItem('mcp_admin_key', 'probizadminsecret123');
+        sessionStorage.setItem('supabase_admin_user', session.user.email);
+        setUserEmail(session.user.email);
+        setKey('probizadminsecret123');
+      }
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        sessionStorage.setItem('mcp_admin_key', 'probizadminsecret123');
+        sessionStorage.setItem('supabase_admin_user', session.user.email);
+        setUserEmail(session.user.email);
+        setKey('probizadminsecret123');
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const loginWithGoogle = async () => {
+    setAuthLoading(true);
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/admin`,
+        },
+      });
+      if (error) throw error;
+    } catch (err) {
+      toast.error(err.message || 'Google sign-in failed. Ensure Google provider is enabled in Supabase.');
+      setAuthLoading(false);
+    }
+  };
+
+  const loginWithSupabase = async (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      toast.error('Please enter email and password.');
+      return;
+    }
+    setAuthLoading(true);
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      sessionStorage.setItem('mcp_admin_key', 'probizadminsecret123');
+      sessionStorage.setItem('supabase_admin_user', data.user.email);
+      setUserEmail(data.user.email);
+      setKey('probizadminsecret123');
+      toast.success(`Authenticated as ${data.user.email}`);
+    } catch (err) {
+      toast.error(err.message || 'Login failed. Check your Supabase credentials.');
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const loginWithKey = (e) => {
     e.preventDefault();
     sessionStorage.setItem('mcp_admin_key', input);
     setKey(input);
+  };
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut().catch(() => {});
+    sessionStorage.removeItem('mcp_admin_key');
+    sessionStorage.removeItem('supabase_admin_user');
+    setUserEmail('');
+    setKey('');
+    toast.success('Signed out.');
   };
 
   const updateStatus = async (id, status) => {
@@ -73,24 +149,102 @@ export default function Admin() {
   if (!key) {
     return (
       <main className="bg-navy min-h-screen flex items-center justify-center px-6" data-testid="admin-login">
-        <form onSubmit={login} className="w-full max-w-sm border border-gold/25 bg-navy-800 p-10">
+        <div className="w-full max-w-sm border border-gold/25 bg-navy-800 p-8 sm:p-10">
           <div className="w-12 h-12 border border-gold/40 flex items-center justify-center mb-6">
             <Lock size={18} className="text-gold" />
           </div>
-          <h1 className="font-serif text-2xl text-cream mb-2">Enquiries Portal</h1>
-          <p className="text-sm text-cream/50 mb-8">Restricted to authorised team members.</p>
-          <input
-            type="password"
-            data-testid="admin-key-input"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Admin key"
-            className="w-full bg-navy border border-cream/15 px-4 py-3 text-sm text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold mb-4"
-          />
-          <button type="submit" data-testid="admin-login-btn" className="w-full bg-gold text-white text-sm font-medium py-3 hover:bg-gold-soft transition-colors">
-            Access Portal
+          <h1 className="font-serif text-2xl text-cream mb-2">Admin Portal</h1>
+          <p className="text-sm text-cream/50 mb-6">Restricted to authorised team members.</p>
+
+          <button
+            type="button"
+            onClick={loginWithGoogle}
+            disabled={authLoading}
+            className="w-full flex items-center justify-center gap-3 bg-white hover:bg-slate-100 text-slate-800 font-medium text-sm py-3 px-4 transition-colors mb-6 shadow-sm disabled:opacity-50 cursor-pointer"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+            </svg>
+            Sign in with Google
           </button>
-        </form>
+
+          <div className="relative flex py-1 items-center mb-6">
+            <div className="flex-grow border-t border-cream/15"></div>
+            <span className="flex-shrink mx-4 text-xs font-mono uppercase tracking-widest text-cream/40">or continue with</span>
+            <div className="flex-grow border-t border-cream/15"></div>
+          </div>
+
+          <div className="flex border-b border-cream/15 mb-6 text-xs font-mono uppercase tracking-wider">
+            <button
+              type="button"
+              onClick={() => setAuthMethod('supabase')}
+              className={`pb-2 mr-6 transition-colors ${authMethod === 'supabase' ? 'border-b-2 border-gold text-gold font-bold' : 'text-cream/50 hover:text-cream'}`}
+            >
+              Email Login
+            </button>
+            <button
+              type="button"
+              onClick={() => setAuthMethod('key')}
+              className={`pb-2 transition-colors ${authMethod === 'key' ? 'border-b-2 border-gold text-gold font-bold' : 'text-cream/50 hover:text-cream'}`}
+            >
+              Admin Key
+            </button>
+          </div>
+
+          {authMethod === 'supabase' ? (
+            <form onSubmit={loginWithSupabase}>
+              <div className="mb-4">
+                <label className="block text-xs font-mono uppercase tracking-wider text-cream/60 mb-2">Admin Email</label>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="admin@probizuae.com"
+                  className="w-full bg-navy border border-cream/15 px-4 py-3 text-sm text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold"
+                />
+              </div>
+              <div className="mb-6">
+                <label className="block text-xs font-mono uppercase tracking-wider text-cream/60 mb-2">Password</label>
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full bg-navy border border-cream/15 px-4 py-3 text-sm text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={authLoading}
+                className="w-full bg-gold text-white text-sm font-medium py-3 hover:bg-gold-soft transition-colors disabled:opacity-50"
+              >
+                {authLoading ? 'Signing in…' : 'Sign In with Supabase'}
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={loginWithKey}>
+              <div className="mb-6">
+                <label className="block text-xs font-mono uppercase tracking-wider text-cream/60 mb-2">Master Key</label>
+                <input
+                  type="password"
+                  data-testid="admin-key-input"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Enter admin key"
+                  className="w-full bg-navy border border-cream/15 px-4 py-3 text-sm text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold"
+                />
+              </div>
+              <button type="submit" data-testid="admin-login-btn" className="w-full bg-gold text-white text-sm font-medium py-3 hover:bg-gold-soft transition-colors">
+                Access with Key
+              </button>
+            </form>
+          )}
+        </div>
       </main>
     );
   }
@@ -103,11 +257,16 @@ export default function Admin() {
             <p className="text-xs font-mono uppercase tracking-[0.25em] text-gold mb-2">Administration</p>
             <h1 className="font-serif text-3xl text-navy">Enquiries</h1>
           </div>
-          <div className="flex gap-3">
+          <div className="flex items-center gap-3">
+            {userEmail && (
+              <span className="hidden sm:inline-flex items-center text-xs font-mono text-slate-500 mr-2">
+                Logged in as: <strong className="text-navy ml-1">{userEmail}</strong>
+              </span>
+            )}
             <button onClick={exportCsv} data-testid="admin-export-csv-btn" className="inline-flex items-center gap-2 border border-navy/20 px-5 py-2.5 text-sm text-navy hover:border-gold hover:text-gold transition-colors">
               <Download size={15} /> Export CSV
             </button>
-            <button onClick={() => { sessionStorage.removeItem('mcp_admin_key'); setKey(''); }} data-testid="admin-logout-btn" className="border border-navy/20 px-5 py-2.5 text-sm text-navy/60 hover:text-navy transition-colors">
+            <button onClick={handleSignOut} data-testid="admin-logout-btn" className="border border-navy/20 px-5 py-2.5 text-sm text-navy/60 hover:text-navy transition-colors">
               Sign Out
             </button>
           </div>
