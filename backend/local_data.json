@@ -1721,6 +1721,24 @@
       "status": "in_review",
       "created_at": "2026-09-18 06:09:13.140849+00:00",
       "_id": "6aacd589514a6c82cb2ddf67"
+    },
+    {
+      "name": "Test Client",
+      "company": "Test Ventures",
+      "email": "enquiries@probizuae.com",
+      "phone": "+971501184777",
+      "country": null,
+      "business_activity": null,
+      "current_location": null,
+      "service_required": "Company Formation",
+      "investment_size": "USD 250k - 1M",
+      "message": "Testing live Hostinger SMTP lead notification.",
+      "consent": true,
+      "source": "contact",
+      "questionnaire": null,
+      "status": "new",
+      "created_at": "2026-09-18 07:28:57.992524+00:00",
+      "_id": "6aace8391a2c60584a8481b3"
     }
   ]
 }

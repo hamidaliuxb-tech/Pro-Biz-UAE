@@ -3,6 +3,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { API } from '@/lib/api';
 import { useServices } from '@/lib/useServices';
+import { submitEnquiry } from '@/lib/dataService';
 
 const inputCls = 'w-full bg-white border border-navy/15 px-4 py-3 text-sm text-navy placeholder:text-slate-400 focus:outline-none focus:border-gold transition-colors duration-300';
 const labelCls = 'block text-xs font-mono uppercase tracking-[0.15em] text-slate-500 mb-2';
@@ -33,9 +34,13 @@ export default function LeadForm({ source = 'contact', prefillService = '', test
       if (form.service_required === OTHER_SERVICE && form.service_other) {
         payload.service_required = `Other: ${form.service_other}`;
       }
-      await axios.post(`${API}/enquiries`, payload);
-      toast.success('Thank you. Your enquiry has been received — our team will respond within one business day.');
-      setForm({ ...INITIAL, service_required: prefillService });
+      const ok = await submitEnquiry(payload);
+      if (ok) {
+        toast.success('Thank you. Your enquiry has been received — our team will respond within one business day.');
+        setForm({ ...INITIAL, service_required: prefillService });
+      } else {
+        toast.error('Submission failed. Please try again or contact us directly.');
+      }
     } catch (err) {
       toast.error('Submission failed. Please try again or contact us directly.');
     } finally {

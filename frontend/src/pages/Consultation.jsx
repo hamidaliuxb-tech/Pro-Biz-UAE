@@ -8,6 +8,7 @@ import { PageHero } from '@/components/common';
 import { API } from '@/lib/api';
 import { getService } from '@/data/services';
 import { useServices } from '@/lib/useServices';
+import { submitEnquiry } from '@/lib/dataService';
 
 const OTHER_SERVICE = 'Other / Not sure yet';
 
@@ -76,16 +77,21 @@ export default function Consultation() {
     }
     setSubmitting(true);
     try {
-      await axios.post(`${API}/enquiries`, {
+      const payload = {
         name: data.name, company: data.company, email: data.email, phone: data.phone,
         country: data.country, business_activity: data.business_activity,
         current_location: data.current_location, service_required: data.service_required === OTHER_SERVICE && data.service_other ? `Other: ${data.service_other}` : (data.service_required || data.objective),
         investment_size: data.investment_size, message: data.message, consent: data.consent,
         source: 'consultation',
         questionnaire: { objective: data.objective, timeline: data.timeline },
-      });
-      setDone(true);
-      toast.success('Consultation request received.');
+      };
+      const ok = await submitEnquiry(payload);
+      if (ok) {
+        setDone(true);
+        toast.success('Consultation request received.');
+      } else {
+        toast.error('Submission failed. Please try again.');
+      }
     } catch (e) {
       toast.error('Submission failed. Please try again.');
     } finally {

@@ -4,12 +4,14 @@ import axios from 'axios';
 import { ArrowRight } from 'lucide-react';
 import { Reveal, SectionHeading, GhostButton } from '@/components/common';
 import { API } from '@/lib/api';
+import { PROJECTS } from '@/data/projects';
+import { getProjectsList } from '@/lib/dataService';
 
 export default function PortfolioTeaser() {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState(PROJECTS.slice(0, 3));
 
   useEffect(() => {
-    axios.get(`${API}/projects`).then((res) => setProjects(res.data.slice(0, 3))).catch(() => {});
+    getProjectsList().then((data) => setProjects(data.slice(0, 3))).catch(() => {});
   }, []);
 
   if (!projects.length) return null;

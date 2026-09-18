@@ -4,6 +4,8 @@ import axios from 'axios';
 import { ArrowLeft } from 'lucide-react';
 import { Reveal, Overline, CTABand } from '@/components/common';
 import { API } from '@/lib/api';
+import { getInsightBySlug, getInsightsList } from '@/lib/dataService';
+import { INSIGHTS } from '@/data/insights';
 
 const Block = ({ block }) => {
   if (block.t === 'h2') return <h2 className="font-serif text-2xl sm:text-3xl text-navy mt-12 mb-5">{block.x}</h2>;
@@ -26,25 +28,31 @@ const Block = ({ block }) => {
 
 export default function Article() {
   const { slug } = useParams();
-  const [article, setArticle] = useState(null);
+  const fallbackArticle = INSIGHTS.find((a) => a.slug === slug) || null;
+  const [article, setArticle] = useState(fallbackArticle);
   const [related, setRelated] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!fallbackArticle);
 
   useEffect(() => {
-    setLoading(true);
-    axios.get(`${API}/insights/${slug}`)
-      .then(async (res) => {
-        setArticle(res.data);
-        try {
-          const all = await axios.get(`${API}/insights`);
-          const relatedSlugs = Array.isArray(res.data.related) ? res.data.related : [];
-          setRelated(Array.isArray(all.data) ? all.data.filter((a) => relatedSlugs.includes(a.slug)) : []);
-        } catch {
-          setRelated([]);
+    let isMounted = true;
+    getInsightBySlug(slug)
+      .then(async (data) => {
+        if (!isMounted) return;
+        if (data) {
+          setArticle(data);
+          const all = await getInsightsList();
+          const relatedSlugs = Array.isArray(data.related) ? data.related : [];
+          setRelated(Array.isArray(all) ? all.filter((a) => relatedSlugs.includes(a.slug)) : []);
         }
       })
-      .catch(() => setArticle(null))
-      .finally(() => setLoading(false));
+      .catch(() => {})
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, [slug]);
 
   if (loading) {

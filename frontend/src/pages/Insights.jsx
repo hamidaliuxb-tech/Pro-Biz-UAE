@@ -4,17 +4,19 @@ import axios from 'axios';
 import { PageHero, Reveal, CTABand } from '@/components/common';
 import { API } from '@/lib/api';
 import { IMAGES } from '@/data/site';
+import { INSIGHTS } from '@/data/insights';
+import { getInsightsList } from '@/lib/dataService';
 
 const CATEGORIES = ['All', 'UAE Business', 'Corporate', 'Finance', 'Tax & Compliance', 'Investment'];
 
 export default function Insights() {
-  const [articles, setArticles] = useState([]);
+  const [articles, setArticles] = useState(INSIGHTS);
   const [category, setCategory] = useState('All');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    axios.get(`${API}/insights`)
-      .then((res) => setArticles(Array.isArray(res.data) ? res.data.sort((a, b) => (b.published_at || '').localeCompare(a.published_at || '')) : []))
+    getInsightsList()
+      .then((data) => setArticles(Array.isArray(data) ? data.sort((a, b) => (b.published_at || '').localeCompare(a.published_at || '')) : INSIGHTS))
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);

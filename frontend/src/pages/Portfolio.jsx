@@ -4,17 +4,19 @@ import axios from 'axios';
 import { ExternalLink, ArrowRight } from 'lucide-react';
 import { PageHero, Reveal } from '@/components/common';
 import { API } from '@/lib/api';
+import { PROJECTS } from '@/data/projects';
+import { getProjectsList } from '@/lib/dataService';
 
 const CATEGORIES = ['All', 'Corporate Websites', 'Business Websites', 'E-Commerce', 'Digital Marketing', 'Professional Services', 'Real Estate', 'Consultancy', 'Healthcare', 'Other'];
 
 export default function Portfolio() {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState(PROJECTS);
   const [category, setCategory] = useState('All');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    axios.get(`${API}/projects`)
-      .then((res) => setProjects(res.data))
+    getProjectsList()
+      .then((data) => setProjects(Array.isArray(data) && data.length > 0 ? data : PROJECTS))
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);

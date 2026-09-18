@@ -12,6 +12,8 @@ import { useSite } from '@/lib/SiteContext';
 import { SERVICE_GROUPS } from '@/data/services';
 import { useServices } from '@/lib/useServices';
 import { API } from '@/lib/api';
+import { INSIGHTS } from '@/data/insights';
+import { getInsightsList } from '@/lib/dataService';
 
 const HERO_LINES = ['Build.', 'Structure.', 'Grow.', 'Protect.'];
 
@@ -386,10 +388,10 @@ function ProcessSection() {
 }
 
 function InsightsPreview() {
-  const [articles, setArticles] = useState([]);
+  const [articles, setArticles] = useState(INSIGHTS.slice(0, 3));
 
   useEffect(() => {
-    axios.get(`${API}/insights`).then((res) => setArticles(res.data.slice(0, 3))).catch(() => {});
+    getInsightsList().then((data) => setArticles(data.slice(0, 3))).catch(() => {});
   }, []);
 
   if (!articles.length) return null;

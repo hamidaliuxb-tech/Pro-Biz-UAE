@@ -4,18 +4,30 @@ import axios from 'axios';
 import { ArrowLeft, ArrowRight, ExternalLink, Check } from 'lucide-react';
 import { Reveal, Overline } from '@/components/common';
 import { API } from '@/lib/api';
+import { PROJECTS } from '@/data/projects';
+import { getProjectById } from '@/lib/dataService';
 
 export default function PortfolioDetail() {
   const { id } = useParams();
-  const [project, setProject] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const fallbackProject = PROJECTS.find((p) => p.id === id) || PROJECTS[0] || null;
+  const [project, setProject] = useState(fallbackProject);
+  const [loading, setLoading] = useState(!fallbackProject);
 
   useEffect(() => {
-    setLoading(true);
-    axios.get(`${API}/projects/${id}`)
-      .then((res) => setProject(res.data))
-      .catch(() => setProject(null))
-      .finally(() => setLoading(false));
+    let isMounted = true;
+    getProjectById(id)
+      .then((data) => {
+        if (!isMounted) return;
+        if (data) setProject(data);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
 
   if (loading) {
