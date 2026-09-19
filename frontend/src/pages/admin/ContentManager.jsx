@@ -15,6 +15,7 @@ const SITE_FIELDS = [
   ['email', 'Email'],
   ['address', 'Office Address'],
   ['hours', 'Business Hours'],
+  ['facebook', 'Facebook Page URL'],
   ['linkedin', 'LinkedIn URL'],
   ['instagram', 'Instagram URL'],
   ['youtube', 'YouTube URL'],

@@ -62,7 +62,7 @@ export default function Contact() {
                 <iframe
                   title="Pro Biz UAE — Dubai Office"
                   src="https://www.google.com/maps?q=Ibn+Battuta+Gate,+Jebel+Ali,+Dubai&output=embed"
-                  className="w-full h-64 grayscale contrast-125"
+                  className="w-full h-72 border-0"
                   loading="lazy"
                 />
               </div>

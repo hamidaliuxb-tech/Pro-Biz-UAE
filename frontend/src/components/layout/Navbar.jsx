@@ -6,7 +6,6 @@ import Logo from '@/components/Logo';
 
 const LINKS = [
   { to: '/services', label: 'Services' },
-  { to: '/portfolio', label: 'Our Work' },
   { to: '/jurisdictions', label: 'Jurisdictions' },
   { to: '/structuring', label: 'Structuring' },
   { to: '/about', label: 'About' },

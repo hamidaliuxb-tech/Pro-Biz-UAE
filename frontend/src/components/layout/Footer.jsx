@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Linkedin, Instagram, Youtube } from 'lucide-react';
+import { Facebook, Linkedin, Instagram, Youtube } from 'lucide-react';
 import { DISCLAIMER_TEXT } from '@/data/site';
 import { useSite } from '@/lib/SiteContext';
 import Logo from '@/components/Logo';
@@ -10,7 +10,6 @@ const COLUMNS = [
     links: [
       { to: '/about', label: 'About Us' },
       { to: '/leadership', label: 'Leadership' },
-      { to: '/contact', label: 'Careers' },
       { to: '/contact', label: 'Contact' },
     ],
   },
@@ -29,7 +28,6 @@ const COLUMNS = [
     title: 'Resources',
     links: [
       { to: '/insights', label: 'Insights' },
-      { to: '/portfolio', label: 'Our Work' },
       { to: '/jurisdictions', label: 'Jurisdiction Guide' },
       { to: '/structuring', label: 'Structuring' },
       { to: '/consultation', label: 'Consultation' },
@@ -61,6 +59,11 @@ export default function Footer() {
               Strategic corporate solutions for businesses, investors and international entrepreneurs in the UAE and beyond.
             </p>
             <div className="flex gap-4">
+              {SITE.facebook && (
+                <a href={SITE.facebook} data-testid="footer-social-facebook" target="_blank" rel="noopener noreferrer" className="text-cream/50 hover:text-uaegreen transition-colors" aria-label="Facebook">
+                  <Facebook size={18} />
+                </a>
+              )}
               <a href={SITE.linkedin} data-testid="footer-social-linkedin" target="_blank" rel="noopener noreferrer" className="text-cream/50 hover:text-uaegreen transition-colors" aria-label="LinkedIn"><Linkedin size={18} /></a>
               <a href={SITE.instagram} data-testid="footer-social-instagram" target="_blank" rel="noopener noreferrer" className="text-cream/50 hover:text-uaegreen transition-colors" aria-label="Instagram"><Instagram size={18} /></a>
               <a href={SITE.youtube} data-testid="footer-social-youtube" target="_blank" rel="noopener noreferrer" className="text-cream/50 hover:text-uaegreen transition-colors" aria-label="YouTube"><Youtube size={18} /></a>
@@ -86,7 +89,6 @@ export default function Footer() {
           <p className="text-xs leading-relaxed text-cream/40 max-w-4xl">{DISCLAIMER_TEXT}</p>
           <div className="mt-6 flex flex-col sm:flex-row justify-between gap-3 text-xs text-cream/40">
             <span>© {new Date().getFullYear()} {SITE.name}. All rights reserved.</span>
-            <span>{SITE.address}</span>
           </div>
         </div>
       </div>

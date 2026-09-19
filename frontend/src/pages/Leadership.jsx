@@ -32,45 +32,45 @@ export default function Leadership() {
       <PageHero
         overline="Leadership"
         title="Executive-Level Counsel, Personally Delivered."
-        text="Every Pro Biz UAE engagement is led by a senior adviser. Profiles below are representative placeholders pending final team publication."
-        image={IMAGES.meeting}
+        text="Every Pro Biz UAE engagement is led by senior advisers with deep expertise in UAE corporate services, structuring and cross-border expansion."
       />
 
       <section className="bg-cream py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8">
-            {TEAM.map((m, i) => (
-              <Reveal key={m.name} delay={i * 0.1}>
-                <div className="group bg-white border border-navy/10" data-testid={`leadership-profile-${i + 1}`}>
-                  <div className="overflow-hidden">
-                    <img src={m.image} alt={m.role} className="w-full aspect-[4/5] object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
-                  </div>
-                  <div className="p-7">
-                    <div className="flex items-start justify-between gap-3 mb-3">
-                      <div>
-                        <h3 className="font-serif text-xl text-navy">{m.name}</h3>
-                        <p className="text-xs font-mono uppercase tracking-[0.15em] text-gold mt-1">{m.role}</p>
+            {TEAM.map((m, i) => {
+              const initials = m.name.split(' ').map((n) => n[0]).join('');
+              return (
+                <Reveal key={m.name} delay={i * 0.1}>
+                  <div className="group bg-white border border-navy/10 hover:border-gold/50 transition-all duration-300 shadow-sm" data-testid={`leadership-profile-${i + 1}`}>
+                    <div className="h-44 bg-gradient-to-br from-navy via-navy-800 to-navy-900 flex items-center justify-center relative overflow-hidden border-b border-gold/15">
+                      <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#c5a059_1px,transparent_1px)] [background-size:16px_16px]" />
+                      <div className="w-20 h-20 rounded-full border border-gold/40 flex items-center justify-center bg-navy/60 shadow-lg group-hover:scale-105 transition-transform duration-300">
+                        <span className="font-serif text-2xl text-gold tracking-widest">{initials}</span>
                       </div>
-                      <a href={SITE.linkedin} target="_blank" rel="noopener noreferrer" data-testid={`leadership-linkedin-${i + 1}`} className="text-slate-400 hover:text-gold transition-colors" aria-label="LinkedIn">
-                        <Linkedin size={18} />
-                      </a>
                     </div>
-                    <p className="text-sm text-slate-600 leading-relaxed mb-5">{m.background}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {m.expertise.map((e) => (
-                        <span key={e} className="text-[11px] border border-navy/15 px-3 py-1 text-slate-500">{e}</span>
-                      ))}
+                    <div className="p-7">
+                      <div className="flex items-start justify-between gap-3 mb-3">
+                        <div>
+                          <h3 className="font-serif text-xl text-navy">{m.name}</h3>
+                          <p className="text-xs font-mono uppercase tracking-[0.15em] text-gold mt-1">{m.role}</p>
+                        </div>
+                        <a href={SITE.linkedin} target="_blank" rel="noopener noreferrer" data-testid={`leadership-linkedin-${i + 1}`} className="text-slate-400 hover:text-gold transition-colors" aria-label="LinkedIn">
+                          <Linkedin size={18} />
+                        </a>
+                      </div>
+                      <p className="text-sm text-slate-600 leading-relaxed mb-5">{m.background}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {m.expertise.map((e) => (
+                          <span key={e} className="text-[11px] border border-navy/15 px-3 py-1 text-slate-500">{e}</span>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              );
+            })}
           </div>
-          <Reveal className="mt-10">
-            <p className="text-xs text-slate-400 italic">
-              Profiles shown are placeholders pending publication of final team details. No qualifications or memberships are claimed beyond those confirmed by the firm.
-            </p>
-          </Reveal>
         </div>
       </section>
 
