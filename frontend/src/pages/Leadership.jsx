@@ -1,32 +1,19 @@
+import { useState, useEffect } from 'react';
 import { Linkedin } from 'lucide-react';
 import { PageHero, Reveal, SectionHeading, CTABand } from '@/components/common';
-import { IMAGES, SITE } from '@/data/site';
-
-const TEAM = [
-  {
-    name: 'O. Al Mansoori',
-    role: 'Managing Partner',
-    image: IMAGES.partnerMale,
-    background: 'Two decades across UAE corporate services, banking and business operations, advising founders, family businesses and international groups on establishment and structure.',
-    expertise: ['Corporate Structuring', 'UAE Market Entry', 'Banking Coordination'],
-  },
-  {
-    name: 'E. Vasquez',
-    role: 'Director, Business Advisory',
-    image: IMAGES.partnerFemale,
-    background: 'International advisory background spanning strategy, transactions and cross-border expansion, with a focus on SME and mid-market businesses entering the Gulf.',
-    expertise: ['Business Strategy', 'M&A Support', 'International Expansion'],
-  },
-  {
-    name: 'J. Whitfield',
-    role: 'Head of Governance & Compliance Coordination',
-    image: IMAGES.advisor,
-    background: 'Career across corporate administration, governance frameworks and regulatory coordination for holding structures, family businesses and investment vehicles.',
-    expertise: ['Corporate Governance', 'Compliance Coordination', 'Family Business Structures'],
-  },
-];
+import { SITE } from '@/data/site';
+import { DEFAULT_TEAM } from '@/data/team';
 
 export default function Leadership() {
+  const [team, setTeam] = useState(DEFAULT_TEAM);
+
+  useEffect(() => {
+    try {
+      const cached = localStorage.getItem('probiz_team_members');
+      if (cached) setTeam(JSON.parse(cached));
+    } catch {}
+  }, []);
+
   return (
     <main data-testid="leadership-page">
       <PageHero
@@ -38,8 +25,8 @@ export default function Leadership() {
       <section className="bg-cream py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8">
-            {TEAM.map((m, i) => (
-              <Reveal key={m.name} delay={i * 0.1}>
+            {team.map((m, i) => (
+              <Reveal key={m.id || m.name} delay={i * 0.1}>
                 <div className="group bg-white border border-navy/10 border-t-2 border-t-gold hover:border-gold/60 transition-all duration-300 p-8 shadow-xs flex flex-col justify-between h-full" data-testid={`leadership-profile-${i + 1}`}>
                   <div>
                     <div className="flex items-start justify-between gap-4 mb-4">

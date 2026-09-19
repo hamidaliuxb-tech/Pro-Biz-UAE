@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from '@/components/Logo';
+import { useSite } from '@/lib/SiteContext';
 
 const LINKS = [
   { to: '/services', label: 'Services' },
@@ -17,9 +18,20 @@ const LINKS = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { site: SITE } = useSite();
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-navy/90 backdrop-blur-md border-b border-gold/10">
+      {SITE.announcement_enabled && SITE.announcement_text && (
+        <div className="bg-gradient-to-r from-gold via-gold-soft to-gold text-navy text-xs py-1.5 px-4 text-center font-medium tracking-wide flex items-center justify-center gap-3">
+          <span>{SITE.announcement_text}</span>
+          {SITE.announcement_cta && (
+            <Link to="/consultation" className="underline font-bold hover:opacity-80 transition-opacity">
+              {SITE.announcement_cta} →
+            </Link>
+          )}
+        </div>
+      )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <Link to="/" data-testid="nav-logo-link" onClick={() => setOpen(false)}>

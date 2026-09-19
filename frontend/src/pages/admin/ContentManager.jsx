@@ -110,6 +110,39 @@ export default function ContentManager({ adminKey }) {
         ))}
       </div>
 
+      <h3 className="text-xs font-mono uppercase tracking-[0.2em] text-gold mb-4">Top Announcement Bar / Banner</h3>
+      <div className="border border-navy/10 p-6 bg-slate-50/50 mb-10 space-y-4">
+        <label className="flex items-center gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={Boolean(site.announcement_enabled)}
+            onChange={(e) => setSite({ ...site, announcement_enabled: e.target.checked })}
+            className="w-4 h-4 text-gold accent-gold rounded cursor-pointer"
+          />
+          <span className="text-sm font-medium text-navy">Enable Top Announcement Banner across the Website</span>
+        </label>
+        <div className="grid sm:grid-cols-3 gap-4 pt-2">
+          <div className="sm:col-span-2">
+            <label className={labelCls}>Announcement Message</label>
+            <input
+              className={inputCls}
+              placeholder="e.g. 2026 UAE Corporate Tax & Free Zone Compliance Window Now Open"
+              value={site.announcement_text || ''}
+              onChange={(e) => setSite({ ...site, announcement_text: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className={labelCls}>Button Text</label>
+            <input
+              className={inputCls}
+              placeholder="e.g. Book Consultation"
+              value={site.announcement_cta || ''}
+              onChange={(e) => setSite({ ...site, announcement_cta: e.target.value })}
+            />
+          </div>
+        </div>
+      </div>
+
       <button onClick={save} disabled={saving} data-testid="content-save-btn" className="bg-gold text-white text-sm font-medium px-8 py-3.5 hover:bg-gold-soft transition-colors disabled:opacity-50">
         {saving ? 'Saving…' : 'Save Site Content'}
       </button>

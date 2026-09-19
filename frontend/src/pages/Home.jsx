@@ -426,13 +426,22 @@ function InsightsPreview() {
 }
 
 function FAQSection() {
+  const [faqs, setFaqs] = useState(HOME_FAQS);
+
+  useEffect(() => {
+    try {
+      const cached = localStorage.getItem('probiz_site_faqs');
+      if (cached) setFaqs(JSON.parse(cached));
+    } catch {}
+  }, []);
+
   return (
     <section className="bg-cream py-20 lg:py-28" data-testid="faq-section">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading overline="Chapter 11 — FAQ" title="Questions We Are Asked Often." className="mb-12" />
         <Reveal>
           <Accordion type="single" collapsible className="w-full">
-            {HOME_FAQS.map((f, i) => (
+            {faqs.map((f, i) => (
               <AccordionItem key={i} value={`item-${i}`} data-testid={`faq-accordion-item-${i + 1}`} className="border-navy/10">
                 <AccordionTrigger className="text-left font-serif text-lg text-navy hover:text-uaegreen py-6">{f.q}</AccordionTrigger>
                 <AccordionContent className="text-sm text-slate-600 leading-relaxed pb-6">{f.a}</AccordionContent>

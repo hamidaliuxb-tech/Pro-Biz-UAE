@@ -8,6 +8,8 @@ import InsightsManager from '@/pages/admin/InsightsManager';
 import ContentManager from '@/pages/admin/ContentManager';
 import PortfolioManager from '@/pages/admin/PortfolioManager';
 import ServicesManager from '@/pages/admin/ServicesManager';
+import TeamManager from '@/pages/admin/TeamManager';
+import FaqManager from '@/pages/admin/FaqManager';
 
 const STATUSES = ['new', 'in_review', 'scheduled', 'concluded'];
 const STATUS_LABELS = { new: 'New', in_review: 'In Review', scheduled: 'Scheduled', concluded: 'Concluded' };
@@ -340,13 +342,23 @@ export default function Admin() {
           </div>
         </div>
 
-        <div className="flex gap-2 mb-8 border-b border-navy/10 pb-1">
-          {[['enquiries', 'Enquiries'], ['insights', 'Insights'], ['portfolio', 'Portfolio'], ['services', 'Services'], ['content', 'Site Content']].map(([id, label]) => (
+        <div className="flex gap-2 mb-8 border-b border-navy/10 pb-1 overflow-x-auto no-scrollbar">
+          {[
+            ['enquiries', 'Leads & Enquiries'],
+            ['insights', 'Insights Articles'],
+            ['portfolio', 'Client Portfolio'],
+            ['services', '18 Services'],
+            ['team', 'Leadership Team'],
+            ['faqs', 'FAQs (Q&A)'],
+            ['content', 'Site Content & Banner'],
+          ].map(([id, label]) => (
             <button
               key={id}
               data-testid={`admin-tab-${id}`}
               onClick={() => setTab(id)}
-              className={`px-5 py-2.5 text-sm transition-colors ${tab === id ? 'bg-navy text-cream' : 'text-slate-500 hover:text-navy'}`}
+              className={`px-4 py-2.5 text-xs font-mono uppercase tracking-wider whitespace-nowrap transition-colors ${
+                tab === id ? 'bg-navy text-cream' : 'text-slate-500 hover:text-navy'
+              }`}
             >
               {label}
             </button>
@@ -356,6 +368,8 @@ export default function Admin() {
         {tab === 'insights' && <InsightsManager adminKey={key} />}
         {tab === 'portfolio' && <PortfolioManager adminKey={key} />}
         {tab === 'services' && <ServicesManager adminKey={key} />}
+        {tab === 'team' && <TeamManager adminKey={key} />}
+        {tab === 'faqs' && <FaqManager adminKey={key} />}
         {tab === 'content' && <ContentManager adminKey={key} />}
 
         {tab === 'enquiries' && (<>
