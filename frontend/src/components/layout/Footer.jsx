@@ -28,6 +28,7 @@ const COLUMNS = [
     title: 'Resources',
     links: [
       { to: '/insights', label: 'Insights' },
+      { to: '/portfolio', label: 'Our Work' },
       { to: '/jurisdictions', label: 'Jurisdiction Guide' },
       { to: '/structuring', label: 'Structuring' },
       { to: '/consultation', label: 'Consultation' },
