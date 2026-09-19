@@ -48,10 +48,10 @@ function Hero() {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 2.4, ease: [0.22, 1, 0.36, 1] }}
         />
-        {/* Sleek directional gradient on left: guarantees text legibility while keeping skyline bright & vibrant */}
-        <div className="absolute inset-0 bg-gradient-to-r from-navy/90 via-navy/40 to-transparent sm:w-[65%] w-full pointer-events-none" />
+        {/* Soft directional gradient on left: guarantees text legibility while keeping skyline bright & vibrant */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy/85 via-navy/35 to-transparent sm:w-[60%] w-full pointer-events-none" />
         {/* Top gradient for navbar clarity */}
-        <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-navy/60 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-navy/70 via-navy/20 to-transparent pointer-events-none" />
         {/* Bottom smooth fade to next section */}
         <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-navy via-navy/40 to-transparent pointer-events-none" />
       </motion.div>
@@ -61,12 +61,12 @@ function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.8 }}
-          className="inline-block text-xs font-mono uppercase tracking-[0.3em] text-gold font-medium mb-8 px-3.5 py-1 bg-navy/60 backdrop-blur-sm border border-gold/30 [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]"
+          className="text-xs font-mono uppercase tracking-[0.3em] text-gold font-medium mb-8 [text-shadow:0_2px_14px_rgba(0,0,0,0.85)]"
         >
           Corporate Services · Advisory · Structuring — UAE
         </motion.p>
 
-        <h1 className="font-serif tracking-tight leading-[1.02] text-cream text-5xl sm:text-6xl lg:text-8xl mb-8 [text-shadow:0_3px_24px_rgba(10,17,40,0.95),0_1px_4px_rgba(0,0,0,0.9)]">
+        <h1 className="font-serif tracking-tight leading-[1.02] text-cream text-5xl sm:text-6xl lg:text-8xl mb-8 [text-shadow:0_3px_24px_rgba(10,17,40,0.9),0_1px_4px_rgba(0,0,0,0.9)]">
           {HERO_LINES.map((line, i) => (
             <span key={line} className="block overflow-hidden pb-1">
               <motion.span
@@ -85,7 +85,7 @@ function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.15, duration: 0.8 }}
-          className="text-base sm:text-lg text-cream font-normal max-w-xl leading-relaxed mb-10 [text-shadow:0_2px_16px_rgba(10,17,40,0.95),0_1px_4px_rgba(0,0,0,0.9)]"
+          className="text-base sm:text-lg text-cream font-normal max-w-xl leading-relaxed mb-10 [text-shadow:0_2px_16px_rgba(10,17,40,0.9),0_1px_4px_rgba(0,0,0,0.9)]"
         >
           {SITE.tagline}
         </motion.p>
