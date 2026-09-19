@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Landmark, Building2, Gem } from 'lucide-react';
+import { User, Landmark, Building2, Gem, Check } from 'lucide-react';
 
 const NODES = [
   {
@@ -34,7 +34,7 @@ const NODES = [
 ];
 
 export default function StructureDiagram() {
-  const [active, setActive] = useState('holding');
+  const [active, setActive] = useState('founder');
   const activeNode = NODES.find((n) => n.id === active);
 
   return (
@@ -49,15 +49,22 @@ export default function StructureDiagram() {
                 onClick={() => setActive(node.id)}
                 data-testid={`structuring-node-${node.id === 'operating' ? 'operating-co' : node.id === 'holding' ? 'holding-co' : node.id}`}
                 whileHover={{ scale: 1.02 }}
-                className={`w-full max-w-sm border px-6 py-5 text-left transition-colors duration-300 flex items-center gap-4 ${
-                  isActive ? 'border-gold bg-navy-700' : 'border-cream/15 bg-navy-800 hover:border-gold/50'
+                className={`w-full max-w-sm border px-6 py-5 text-left transition-colors duration-300 flex items-center justify-between gap-4 ${
+                  isActive ? 'border-gold bg-navy-700 shadow-md' : 'border-cream/15 bg-navy-800 hover:border-gold/50'
                 }`}
               >
-                <Icon size={22} className={isActive ? 'text-gold' : 'text-cream/50'} />
-                <div>
-                  <p className={`font-serif text-lg leading-tight ${isActive ? 'text-gold-bright' : 'text-cream'}`}>{node.title}</p>
-                  <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-cream/40 mt-1">{node.tag}</p>
+                <div className="flex items-center gap-4">
+                  <Icon size={22} className={isActive ? 'text-gold' : 'text-cream/50'} />
+                  <div>
+                    <p className={`font-serif text-lg leading-tight ${isActive ? 'text-gold-bright font-medium' : 'text-cream'}`}>{node.title}</p>
+                    <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-cream/40 mt-1">{node.tag}</p>
+                  </div>
                 </div>
+                {isActive && (
+                  <div className="w-6 h-6 rounded-full bg-gold/20 border border-gold flex items-center justify-center shrink-0">
+                    <Check size={14} className="text-gold" />
+                  </div>
+                )}
               </motion.button>
               {i < NODES.length - 1 && (
                 <div className="flex flex-col items-center py-1">
