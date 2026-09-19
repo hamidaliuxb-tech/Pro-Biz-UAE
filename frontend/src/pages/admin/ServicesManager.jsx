@@ -3,7 +3,8 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { Plus, Pencil, Trash2, ArrowLeft } from 'lucide-react';
 import { API } from '@/lib/api';
-import { SERVICE_GROUPS } from '@/data/services';
+import { SERVICE_GROUPS, SERVICES } from '@/data/services';
+import { supabase } from '@/lib/supabase';
 
 const inputCls = 'w-full bg-white border border-navy/15 px-4 py-3 text-sm text-navy placeholder:text-slate-400 focus:outline-none focus:border-gold transition-colors duration-300';
 const labelCls = 'block text-xs font-mono uppercase tracking-[0.15em] text-slate-500 mb-2';
@@ -30,9 +31,25 @@ export default function ServicesManager({ adminKey }) {
   const [saving, setSaving] = useState(false);
   const headers = { 'X-Admin-Key': adminKey };
 
-  const load = () => axios.get(`${API}/services`)
-    .then((r) => setServices(r.data))
-    .catch(() => toast.error('Failed to load services'));
+  const load = async () => {
+    try {
+      const r = await axios.get(`${API}/services`, { timeout: 2500 });
+      if (Array.isArray(r.data) && r.data.length > 0) {
+        setServices(r.data);
+        return;
+      }
+    } catch {}
+
+    try {
+      const { data, error } = await supabase.from('services').select('*').order('display_order', { ascending: true });
+      if (!error && Array.isArray(data) && data.length > 0) {
+        setServices(data);
+        return;
+      }
+    } catch {}
+
+    setServices(SERVICES);
+  };
 
   useEffect(() => { load(); }, []);
 
@@ -54,7 +71,7 @@ export default function ServicesManager({ adminKey }) {
     const payload = {
       slug: form.slug, group: form.group, title: form.title, summary: form.summary,
       what: form.what, why: form.why, role: form.role, partners: form.partners,
-      order: Number(form.order) || 0,
+      display_order: Number(form.display_order ?? form.order) || 0,
       who: lines(form.whoText),
       considerations: lines(form.considerationsText),
       documents: lines(form.documentsText),
@@ -63,13 +80,28 @@ export default function ServicesManager({ adminKey }) {
       faqs: textToFaqs(form.faqsText),
     };
     try {
-      if (form.id) await axios.put(`${API}/services/${form.id}`, payload, { headers });
-      else await axios.post(`${API}/services`, payload, { headers });
+      let saved = false;
+      try {
+        if (form.id) await axios.put(`${API}/services/${form.id}`, payload, { headers, timeout: 2500 });
+        else await axios.post(`${API}/services`, payload, { headers, timeout: 2500 });
+        saved = true;
+      } catch (backendErr) {}
+
+      if (!saved) {
+        if (form.id) {
+          const { error } = await supabase.from('services').update(payload).eq('id', form.id);
+          if (error) throw error;
+        } else {
+          const { error } = await supabase.from('services').insert([payload]);
+          if (error) throw error;
+        }
+      }
+
       toast.success('Service saved — live on the site.');
       setForm(null);
       load();
     } catch (e) {
-      toast.error(e.response?.data?.detail || 'Save failed.');
+      toast.error(e.response?.data?.detail || e.message || 'Save failed.');
     } finally {
       setSaving(false);
     }
@@ -78,7 +110,17 @@ export default function ServicesManager({ adminKey }) {
   const remove = async (s) => {
     if (!window.confirm(`Delete "${s.title}"? This cannot be undone.`)) return;
     try {
-      await axios.delete(`${API}/services/${s.id}`, { headers });
+      let deleted = false;
+      try {
+        await axios.delete(`${API}/services/${s.id}`, { headers, timeout: 2500 });
+        deleted = true;
+      } catch {}
+
+      if (!deleted) {
+        const { error } = await supabase.from('services').delete().eq('id', s.id);
+        if (error) throw error;
+      }
+
       toast.success('Service deleted.');
       load();
     } catch {

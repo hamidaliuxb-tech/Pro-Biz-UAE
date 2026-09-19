@@ -4,6 +4,8 @@ import { toast } from 'sonner';
 import { Plus, Pencil, Trash2, ArrowLeft } from 'lucide-react';
 import { API } from '@/lib/api';
 import { uploadImage } from '@/lib/upload';
+import { supabase } from '@/lib/supabase';
+import { INSIGHTS } from '@/data/insights';
 
 const CATEGORIES = ['UAE Business', 'Corporate', 'Finance', 'Tax & Compliance', 'Investment'];
 
@@ -66,9 +68,25 @@ export default function InsightsManager({ adminKey }) {
     }
   };
 
-  const load = () => axios.get(`${API}/insights`)
-    .then((r) => setArticles(r.data.sort((a, b) => (b.published_at || '').localeCompare(a.published_at || ''))))
-    .catch(() => toast.error('Failed to load articles'));
+  const load = async () => {
+    try {
+      const r = await axios.get(`${API}/insights`, { timeout: 2000 });
+      if (Array.isArray(r.data) && r.data.length > 0) {
+        setArticles(r.data.sort((a, b) => (b.published_at || '').localeCompare(a.published_at || '')));
+        return;
+      }
+    } catch {}
+
+    try {
+      const { data, error } = await supabase.from('insights').select('*').order('published_at', { ascending: false });
+      if (!error && Array.isArray(data) && data.length > 0) {
+        setArticles(data);
+        return;
+      }
+    } catch {}
+
+    setArticles(INSIGHTS);
+  };
 
   useEffect(() => { load(); }, []);
 
@@ -81,17 +99,32 @@ export default function InsightsManager({ adminKey }) {
       title: form.title, slug: form.slug, category: form.category, excerpt: form.excerpt,
       author: form.author, author_role: form.author_role, published_at: form.published_at,
       reading_time: form.reading_time, image: form.image,
-      related: form.related.split(',').map((s) => s.trim()).filter(Boolean),
+      related: form.related ? form.related.split(',').map((s) => s.trim()).filter(Boolean) : [],
       content: parseBody(form.body),
     };
     try {
-      if (form.id) await axios.put(`${API}/insights/${form.id}`, payload, { headers });
-      else await axios.post(`${API}/insights`, payload, { headers });
+      let saved = false;
+      try {
+        if (form.id) await axios.put(`${API}/insights/${form.id}`, payload, { headers, timeout: 2500 });
+        else await axios.post(`${API}/insights`, payload, { headers, timeout: 2500 });
+        saved = true;
+      } catch (backendErr) {}
+
+      if (!saved) {
+        if (form.id) {
+          const { error } = await supabase.from('insights').update(payload).eq('id', form.id);
+          if (error) throw error;
+        } else {
+          const { error } = await supabase.from('insights').insert([payload]);
+          if (error) throw error;
+        }
+      }
+
       toast.success('Article saved — live on the site.');
       setForm(null);
       load();
     } catch (e) {
-      toast.error(e.response?.data?.detail || 'Save failed.');
+      toast.error(e.response?.data?.detail || e.message || 'Save failed.');
     } finally {
       setSaving(false);
     }
@@ -100,7 +133,17 @@ export default function InsightsManager({ adminKey }) {
   const remove = async (a) => {
     if (!window.confirm(`Delete "${a.title}"? This cannot be undone.`)) return;
     try {
-      await axios.delete(`${API}/insights/${a.id}`, { headers });
+      let deleted = false;
+      try {
+        await axios.delete(`${API}/insights/${a.id}`, { headers, timeout: 2500 });
+        deleted = true;
+      } catch {}
+
+      if (!deleted) {
+        const { error } = await supabase.from('insights').delete().eq('id', a.id);
+        if (error) throw error;
+      }
+
       toast.success('Article deleted.');
       load();
     } catch {

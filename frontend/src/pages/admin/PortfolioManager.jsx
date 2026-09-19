@@ -4,6 +4,8 @@ import { toast } from 'sonner';
 import { Plus, Pencil, Trash2, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import { API } from '@/lib/api';
 import { uploadImage } from '@/lib/upload';
+import { supabase } from '@/lib/supabase';
+import { PROJECTS } from '@/data/projects';
 
 const CATEGORIES = ['Corporate Websites', 'Business Websites', 'E-Commerce', 'Digital Marketing', 'Professional Services', 'Real Estate', 'Consultancy', 'Healthcare', 'Other'];
 
@@ -18,7 +20,7 @@ const EMPTY = {
   published: false, confidential: false, sample: false, order: 0,
 };
 
-const toList = (s) => s.split(/\n|,/).map((x) => x.trim()).filter(Boolean);
+const toList = (s) => s ? s.split(/\n|,/).map((x) => x.trim()).filter(Boolean) : [];
 
 export default function PortfolioManager({ adminKey }) {
   const [projects, setProjects] = useState([]);
@@ -61,9 +63,28 @@ export default function PortfolioManager({ adminKey }) {
     }
   };
 
-  const load = () => axios.get(`${API}/admin/projects`, { headers })
-    .then((r) => setProjects(r.data))
-    .catch(() => toast.error('Failed to load projects'));
+  const load = async () => {
+    try {
+      const r = await axios.get(`${API}/admin/projects`, { headers, timeout: 2500 });
+      if (Array.isArray(r.data) && r.data.length > 0) {
+        setProjects(r.data);
+        return;
+      }
+    } catch {}
+
+    try {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .order('display_order', { ascending: true });
+      if (!error && Array.isArray(data) && data.length > 0) {
+        setProjects(data);
+        return;
+      }
+    } catch {}
+
+    setProjects(PROJECTS);
+  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, []);
@@ -87,17 +108,32 @@ export default function PortfolioManager({ adminKey }) {
       images: toList(form.images), logo: form.logo,
       features: toList(form.features), tech: toList(form.tech),
       url: form.url, testimonial: form.testimonial, testimonial_author: form.testimonial_author,
-      published: form.published, confidential: form.confidential,
-      sample: form.sample, order: Number(form.order) || 0,
+      published: Boolean(form.published), confidential: Boolean(form.confidential),
+      sample: Boolean(form.sample), display_order: Number(form.display_order ?? form.order) || 0,
     };
     try {
-      if (form.id) await axios.put(`${API}/projects/${form.id}`, payload, { headers });
-      else await axios.post(`${API}/projects`, payload, { headers });
+      let saved = false;
+      try {
+        if (form.id) await axios.put(`${API}/projects/${form.id}`, payload, { headers, timeout: 2500 });
+        else await axios.post(`${API}/projects`, payload, { headers, timeout: 2500 });
+        saved = true;
+      } catch (backendErr) {}
+
+      if (!saved) {
+        if (form.id) {
+          const { error } = await supabase.from('projects').update(payload).eq('id', form.id);
+          if (error) throw error;
+        } else {
+          const { error } = await supabase.from('projects').insert([payload]);
+          if (error) throw error;
+        }
+      }
+
       toast.success('Project saved.');
       setForm(null);
       load();
     } catch (e) {
-      toast.error(e.response?.data?.detail || 'Save failed.');
+      toast.error(e.response?.data?.detail || e.message || 'Save failed.');
     } finally {
       setSaving(false);
     }
@@ -106,7 +142,17 @@ export default function PortfolioManager({ adminKey }) {
   const remove = async (p) => {
     if (!window.confirm(`Delete "${p.title}"? This cannot be undone.`)) return;
     try {
-      await axios.delete(`${API}/projects/${p.id}`, { headers });
+      let deleted = false;
+      try {
+        await axios.delete(`${API}/projects/${p.id}`, { headers, timeout: 2500 });
+        deleted = true;
+      } catch {}
+
+      if (!deleted) {
+        const { error } = await supabase.from('projects').delete().eq('id', p.id);
+        if (error) throw error;
+      }
+
       toast.success('Project deleted.');
       load();
     } catch {
@@ -116,7 +162,17 @@ export default function PortfolioManager({ adminKey }) {
 
   const togglePublish = async (p) => {
     try {
-      await axios.put(`${API}/projects/${p.id}`, { ...p, published: !p.published }, { headers });
+      let updated = false;
+      try {
+        await axios.put(`${API}/projects/${p.id}`, { ...p, published: !p.published }, { headers, timeout: 2500 });
+        updated = true;
+      } catch {}
+
+      if (!updated) {
+        const { error } = await supabase.from('projects').update({ published: !p.published }).eq('id', p.id);
+        if (error) throw error;
+      }
+
       toast.success(p.published ? 'Project unpublished.' : 'Project published.');
       load();
     } catch {

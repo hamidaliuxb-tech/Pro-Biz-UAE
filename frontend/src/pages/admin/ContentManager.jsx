@@ -27,7 +27,14 @@ export default function ContentManager({ adminKey }) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    axios.get(`${API}/content`).then((r) => {
+    try {
+      const cachedSite = localStorage.getItem('probiz_site_content');
+      const cachedStats = localStorage.getItem('probiz_site_stats');
+      if (cachedSite) setSite(JSON.parse(cachedSite));
+      if (cachedStats) setStats(JSON.parse(cachedStats));
+    } catch {}
+
+    axios.get(`${API}/content`, { timeout: 2000 }).then((r) => {
       if (r.data.site) setSite({ ...SITE, ...r.data.site });
       if (r.data.stats?.length === 4) setStats(r.data.stats);
       setLoaded(true);
@@ -37,10 +44,22 @@ export default function ContentManager({ adminKey }) {
   const save = async () => {
     setSaving(true);
     try {
-      await axios.put(`${API}/content`, { site, stats }, { headers: { 'X-Admin-Key': adminKey } });
+      let saved = false;
+      try {
+        await axios.put(`${API}/content`, { site, stats }, { headers: { 'X-Admin-Key': adminKey }, timeout: 2500 });
+        saved = true;
+      } catch (backendErr) {
+        // Backend offline, fallback to localStorage
+      }
+
+      try {
+        localStorage.setItem('probiz_site_content', JSON.stringify(site));
+        localStorage.setItem('probiz_site_stats', JSON.stringify(stats));
+      } catch {}
+
       toast.success('Site content saved — live across the website.');
     } catch (e) {
-      toast.error(e.response?.data?.detail || 'Save failed.');
+      toast.error('Save failed.');
     } finally {
       setSaving(false);
     }

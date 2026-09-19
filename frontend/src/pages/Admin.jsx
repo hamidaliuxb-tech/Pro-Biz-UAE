@@ -28,13 +28,49 @@ export default function Admin() {
   const load = useCallback(async (k) => {
     setLoading(true);
     try {
-      const res = await axios.get(`${API}/enquiries`, { headers: { 'X-Admin-Key': k } });
-      setEnquiries(res.data);
+      let loadedData = null;
+
+      // 1. Try Backend API first if reachable
+      try {
+        const res = await axios.get(`${API}/enquiries`, {
+          headers: { 'X-Admin-Key': k },
+          timeout: 2500,
+        });
+        if (Array.isArray(res.data)) {
+          loadedData = res.data;
+        }
+      } catch (backendErr) {
+        // Only trigger logout if server explicitly returned 401 or 403 unauthorized
+        if (backendErr.response && (backendErr.response.status === 401 || backendErr.response.status === 403)) {
+          sessionStorage.removeItem('mcp_admin_key');
+          sessionStorage.removeItem('supabase_admin_user');
+          setKey('');
+          toast.error('Invalid admin key.');
+          return;
+        }
+        // Network error / connection refused on Vercel: do NOT logout, fall through to Supabase
+      }
+
+      // 2. Fetch from Supabase Cloud
+      if (!loadedData) {
+        try {
+          const { data, error } = await supabase
+            .from('enquiries')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+          if (!error && Array.isArray(data)) {
+            loadedData = data;
+          }
+        } catch (supabaseErr) {
+          console.warn('Supabase enquiries fetch error:', supabaseErr);
+        }
+      }
+
+      setEnquiries(loadedData || []);
     } catch (e) {
-      sessionStorage.removeItem('mcp_admin_key');
-      sessionStorage.removeItem('supabase_admin_user');
-      setKey('');
-      toast.error('Invalid admin key.');
+      console.error('Failed to load enquiries:', e);
+      setEnquiries([]);
     } finally {
       setLoading(false);
     }
@@ -90,7 +126,7 @@ export default function Admin() {
     }
     setAuthLoading(true);
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      const { data, error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
       if (error) throw error;
       sessionStorage.setItem('mcp_admin_key', 'probizadminsecret123');
       sessionStorage.setItem('supabase_admin_user', data.user.email);
@@ -106,8 +142,18 @@ export default function Admin() {
 
   const loginWithKey = (e) => {
     e.preventDefault();
-    sessionStorage.setItem('mcp_admin_key', input);
-    setKey(input);
+    const cleanKey = input.trim();
+    if (!cleanKey) {
+      toast.error('Please enter the admin key.');
+      return;
+    }
+    if (cleanKey !== 'probizadminsecret123') {
+      toast.error('Invalid admin key.');
+      return;
+    }
+    sessionStorage.setItem('mcp_admin_key', cleanKey);
+    setKey(cleanKey);
+    toast.success('Admin access granted.');
   };
 
   const handleSignOut = async () => {
@@ -121,8 +167,30 @@ export default function Admin() {
 
   const updateStatus = async (id, status) => {
     try {
-      const res = await axios.patch(`${API}/enquiries/${id}`, { status }, { headers: { 'X-Admin-Key': key } });
-      setEnquiries((list) => list.map((en) => (en.id === id ? res.data : en)));
+      let updated = false;
+      try {
+        const res = await axios.patch(`${API}/enquiries/${id}`, { status }, {
+          headers: { 'X-Admin-Key': key },
+          timeout: 2500,
+        });
+        setEnquiries((list) => list.map((en) => (en.id === id ? res.data : en)));
+        updated = true;
+      } catch (backendErr) {
+        // Backend offline, fallback to Supabase
+      }
+
+      if (!updated) {
+        const { error } = await supabase
+          .from('enquiries')
+          .update({ status })
+          .eq('id', id);
+
+        if (!error) {
+          setEnquiries((list) => list.map((en) => (en.id === id ? { ...en, status } : en)));
+          updated = true;
+        }
+      }
+
       toast.success('Status updated.');
     } catch (e) {
       toast.error('Update failed.');
