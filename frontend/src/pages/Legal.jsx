@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ShieldCheck, FileText, AlertCircle, Cookie, MapPin, Mail, Phone, ExternalLink } from 'lucide-react';
 import { PageHero, Reveal } from '@/components/common';
@@ -13,8 +14,28 @@ const LEGAL_TABS = [
 
 export default function Legal() {
   const { page } = useParams();
-  const currentKey = LEGAL_PAGES[page] ? page : 'privacy';
-  const content = LEGAL_PAGES[currentKey];
+  const [legalDocs, setLegalDocs] = useState(() => {
+    try {
+      const cached = localStorage.getItem('probiz_legal_pages');
+      return cached ? JSON.parse(cached) : LEGAL_PAGES;
+    } catch {
+      return LEGAL_PAGES;
+    }
+  });
+
+  useEffect(() => {
+    const handleStorage = () => {
+      try {
+        const cached = localStorage.getItem('probiz_legal_pages');
+        if (cached) setLegalDocs(JSON.parse(cached));
+      } catch {}
+    };
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
+
+  const currentKey = (legalDocs[page] || LEGAL_PAGES[page]) ? page : 'privacy';
+  const content = legalDocs[currentKey] || LEGAL_PAGES[currentKey];
 
   return (
     <main data-testid="legal-page" className="bg-cream min-h-screen">

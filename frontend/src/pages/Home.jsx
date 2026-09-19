@@ -6,7 +6,6 @@ import { ArrowUpRight, Check, ChevronDown } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Reveal, SectionHeading, Marquee, GoldButton, GhostButton, CTABand, Overline } from '@/components/common';
 import StructureDiagram from '@/components/StructureDiagram';
-import PortfolioTeaser from '@/components/PortfolioTeaser';
 import { IMAGES, MARQUEE_ITEMS, PILLARS, PROCESS_STEPS, SECTORS, HOME_FAQS, PARTNER_NOTE } from '@/data/site';
 import { useSite } from '@/lib/SiteContext';
 import { SERVICE_GROUPS } from '@/data/services';
@@ -472,7 +471,6 @@ export default function Home() {
       <InvestorSection />
       <SectorsSection />
       <ProcessSection />
-      <PortfolioTeaser />
       <InsightsPreview />
       <FAQSection />
       <CTABand text="Share your objectives in confidence. We will respond with a considered, structured view of the next step." />

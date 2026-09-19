@@ -10,6 +10,7 @@ import PortfolioManager from '@/pages/admin/PortfolioManager';
 import ServicesManager from '@/pages/admin/ServicesManager';
 import TeamManager from '@/pages/admin/TeamManager';
 import FaqManager from '@/pages/admin/FaqManager';
+import LegalManager from '@/pages/admin/LegalManager';
 
 const STATUSES = ['new', 'in_review', 'scheduled', 'concluded'];
 const STATUS_LABELS = { new: 'New', in_review: 'In Review', scheduled: 'Scheduled', concluded: 'Concluded' };
@@ -350,6 +351,7 @@ export default function Admin() {
             ['services', '18 Services'],
             ['team', 'Leadership Team'],
             ['faqs', 'FAQs (Q&A)'],
+            ['legal', 'Legal & Policies'],
             ['content', 'Site Content & Banner'],
           ].map(([id, label]) => (
             <button
@@ -370,6 +372,7 @@ export default function Admin() {
         {tab === 'services' && <ServicesManager adminKey={key} />}
         {tab === 'team' && <TeamManager adminKey={key} />}
         {tab === 'faqs' && <FaqManager adminKey={key} />}
+        {tab === 'legal' && <LegalManager adminKey={key} />}
         {tab === 'content' && <ContentManager adminKey={key} />}
 
         {tab === 'enquiries' && (<>
