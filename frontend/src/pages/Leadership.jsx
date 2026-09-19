@@ -38,38 +38,33 @@ export default function Leadership() {
       <section className="bg-cream py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8">
-            {TEAM.map((m, i) => {
-              const initials = m.name.split(' ').map((n) => n[0]).join('');
-              return (
-                <Reveal key={m.name} delay={i * 0.1}>
-                  <div className="group bg-white border border-navy/10 hover:border-gold/50 transition-all duration-300 shadow-sm" data-testid={`leadership-profile-${i + 1}`}>
-                    <div className="h-44 bg-gradient-to-br from-navy via-navy-800 to-navy-900 flex items-center justify-center relative overflow-hidden border-b border-gold/15">
-                      <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#c5a059_1px,transparent_1px)] [background-size:16px_16px]" />
-                      <div className="w-20 h-20 rounded-full border border-gold/40 flex items-center justify-center bg-navy/60 shadow-lg group-hover:scale-105 transition-transform duration-300">
-                        <span className="font-serif text-2xl text-gold tracking-widest">{initials}</span>
+            {TEAM.map((m, i) => (
+              <Reveal key={m.name} delay={i * 0.1}>
+                <div className="group bg-white border border-navy/10 border-t-2 border-t-gold hover:border-gold/60 transition-all duration-300 p-8 shadow-xs flex flex-col justify-between h-full" data-testid={`leadership-profile-${i + 1}`}>
+                  <div>
+                    <div className="flex items-start justify-between gap-4 mb-4">
+                      <div>
+                        <h3 className="font-serif text-2xl text-navy group-hover:text-gold transition-colors duration-300">{m.name}</h3>
+                        <p className="text-xs font-mono uppercase tracking-[0.18em] text-gold mt-1.5 font-medium">{m.role}</p>
                       </div>
+                      <a href={SITE.linkedin} target="_blank" rel="noopener noreferrer" data-testid={`leadership-linkedin-${i + 1}`} className="text-slate-400 hover:text-gold transition-colors p-1" aria-label="LinkedIn">
+                        <Linkedin size={18} />
+                      </a>
                     </div>
-                    <div className="p-7">
-                      <div className="flex items-start justify-between gap-3 mb-3">
-                        <div>
-                          <h3 className="font-serif text-xl text-navy">{m.name}</h3>
-                          <p className="text-xs font-mono uppercase tracking-[0.15em] text-gold mt-1">{m.role}</p>
-                        </div>
-                        <a href={SITE.linkedin} target="_blank" rel="noopener noreferrer" data-testid={`leadership-linkedin-${i + 1}`} className="text-slate-400 hover:text-gold transition-colors" aria-label="LinkedIn">
-                          <Linkedin size={18} />
-                        </a>
-                      </div>
-                      <p className="text-sm text-slate-600 leading-relaxed mb-5">{m.background}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {m.expertise.map((e) => (
-                          <span key={e} className="text-[11px] border border-navy/15 px-3 py-1 text-slate-500">{e}</span>
-                        ))}
-                      </div>
+                    <div className="w-10 h-px bg-gold/30 mb-5" />
+                    <p className="text-sm text-slate-600 leading-relaxed mb-6">{m.background}</p>
+                  </div>
+                  <div className="pt-4 border-t border-navy/10">
+                    <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-slate-400 mb-2.5">Key Disciplines</p>
+                    <div className="flex flex-wrap gap-2">
+                      {m.expertise.map((e) => (
+                        <span key={e} className="text-[11px] bg-cream/70 border border-navy/15 px-3 py-1 text-slate-600 font-medium">{e}</span>
+                      ))}
                     </div>
                   </div>
-                </Reveal>
-              );
-            })}
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
