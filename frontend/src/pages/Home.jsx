@@ -42,27 +42,33 @@ function Hero() {
       <motion.div style={{ y }} className="absolute inset-0">
         <motion.img
           src={IMAGES.hero}
-          alt="Dubai business district"
-          className="w-full h-[120%] object-cover"
+          alt="Dubai skyline and business district"
+          className="w-full h-[120%] object-cover object-[center_35%] contrast-[1.06] brightness-[1.02] saturate-[1.05]"
           initial={{ scale: 1.15, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 2.4, ease: [0.22, 1, 0.36, 1] }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/55 to-navy/20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-navy/85 via-navy/25 to-transparent" />
+        {/* Left readable backdrop so typography is crisp & bold */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/70 via-35% to-transparent sm:w-[70%] w-full pointer-events-none" />
+        {/* Subtle atmospheric wash preserving vibrant sunset colors */}
+        <div className="absolute inset-0 bg-navy/15 pointer-events-none" />
+        {/* Top navbar contrast gradient */}
+        <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-navy/80 via-navy/30 to-transparent pointer-events-none" />
+        {/* Seamless bottom section transition */}
+        <div className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-navy via-navy/60 to-transparent pointer-events-none" />
       </motion.div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 pt-44 w-full">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 pt-44 w-full z-10">
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.8 }}
-          className="text-xs font-mono uppercase tracking-[0.3em] text-gold mb-8 [text-shadow:0_1px_14px_rgba(0,0,0,0.75)]"
+          className="text-xs font-mono uppercase tracking-[0.3em] text-gold font-medium mb-8 [text-shadow:0_2px_14px_rgba(0,0,0,0.9)]"
         >
           Corporate Services · Advisory · Structuring — UAE
         </motion.p>
 
-        <h1 className="font-serif tracking-tight leading-[1.02] text-cream text-5xl sm:text-6xl lg:text-8xl mb-8">
+        <h1 className="font-serif tracking-tight leading-[1.02] text-cream text-5xl sm:text-6xl lg:text-8xl mb-8 [text-shadow:0_4px_24px_rgba(0,0,0,0.85)]">
           {HERO_LINES.map((line, i) => (
             <span key={line} className="block overflow-hidden pb-1">
               <motion.span
@@ -81,7 +87,7 @@ function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.15, duration: 0.8 }}
-          className="text-base sm:text-lg text-cream/85 max-w-xl leading-relaxed mb-10 [text-shadow:0_1px_16px_rgba(0,0,0,0.6)]"
+          className="text-base sm:text-lg text-cream/90 max-w-xl leading-relaxed mb-10 [text-shadow:0_2px_14px_rgba(0,0,0,0.85)]"
         >
           {SITE.tagline}
         </motion.p>
