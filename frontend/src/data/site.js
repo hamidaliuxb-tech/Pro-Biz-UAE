@@ -24,7 +24,7 @@ export const IMAGES = {
   partnerFemale: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=srgb&fm=jpg&q=85',
   advisor: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?crop=entropy&cs=srgb&fm=jpg&q=85',
   meeting: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?crop=entropy&cs=srgb&fm=jpg&q=85',
-  banking: 'https://images.unsplash.com/photo-1601597111158-2fceff292cdc?crop=entropy&cs=srgb&fm=jpg&q=85',
+  banking: '/images/corporate_banking.jpg',
   realestate: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?crop=entropy&cs=srgb&fm=jpg&q=85',
 };
 

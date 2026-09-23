@@ -21,6 +21,7 @@ import Portfolio from "@/pages/Portfolio";
 import PortfolioDetail from "@/pages/PortfolioDetail";
 import { SiteProvider } from "@/lib/SiteContext";
 import Legal from "@/pages/Legal";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 
 let lenis = null;
 
@@ -84,6 +85,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
+        <FloatingWhatsApp />
         <Toaster position="top-center" richColors />
       </BrowserRouter>
       </SiteProvider>

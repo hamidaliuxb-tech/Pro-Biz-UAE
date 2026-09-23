@@ -24,28 +24,27 @@ export default function Leadership() {
 
       <section className="bg-cream py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-10 lg:gap-14">
             {team.map((m, i) => (
               <Reveal key={m.id || m.name} delay={i * 0.1}>
-                <div className="group bg-white border border-navy/10 border-t-2 border-t-gold hover:border-gold/60 transition-all duration-300 p-8 shadow-xs flex flex-col justify-between h-full" data-testid={`leadership-profile-${i + 1}`}>
+                <div className="group flex flex-col justify-between h-full pt-6 pb-2 border-t-2 border-navy/15 hover:border-gold transition-colors duration-500" data-testid={`leadership-profile-${i + 1}`}>
                   <div>
-                    <div className="flex items-start justify-between gap-4 mb-4">
-                      <div>
-                        <h3 className="font-serif text-2xl text-navy group-hover:text-gold transition-colors duration-300">{m.name}</h3>
-                        <p className="text-xs font-mono uppercase tracking-[0.18em] text-gold mt-1.5 font-medium">{m.role}</p>
-                      </div>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="font-mono text-xs text-gold/80 tracking-widest font-semibold">0{i + 1} // ADVISER</span>
                       <a href={SITE.linkedin} target="_blank" rel="noopener noreferrer" data-testid={`leadership-linkedin-${i + 1}`} className="text-slate-400 hover:text-gold transition-colors p-1" aria-label="LinkedIn">
-                        <Linkedin size={18} />
+                        <Linkedin size={17} />
                       </a>
                     </div>
-                    <div className="w-10 h-px bg-gold/30 mb-5" />
-                    <p className="text-sm text-slate-600 leading-relaxed mb-6">{m.background}</p>
+                    <h3 className="font-serif text-2xl lg:text-3xl text-navy group-hover:text-gold transition-colors duration-300 leading-tight">{m.name}</h3>
+                    <p className="text-xs font-mono uppercase tracking-[0.18em] text-gold mt-2 font-medium">{m.role}</p>
+                    <div className="w-12 h-px bg-gold/40 my-5" />
+                    <p className="text-sm text-slate-600 leading-relaxed mb-6 font-normal">{m.background}</p>
                   </div>
                   <div className="pt-4 border-t border-navy/10">
                     <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-slate-400 mb-2.5">Key Disciplines</p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1.5">
                       {m.expertise.map((e) => (
-                        <span key={e} className="text-[11px] bg-cream/70 border border-navy/15 px-3 py-1 text-slate-600 font-medium">{e}</span>
+                        <span key={e} className="text-[11px] font-mono text-navy/80 bg-white/80 border border-navy/10 px-2.5 py-0.5">{e}</span>
                       ))}
                     </div>
                   </div>

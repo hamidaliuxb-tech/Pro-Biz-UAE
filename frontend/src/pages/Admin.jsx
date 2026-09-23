@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Download, Lock, User, KeyRound } from 'lucide-react';
+import { Download, Lock, User, KeyRound, Eye, EyeOff } from 'lucide-react';
 import { API } from '@/lib/api';
 import { supabase } from '@/lib/supabase';
 import InsightsManager from '@/pages/admin/InsightsManager';
@@ -11,6 +11,8 @@ import ServicesManager from '@/pages/admin/ServicesManager';
 import TeamManager from '@/pages/admin/TeamManager';
 import FaqManager from '@/pages/admin/FaqManager';
 import LegalManager from '@/pages/admin/LegalManager';
+import AboutManager from '@/pages/admin/AboutManager';
+import JurisdictionsManager from '@/pages/admin/JurisdictionsManager';
 
 const STATUSES = ['new', 'in_review', 'scheduled', 'concluded'];
 const STATUS_LABELS = { new: 'New', in_review: 'In Review', scheduled: 'Scheduled', concluded: 'Concluded' };
@@ -21,6 +23,8 @@ export default function Admin() {
   const [authMethod, setAuthMethod] = useState('supabase');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showKey, setShowKey] = useState(false);
   const [authLoading, setAuthLoading] = useState(false);
   const [userEmail, setUserEmail] = useState(sessionStorage.getItem('supabase_admin_user') || '');
   const [enquiries, setEnquiries] = useState([]);
@@ -280,14 +284,25 @@ export default function Admin() {
               </div>
               <div className="mb-6">
                 <label className="block text-xs font-mono uppercase tracking-wider text-cream/60 mb-2">Password</label>
-                <input
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full bg-navy border border-cream/15 px-4 py-3 text-sm text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold"
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full bg-navy border border-cream/15 px-4 py-3 pr-11 text-sm text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-cream/50 hover:text-gold transition-colors p-1"
+                    title={showPassword ? 'Hide password' : 'Show password'}
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  >
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                </div>
               </div>
               <button
                 type="submit"
@@ -301,14 +316,25 @@ export default function Admin() {
             <form onSubmit={loginWithKey}>
               <div className="mb-6">
                 <label className="block text-xs font-mono uppercase tracking-wider text-cream/60 mb-2">Master Key</label>
-                <input
-                  type="password"
-                  data-testid="admin-key-input"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Enter admin key"
-                  className="w-full bg-navy border border-cream/15 px-4 py-3 text-sm text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold"
-                />
+                <div className="relative">
+                  <input
+                    type={showKey ? 'text' : 'password'}
+                    data-testid="admin-key-input"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder="Enter admin key"
+                    className="w-full bg-navy border border-cream/15 px-4 py-3 pr-11 text-sm text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowKey(!showKey)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-cream/50 hover:text-gold transition-colors p-1"
+                    title={showKey ? 'Hide key' : 'Show key'}
+                    aria-label={showKey ? 'Hide key' : 'Show key'}
+                  >
+                    {showKey ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                </div>
               </div>
               <button type="submit" data-testid="admin-login-btn" className="w-full bg-gold text-white text-sm font-medium py-3 hover:bg-gold-soft transition-colors">
                 Access with Key
@@ -351,6 +377,8 @@ export default function Admin() {
             ['services', '18 Services'],
             ['team', 'Leadership Team'],
             ['faqs', 'FAQs (Q&A)'],
+            ['about', 'About Firm'],
+            ['jurisdictions', 'Jurisdictions'],
             ['legal', 'Legal & Policies'],
             ['content', 'Site Content & Banner'],
           ].map(([id, label]) => (
@@ -372,6 +400,8 @@ export default function Admin() {
         {tab === 'services' && <ServicesManager adminKey={key} />}
         {tab === 'team' && <TeamManager adminKey={key} />}
         {tab === 'faqs' && <FaqManager adminKey={key} />}
+        {tab === 'about' && <AboutManager adminKey={key} />}
+        {tab === 'jurisdictions' && <JurisdictionsManager adminKey={key} />}
         {tab === 'legal' && <LegalManager adminKey={key} />}
         {tab === 'content' && <ContentManager adminKey={key} />}
 

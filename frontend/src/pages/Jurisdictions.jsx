@@ -1,16 +1,41 @@
+import { useState, useEffect } from 'react';
 import { PageHero, Reveal, SectionHeading, CTABand } from '@/components/common';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { JURISDICTION_CHIPS, JURISDICTION_MATRIX, IMAGES } from '@/data/site';
+import { IMAGES } from '@/data/site';
+import { DEFAULT_JURISDICTIONS } from '@/data/jurisdictions';
 
 export default function Jurisdictions() {
-  const { columns, rows } = JURISDICTION_MATRIX;
+  const [data, setData] = useState(() => {
+    try {
+      const cached = localStorage.getItem('probiz_jurisdictions_data');
+      return cached ? JSON.parse(cached) : DEFAULT_JURISDICTIONS;
+    } catch {
+      return DEFAULT_JURISDICTIONS;
+    }
+  });
+
+  useEffect(() => {
+    const handleStorage = () => {
+      try {
+        const cached = localStorage.getItem('probiz_jurisdictions_data');
+        if (cached) setData(JSON.parse(cached));
+      } catch {}
+    };
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
+
+  const hero = data.hero || DEFAULT_JURISDICTIONS.hero;
+  const chips = data.chips || DEFAULT_JURISDICTIONS.chips;
+  const columns = data.columns || DEFAULT_JURISDICTIONS.columns;
+  const rows = data.rows || DEFAULT_JURISDICTIONS.rows;
 
   return (
     <main data-testid="jurisdictions-page">
       <PageHero
-        overline="Your Gateway to the UAE"
-        title="One Country. Many Jurisdictions. One Right Answer — Yours."
-        text="The UAE offers mainland, free zone, financial free zone and international structures, each with distinct advantages. We help you compare them honestly — because not every structure is appropriate for every business."
+        overline={hero.overline || "Your Gateway to the UAE"}
+        title={hero.title || "One Country. Many Jurisdictions. One Right Answer — Yours."}
+        text={hero.text || "The UAE offers mainland, free zone, financial free zone and international structures, each with distinct advantages. We help you compare them honestly — because not every structure is appropriate for every business."}
         image={IMAGES.difc}
       />
 
@@ -19,7 +44,7 @@ export default function Jurisdictions() {
           <SectionHeading overline="The Ecosystem" title="Jurisdictions We Advise Across" className="mb-10" />
           <Reveal>
             <div className="flex flex-wrap gap-3">
-              {JURISDICTION_CHIPS.map((j) => (
+              {chips.map((j) => (
                 <span key={j} data-testid={`jurisdiction-chip-${j.toLowerCase().replace(/[^a-z]+/g, '-')}`} className="border border-navy/15 bg-white px-5 py-2.5 text-sm text-navy/80 hover:border-uaegreen hover:text-uaegreen transition-colors duration-300">
                   {j}
                 </span>
