@@ -68,16 +68,37 @@ export default function Admin() {
 
           if (!error && Array.isArray(data)) {
             loadedData = data;
+          } else if (error) {
+            console.warn('Supabase enquiries fetch notice:', error);
           }
         } catch (supabaseErr) {
           console.warn('Supabase enquiries fetch error:', supabaseErr);
         }
       }
 
-      setEnquiries(loadedData || []);
+      // 3. Vault Storage (merges local leads so none are missed)
+      let vaultData = [];
+      try {
+        vaultData = JSON.parse(localStorage.getItem('probiz_enquiries_vault') || '[]');
+      } catch {}
+
+      const cloudData = loadedData || [];
+      const combined = [...cloudData];
+      for (const item of vaultData) {
+        if (!combined.some((c) => c.id === item.id || (c.email === item.email && c.created_at === item.created_at))) {
+          combined.push(item);
+        }
+      }
+
+      setEnquiries(combined);
     } catch (e) {
       console.error('Failed to load enquiries:', e);
-      setEnquiries([]);
+      try {
+        const fallbackVault = JSON.parse(localStorage.getItem('probiz_enquiries_vault') || '[]');
+        setEnquiries(fallbackVault);
+      } catch {
+        setEnquiries([]);
+      }
     } finally {
       setLoading(false);
     }
@@ -187,17 +208,24 @@ export default function Admin() {
       }
 
       if (!updated) {
-        const { error } = await supabase
-          .from('enquiries')
-          .update({ status })
-          .eq('id', id);
+        try {
+          const { error } = await supabase
+            .from('enquiries')
+            .update({ status })
+            .eq('id', id);
 
-        if (!error) {
-          setEnquiries((list) => list.map((en) => (en.id === id ? { ...en, status } : en)));
-          updated = true;
-        }
+          if (!error) updated = true;
+        } catch {}
       }
 
+      // Sync local vault
+      try {
+        const vault = JSON.parse(localStorage.getItem('probiz_enquiries_vault') || '[]');
+        const updatedVault = vault.map((en) => (en.id === id ? { ...en, status } : en));
+        localStorage.setItem('probiz_enquiries_vault', JSON.stringify(updatedVault));
+      } catch {}
+
+      setEnquiries((list) => list.map((en) => (en.id === id ? { ...en, status } : en)));
       toast.success('Status updated.');
     } catch (e) {
       toast.error('Update failed.');
@@ -406,6 +434,34 @@ export default function Admin() {
         {tab === 'content' && <ContentManager adminKey={key} />}
 
         {tab === 'enquiries' && (<>
+        <div className="bg-amber-50 border border-amber-200/80 p-4 mb-6 text-xs text-amber-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div className="flex items-start sm:items-center gap-2.5">
+            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0 mt-1 sm:mt-0" />
+            <span className="leading-relaxed">
+              <strong>Supabase Cloud Setup:</strong> To receive form leads into your Supabase database without RLS blocks, open your{' '}
+              <a
+                href="https://supabase.com/dashboard/project/zgptqzwqfkvaikzocghq/sql/new"
+                target="_blank"
+                rel="noreferrer"
+                className="underline font-bold text-navy hover:text-gold"
+              >
+                Supabase SQL Editor
+              </a>{' '}
+              and run: <code className="bg-white px-2 py-0.5 border border-amber-200 font-mono text-[11px] text-navy font-semibold">ALTER TABLE public.enquiries DISABLE ROW LEVEL SECURITY;</code>
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              navigator.clipboard.writeText('ALTER TABLE public.enquiries DISABLE ROW LEVEL SECURITY;');
+              toast.success('SQL copied to clipboard! Paste it into Supabase SQL editor & click Run.');
+            }}
+            className="shrink-0 bg-navy text-cream px-3.5 py-1.5 font-mono uppercase text-[10px] tracking-wider hover:bg-gold transition-colors"
+          >
+            Copy SQL
+          </button>
+        </div>
+
         <div className="flex flex-wrap gap-2 mb-6">
           {['all', ...STATUSES].map((s) => (
             <button

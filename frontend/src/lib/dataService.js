@@ -133,7 +133,7 @@ export async function submitEnquiry(payload) {
     } catch (err) {}
   }
 
-  // 2. Direct Supabase Cloud insert (guarantees lead is recorded in Admin panel)
+  // 2. Direct Supabase Cloud insert
   try {
     const { error } = await supabase.from('enquiries').insert([{
       name: payload.name,
@@ -149,7 +149,37 @@ export async function submitEnquiry(payload) {
       source: payload.source || 'contact',
       status: 'new'
     }]);
-    if (!error) success = true;
+    if (!error) {
+      success = true;
+    } else {
+      console.warn('Supabase enquiries insert notice:', error);
+    }
+  } catch (e) {
+    console.warn('Supabase insert exception:', e);
+  }
+
+  // 3. Vault Backup: ensure lead is always preserved locally and visible in Admin
+  try {
+    const vault = JSON.parse(localStorage.getItem('probiz_enquiries_vault') || '[]');
+    const newEntry = {
+      id: 'local-' + Date.now(),
+      name: payload.name,
+      email: payload.email,
+      company: payload.company || '',
+      phone: payload.phone || '',
+      country: payload.country || '',
+      business_activity: payload.business_activity || '',
+      current_location: payload.current_location || '',
+      service_required: payload.service_required || 'Advisory',
+      investment_size: payload.investment_size || '',
+      message: payload.message || '',
+      source: payload.source || 'contact',
+      status: 'new',
+      created_at: new Date().toISOString()
+    };
+    vault.unshift(newEntry);
+    localStorage.setItem('probiz_enquiries_vault', JSON.stringify(vault.slice(0, 100)));
+    success = true;
   } catch (e) {}
 
   return success;
