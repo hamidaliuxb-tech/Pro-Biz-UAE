@@ -284,9 +284,20 @@ function BankingSection() {
     <section className="bg-navy py-20 lg:py-28 grain-overlay" data-testid="banking-section">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
         <Reveal>
-          <div className="relative">
-            <img src={IMAGES.banking} alt="Corporate banking" className="w-full aspect-[4/3] object-cover" />
+          <div className="relative group">
+            <img
+              src={IMAGES.banking}
+              alt="DIFC Dubai Corporate Banking"
+              className="w-full aspect-[4/3] object-cover shadow-2xl transition-transform duration-500 group-hover:scale-[1.01]"
+            />
             <div className="absolute inset-0 border border-gold/30 -translate-x-4 translate-y-4 -z-10" />
+            <div className="absolute bottom-5 left-5 bg-navy/95 backdrop-blur-md border border-gold/40 px-4 py-2.5 shadow-xl flex items-center gap-3">
+              <span className="w-2.5 h-2.5 rounded-full bg-gold animate-pulse shrink-0" />
+              <div>
+                <p className="text-xs font-mono tracking-widest text-gold uppercase font-bold">DIFC · DUBAI</p>
+                <p className="text-[11px] text-cream/85 font-sans tracking-wide">Corporate Banking & Advisory</p>
+              </div>
+            </div>
           </div>
         </Reveal>
         <div>

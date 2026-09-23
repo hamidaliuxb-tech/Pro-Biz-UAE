@@ -18,7 +18,13 @@ export default function TeamManager() {
   const [team, setTeam] = useState(() => {
     try {
       const cached = localStorage.getItem('probiz_team_members');
-      return cached ? JSON.parse(cached) : DEFAULT_TEAM;
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        return parsed.filter(
+          (m) => !['team-1', 'team-2', 'team-3'].includes(m.id) && m.name !== 'O. Al Mansoori' && m.name !== 'E. Vasquez' && m.name !== 'J. Whitfield'
+        );
+      }
+      return DEFAULT_TEAM;
     } catch {
       return DEFAULT_TEAM;
     }
