@@ -119,13 +119,21 @@ export async function getProjectById(id) {
 export async function submitEnquiry(payload) {
   let success = false;
 
-  // 1. Try Backend API
+  // 1. Send through Vercel Serverless API route (dispatches Hostinger SMTP email)
   try {
-    await axios.post(`${API}/enquiries`, payload, { timeout: 3500 });
-    success = true;
-  } catch (e) {}
+    const res = await axios.post('/api/enquiry', payload, { timeout: 6000 });
+    if (res.data?.success || res.status === 200) {
+      success = true;
+    }
+  } catch (e) {
+    // Fallback: If running local python backend
+    try {
+      await axios.post(`${API}/enquiries`, payload, { timeout: 3500 });
+      success = true;
+    } catch (err) {}
+  }
 
-  // 2. Direct Supabase Cloud insert (guarantees leads are never lost on Vercel)
+  // 2. Direct Supabase Cloud insert (guarantees lead is recorded in Admin panel)
   try {
     const { error } = await supabase.from('enquiries').insert([{
       name: payload.name,
